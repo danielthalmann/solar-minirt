@@ -6,13 +6,14 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 11:51:00 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/18 16:28:19 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include "glmath.h"
 
-int				mlx_int_find_in_pcm()
+int	mlx_int_find_in_pcm()
 {
 	return (0);
 }
@@ -27,15 +28,12 @@ void around(t_scene *scene, int x, int y, void *data)
 //	unsigned int *ptr;
 	t_app	*app;
 	app = (t_app *)data;
-	t_color	c;
-	t_sphere s;
+	t_color	*c;
 	t_ray	r;
+	t_v3f	tmp_inter;
+	t_shape	*shape;
 
-	s.origin.x = 0.0;
-	s.origin.y = 0.0;
-	s.origin.z = 20.0;
-	s.rayon = 1.500;
-
+	shape = scene->shapes;
 	r.origin.x = 0.0;
 	r.origin.y = 0.0;
 	r.origin.z = -1.0;
@@ -43,19 +41,21 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.direction.x = -1.0 + (2 * ((float)x / (float)scene->w));
 	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w));
 	r.direction.z = 1.0;
-
 	v3f_normalize(&r.direction);
 
-	c.r = 0.2f;
-	c.g = 0.2f;
-	c.b = 0.2f;
-	if (sphere_intersect(&r, &s))
+	c = color_create(&scene->ambiant);
+	while (shape)
 	{
-		c.r = 0.8;
-		c.g = 0.8;
-		c.b = 0.8;
+		if (shape->intersect(&r, &shape->shape, &tmp_inter))
+		{
+			c->r = 0.8;
+			c->g = 0.8;
+			c->b = 0.8;
+		}
+		shape = shape->next;
 	}
-	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
+	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(c);
+	free(c);
 }
 
 int	loop(void *param)
@@ -81,22 +81,51 @@ int	loop(void *param)
 	return (0);
 }
 
+static int	init_scene(t_scene *scene)
+{
+	t_shape	*shape;
+	t_light	*light;
+
+	light = malloc(sizeof(t_light));
+	if (!light)
+		return (1);
+	shape = malloc(sizeof(t_shape));
+	if (!shape)
+		return (1);
+	shape->type = SPHERE;
+	shape->sphere.origin.x = 0.0;
+	shape->sphere.origin.y = 0.0;
+	shape->sphere.origin.z = 20.0;
+	shape->sphere.radius = 1.500;
+	shape->intersect = sphere_intersect;
+	shape->next = NULL;
+	scene->shapes = shape;
+	light->origin.x = 50.0;
+	light->origin.y = 50.0;
+	light->origin.z = 0.0;
+	light->intensity = 0.5;
+	light->color.r = 0.6;
+	light->color.g = 0.1;
+	light->color.b = 0.1;
+	light->next = NULL;
+	scene->lights = light;
+	scene->ambiant.r = 0.0;
+	scene->ambiant.g = 0.0;
+	scene->ambiant.b = 0.0;
+	return (0);
+}
 int	main(int argc, char **argv)
 {
 	(void) argc;
 	(void) argv;
 	t_app	app;
 	app.on_change = 1;
-	app.mandel.range_min.x = -2.1;
-	app.mandel.range_min.y = -1.1;
-	app.mandel.zoom = 200;
-	app.mandel.max_iter = 500;
 
 	float ratio = 16.0 / 9.0;
 	mlx_int_find_in_pcm();
 	app.scene.h = 480;
 	app.scene.w = app.scene.h * ratio;
-
+	init_scene(&app.scene);
 	app.mlx_ptr = mlx_init();
 	if (!app.mlx_ptr)
 		return (0);

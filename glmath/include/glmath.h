@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 11:40:06 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/18 16:28:08 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ typedef struct s_ray
 	t_point3f	origin;
 	t_v3f		direction;
 }	t_ray;
-typedef struct s_size
+typedef struct s_light
 {
-	int	w;
-	int	h;
-}	t_size;
-
-typedef struct s_size		t_scene;
+	t_point3f		origin;
+	float			intensity;
+	t_color			color;
+	struct s_light	*next;
+}	t_light;
 
 t_v3f	*v3f_create(t_v3f *copy);
 void	v3f_add(t_v3f *to, t_v3f *add);
@@ -86,17 +86,59 @@ t_ray	*ray_create(t_ray *copy);
 t_v3f	*ray_at(float pos, t_ray *ray);
 void	ray_clear(t_ray *r);
 
-void	scene_around(t_scene *scene, void *data,
-			void (*fn)(t_scene *, int, int, void *));
-
-/* sphere */
+/* Shapes */
 typedef struct s_sphere
 {
 	t_point3f	origin;
-	float		rayon;
+	float		radius;
+	t_color		color;
 }	t_sphere;
+typedef struct s_cylinder
+{
+	t_point3f	origin;
+	t_v3f		normal;
+	float		radius;
+	float		height;
+	t_color		color;
+}	t_cylinder;
+typedef struct s_plane
+{
+	t_point3f	origin;
+	float		normal;
+	t_color		color;
+}	t_plane;
+enum e_shapetype
+{
+	SPHERE,
+	CYLINDER,
+	PLANE
+};
+typedef struct s_shape
+{
+	enum e_shapetype	type;
+	struct s_shape		*next;
+	int					(*intersect)(t_ray *, void *, t_v3f *);
+	union {
+		void		*shape;
+		t_sphere	sphere;
+		t_cylinder	cylinder;
+		t_plane		plane;
+	};
+}	t_shape;
 
-int		sphere_intersect(t_ray *ray, t_sphere *sphere);
+typedef struct s_scene
+{
+	int		w;
+	int		h;
+	t_color	ambiant;
+	t_shape	*shapes;
+	t_light	*lights;
+}	t_scene;
+
+int		sphere_intersect(t_ray *ray, void *sphere, t_v3f *intersection);
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
+
+void	scene_around(t_scene *scene, void *data,
+			void (*fn)(t_scene *, int, int, void *));
 
 #endif

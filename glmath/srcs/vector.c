@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/03/12 09:55:09 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:41:45 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 /**
  * @brief Création d'un nouveau vecteur
- * 
- * @param copy 
- * @return t_v3f* 
+ *
+ * @param copy
+ * @return t_v3f*
  */
 t_v3f	*v3f_create(t_v3f *copy)
 {
@@ -32,9 +32,9 @@ t_v3f	*v3f_create(t_v3f *copy)
 
 /**
  * @brief Addition de deux vecteurs
- * 
- * @param vector 
- * @param add 
+ *
+ * @param vector
+ * @param add
  */
 void	v3f_add(t_v3f *vector, t_v3f *add)
 {
@@ -46,9 +46,9 @@ void	v3f_add(t_v3f *vector, t_v3f *add)
 
 /**
  * @brief Soustraction de deux vecteurs
- * 
- * @param vector 
- * @param sub 
+ *
+ * @param vector
+ * @param sub
  */
 void	v3f_sub(t_v3f *vector, t_v3f *sub)
 {
@@ -62,7 +62,7 @@ void	v3f_sub(t_v3f *vector, t_v3f *sub)
  * @brief Retourne un vecteur à partir du point (0,0,0) d'une valeur de 1
  *  exemple, avec le vecteur (2,0,0) on obtiendra (1,0,0)
  *
- * @param v 
+ * @param v
  */
 void	v3f_normalize(t_v3f *vector)
 {
@@ -77,22 +77,32 @@ void	v3f_normalize(t_v3f *vector)
 
 /**
  * @brief Mutliplication de deux vecteurs
- * 
- * @param vector 
- * @param add 
+ *
+ * @param vector
+ * @param add
  */
-void	v3f_multi(t_v3f *vector, t_v3f *multi)
+void	v3f_multi_by(t_v3f *vector, t_v3f *multi)
 {
 	vector->x *= multi->x;
 	vector->y *= multi->y;
 	vector->z *= multi->z;
 }
 
+t_v3f	v3f_multi(t_v3f *vector, t_v3f *multi)
+{
+	t_v3f	res;
+
+	res.x = vector->x * multi->x;
+	res.y = vector->y * multi->y;
+	res.z = vector->z * multi->z;
+	return (res);
+}
+
 /**
  * @brief Mutliplication d'un vecteurs par une valeur
- * 
- * @param vector 
- * @param v 
+ *
+ * @param vector
+ * @param v
  */
 void	v3f_multi_v(t_v3f *vector, float value)
 {
@@ -103,8 +113,8 @@ void	v3f_multi_v(t_v3f *vector, float value)
 
 /**
  * @brief met à zéro toute les valeurs d'un vecteur
- * 
- * @param vector 
+ *
+ * @param vector
  */
 void	v3f_clear(t_v3f *vector)
 {
@@ -116,9 +126,9 @@ void	v3f_clear(t_v3f *vector)
 
 /**
  * @brief copie les valeurs d'un vecteur dans un autre
- * 
- * @param to 
- * @param copy 
+ *
+ * @param to
+ * @param copy
  */
 void	v3f_copy(t_v3f *to, t_v3f *copy)
 {
@@ -130,9 +140,9 @@ void	v3f_copy(t_v3f *to, t_v3f *copy)
 
 /**
  * @brief modifie les valeurs du vecteur en absolut
- * 
- * @param vector 
- * @param sub 
+ *
+ * @param vector
+ * @param sub
  */
 void	v3f_abs(t_v3f *vector)
 {
@@ -146,11 +156,21 @@ void	v3f_abs(t_v3f *vector)
 		vector->z = -vector->z;
 }
 
+float	v3f_dot(t_v3f *v1, t_v3f *v2)
+{
+	float	r;
+
+	r = v1->x * v2->x;
+	r += v1->y * v2->y;
+	r += v1->z * v2->z;
+	return (r);
+}
+
 /**
  * @brief affiche dans la console les valeurs du vecteur
- * 
- * @param vector 
- * @param sub 
+ *
+ * @param vector
+ * @param sub
  */
 void	v3f_print(t_v3f *vector)
 {

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/03/23 07:55:28 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:40:06 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,14 @@ t_v3f	*v3f_create(t_v3f *copy);
 void	v3f_add(t_v3f *to, t_v3f *add);
 void	v3f_sub(t_v3f *to, t_v3f *sub);
 void	v3f_normalize(t_v3f *vector);
-void	v3f_multi(t_v3f *vector, t_v3f *multi);
+void	v3f_multi_by(t_v3f *vector, t_v3f *multi);
+t_v3f	v3f_multi(t_v3f *vector, t_v3f *multi);
 void	v3f_multi_v(t_v3f *vector, float value);
 void	v3f_clear(t_v3f *vector);
 void	v3f_copy(t_v3f *to, t_v3f *copy);
 void	v3f_abs(t_v3f *vector);
 void	v3f_print(t_v3f *vector);
+float	v3f_dot(t_v3f *v1, t_v3f *v2);
 
 t_color	*color_create(t_color *copy);
 t_color	*color_create_int(int color);

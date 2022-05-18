@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 16:28:19 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:12:38 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,36 @@ int	on_close(void)
 	exit(0);
 }
 
+t_shape	*get_closest_shape(t_shape *shape, t_ray *ray)
+{
+	t_shape	*closest;
+	float	closest_dist;
+	float	dist;
+	t_v3f	inter_pt;
+
+	closest = NULL;
+	while (shape)
+	{
+		if (shape->intersect(ray, &shape->shape, &inter_pt))
+		{
+			dist = v3f_dist(&ray->origin, &inter_pt);
+			if (!closest || dist < closest_dist)
+			{
+				closest = shape;
+				closest_dist = dist;
+			}
+		}
+		shape = shape->next;
+	}
+	return (closest);
+}
+
 void around(t_scene *scene, int x, int y, void *data)
 {
-//	unsigned int *ptr;
 	t_app	*app;
 	app = (t_app *)data;
 	t_color	*c;
 	t_ray	r;
-	t_v3f	tmp_inter;
 	t_shape	*shape;
 
 	shape = scene->shapes;
@@ -44,15 +66,12 @@ void around(t_scene *scene, int x, int y, void *data)
 	v3f_normalize(&r.direction);
 
 	c = color_create(&scene->ambiant);
-	while (shape)
+	shape = get_closest_shape(scene->shapes, &r);
+	if (shape)
 	{
-		if (shape->intersect(&r, &shape->shape, &tmp_inter))
-		{
-			c->r = 0.8;
-			c->g = 0.8;
-			c->b = 0.8;
-		}
-		shape = shape->next;
+		c->r = 0.8;
+		c->g = 0.8;
+		c->b = 0.8;
 	}
 	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(c);
 	free(c);

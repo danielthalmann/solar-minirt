@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 14:29:34 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:09:16 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,16 @@ float	v3f_dot(t_v3f *v1, t_v3f *v2)
 	r += v1->y * v2->y;
 	r += v1->z * v2->z;
 	return (r);
+}
+
+float	v3f_dist(t_point3f *p1, t_point3f *p2)
+{
+	float	d;
+
+	d = (p1->x - p2->x) * (p1->x - p2->x);
+	d += (p1->y - p2->y) * (p1->y - p2->y);
+	d += (p1->z - p2->z) * (p1->y - p2->z);
+	return (sqrt(d));
 }
 
 /**

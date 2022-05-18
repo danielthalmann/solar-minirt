@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 16:28:08 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:09:35 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	v3f_copy(t_v3f *to, t_v3f *copy);
 void	v3f_abs(t_v3f *vector);
 void	v3f_print(t_v3f *vector);
 float	v3f_dot(t_v3f *v1, t_v3f *v2);
+float	v3f_dist(t_point3f *p1, t_point3f *p2);
 
 t_color	*color_create(t_color *copy);
 t_color	*color_create_int(int color);
@@ -118,6 +119,7 @@ typedef struct s_shape
 	enum e_shapetype	type;
 	struct s_shape		*next;
 	int					(*intersect)(t_ray *, void *, t_v3f *);
+	t_v3f				(*normal_vector)(t_ray *, void *, t_v3f *);
 	union {
 		void		*shape;
 		t_sphere	sphere;

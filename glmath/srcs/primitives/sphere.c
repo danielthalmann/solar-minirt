@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 16:18:59 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:19:22 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,17 @@ int	sphere_intersect(t_ray *ray, void *s, t_v3f *intersection)
 	v3f_multi_v(&d, -(v3f_dot(&ray->direction, &oc) + disc));
 	v3f_copy(intersection, &ray->origin);
 	v3f_add(intersection, &d);
-	printf("Intersection is at (%f, %f, %f)\n", intersection->x, intersection->y, intersection->z);
+	// printf("Intersection is at (%f, %f, %f)\n", intersection->x, intersection->y, intersection->z);
 	return (1);
 }
 
 
-void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal)
+void	sphere_normal_vector(t_v3f *normal, t_v3f *intersection, void *s)
 {
-	(void)ray;
-	(void)dist;
-	(void)c;
-	(void)normal;
-	return ;
+	t_sphere	*sphere;
+
+	sphere = (t_sphere *)s;
+	v3f_copy(normal, intersection);
+	v3f_sub(normal, &sphere->origin);
+	v3f_normalize(normal);
 }

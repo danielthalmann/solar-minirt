@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 17:12:38 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/19 14:58:37 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.origin.z = -1.0;
 
 	r.direction.x = -1.0 + (2 * ((float)x / (float)scene->w));
-	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w));
+	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w)) + ((float)(scene->w - scene->h) / (float)scene->w);
 	r.direction.z = 1.0;
 	v3f_normalize(&r.direction);
 

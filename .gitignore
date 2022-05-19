@@ -1,0 +1,8 @@
+*.o
+*.so
+.vscode
+*.dSYM
+.DS_Store
+*.a
+a.out
+minirt

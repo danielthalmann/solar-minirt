@@ -1,12 +1,21 @@
 NAME=minirt
 
-SRCS=main.c input.c
+SRCS=	main.c \
+		input.c
+		# parsing/parse.c \
+		# parsing/parse_utils.c \
+		# parsing/parse_ambiant.c
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 
 CC=gcc
 
-CFLAGS=-Wall -Werror -Wextra -I $(INCLUDE_PATH) -I $(GL_INCLUDE) -I $(MLX_INCLUDE) -g
+CFLAGS=-Wall -Werror -Wextra \
+	   -I $(INCLUDE_PATH) \
+	   -I $(GL_INCLUDE) \
+	   -I $(MLX_INCLUDE) \
+	   -I $(LIBFT_INCLUDE) \
+	   -g
 
 # path
 
@@ -14,6 +23,11 @@ GL_LIB_PATH	 =./glmath/
 GL_LIB		 = $(addprefix $(GL_LIB_PATH), lib)
 GL_INCLUDE	 = $(addprefix $(GL_LIB_PATH), include)
 GL_FLAG		 = glmath
+
+LIBFT_PATH		 = ./libft
+LIBFT			 = $(LIBFT_PATH)/libft.a
+LIBFT_INCLUDE	 = $(LIBFT_PATH)/include
+LIBFT_FLAG		 = ft
 
 MLX_LIB_PATH = ./minilibx_linux/
 MLX_LIB		 = $(MLX_LIB_PATH)
@@ -52,17 +66,22 @@ SRC_PATH	 =./srcs/
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)
 	$(MAKE) -C $(GL_LIB_PATH)
 	$(MAKE) -C $(MLX_LIB_PATH)
-	$(CC) $(OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -L$(GL_LIB) -L$(MLX_LIB) $(LDFLAGS) -o $(NAME)
+	$(CC) $(OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) $(LIBFT) -L$(GL_LIB) -L$(MLX_LIB) $(LDFLAGS) -o $(NAME)
+
+$(LIBFT) :
+	$(MAKE) -C $(LIBFT_PATH)
 
 clean:
 	$(MAKE) -C $(GL_LIB_PATH) clean
+	$(MAKE) -C $(LIBFT_PATH) clean
 	rm -f $(OBJS)
 
 fclean: clean
 	$(MAKE) -C $(GL_LIB_PATH) fclean
+	$(MAKE) -C $(LIBFT_PATH) fclean
 	rm -f $(NAME)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 09:47:09 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 11:12:47 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,9 @@ void	v3f_normalize(t_v3f *vector)
 {
 	float	magnitude;
 
-	magnitude = sqrt((vector->x * vector->x)
-			+ (vector->y * vector->y) + (vector->z * vector->z));
+	magnitude = v3f_abs(vector);
+	if (!magnitude)
+		return ;
 	vector->x /= magnitude;
 	vector->y /= magnitude;
 	vector->z /= magnitude;
@@ -176,7 +177,7 @@ void	v3f_copy(t_v3f *to, t_v3f *copy)
  */
 float	v3f_abs(t_v3f *v)
 {
-	return (v->x * v->x + v->y * v->y + v->z * v->z);
+	return (sqrt(v->x * v->x + v->y * v->y + v->z * v->z));
 }
 
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
@@ -197,5 +198,5 @@ float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
  */
 void	v3f_print(t_v3f *v)
 {
-	printf("(%f, %f, %f ,%f)", v->w, v->y, v->z, v->w);
+	printf("(%f, %f, %f, %f)", v->x, v->y, v->z, v->w);
 }

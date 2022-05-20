@@ -95,7 +95,6 @@ typedef struct s_sphere
 {
 	t_point3f	origin;
 	float		radius;
-	t_color		color;
 }	t_sphere;
 typedef struct s_cylinder
 {
@@ -103,13 +102,11 @@ typedef struct s_cylinder
 	t_v3f		normal;
 	float		radius;
 	float		height;
-	t_color		color;
 }	t_cylinder;
 typedef struct s_plane
 {
 	t_point3f	origin;
-	float		normal;
-	t_color		color;
+	t_v3f		normal;
 }	t_plane;
 enum e_shapetype
 {
@@ -121,26 +118,39 @@ typedef struct s_shape
 {
 	enum e_shapetype	type;
 	struct s_shape		*next;
+	t_color				color;
 	int					(*intersect)(t_ray *, void *, t_v3f *);
 	t_v3f				(*normal_vector)(t_ray *, void *, t_v3f *);
 	union {
 		void		*shape;
 		t_sphere	sphere;
-		t_cylinder	cylinder;
+		t_cylinder	cyl;
 		t_plane		plane;
 	};
 }	t_shape;
 
+typedef struct s_camera
+{
+	t_v3f	pos;
+	t_v3f	orien;
+	float	fov;
+}	t_camera;
 typedef struct s_scene
 {
-	int		w;
-	int		h;
-	t_color	ambiant;
-	t_shape	*shapes;
-	t_light	*lights;
+	int			w;
+	int			h;
+	t_color		ambiant;
+	float		ambiant_intensity;
+	t_shape		*shapes;
+	t_light		*lights;
+	t_camera	cam;
 }	t_scene;
 
+// Sphere functions
 int		sphere_intersect(t_ray *ray, void *sphere, t_point3f *intersection);
+void	sphere_normal_vector(t_ray *normal, void *shape, t_point3f *intersec);
+void	sphere_print(t_sphere *s);
+
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
 
 void	scene_around(t_scene *scene, void *data,

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 10:01:23 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 11:10:18 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	v3f_print(t_v3f *vector);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
 
 t_color	*color_create(t_color *copy);
-t_color	*color_create_int(int color);
+t_color	color_create_int(int color);
 int		color_int(t_color *color);
 void	cpy_vector_to_color(t_color *color, t_v3f *v);
 

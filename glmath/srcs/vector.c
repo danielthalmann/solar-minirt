@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 17:09:16 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 09:47:09 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,23 @@ t_v3f	*v3f_create(t_v3f *copy)
  * @param vector
  * @param add
  */
-void	v3f_add(t_v3f *vector, t_v3f *add)
+void	v3f_plus_equal(t_v3f *vector, const t_v3f *add)
 {
 	vector->w += add->w;
 	vector->x += add->x;
 	vector->y += add->y;
 	vector->z += add->z;
+}
+
+t_v3f	v3f_plus(const t_v3f *vector, const t_v3f *add)
+{
+	t_v3f	res;
+
+	res.x = vector->x + add->x;
+	res.y = vector->y + add->y;
+	res.z = vector->z + add->z;
+	res.w = vector->w + add->w;
+	return (res);
 }
 
 /**
@@ -50,12 +61,23 @@ void	v3f_add(t_v3f *vector, t_v3f *add)
  * @param vector
  * @param sub
  */
-void	v3f_sub(t_v3f *vector, t_v3f *sub)
+void	v3f_minus_equal(t_v3f *vector, const t_v3f *sub)
 {
 	vector->w -= sub->w;
 	vector->x -= sub->x;
 	vector->y -= sub->y;
 	vector->z -= sub->z;
+}
+
+t_v3f	v3f_minus(const t_v3f *vector, const t_v3f *add)
+{
+	t_v3f	res;
+
+	res.x = vector->x - add->x;
+	res.y = vector->y - add->y;
+	res.z = vector->z - add->z;
+	res.w = vector->w - add->w;
+	return (res);
 }
 
 /**
@@ -81,20 +103,18 @@ void	v3f_normalize(t_v3f *vector)
  * @param vector
  * @param add
  */
-void	v3f_multi_by(t_v3f *vector, t_v3f *multi)
+float	v3f_scalar_product(const t_v3f *v1, const t_v3f *v2)
 {
-	vector->x *= multi->x;
-	vector->y *= multi->y;
-	vector->z *= multi->z;
+	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
 }
 
-t_v3f	v3f_multi(t_v3f *vector, t_v3f *multi)
+t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2)
 {
 	t_v3f	res;
 
-	res.x = vector->x * multi->x;
-	res.y = vector->y * multi->y;
-	res.z = vector->z * multi->z;
+	res.x = v1->y * v2->z - v1->z * v2->y;
+	res.y = v1->z * v2->x - v1->x * v2->z;
+	res.z = v1->x * v2->y - v1->y * v2->x;
 	return (res);
 }
 
@@ -104,11 +124,21 @@ t_v3f	v3f_multi(t_v3f *vector, t_v3f *multi)
  * @param vector
  * @param v
  */
-void	v3f_multi_v(t_v3f *vector, float value)
+void	v3f_dot_equal_scalar(t_v3f *vector, float value)
 {
 	vector->x *= value;
 	vector->y *= value;
 	vector->z *= value;
+}
+
+t_v3f	v3f_dot_scalar(const t_v3f *v, float val)
+{
+	t_v3f	res;
+
+	res.x = v->x * val;
+	res.y = v->y * val;
+	res.z = v->z * val;
+	return (res);
 }
 
 /**
@@ -144,29 +174,12 @@ void	v3f_copy(t_v3f *to, t_v3f *copy)
  * @param vector
  * @param sub
  */
-void	v3f_abs(t_v3f *vector)
+float	v3f_abs(t_v3f *v)
 {
-	if (vector->w < 0)
-		vector->w = -vector->w;
-	if (vector->x < 0)
-		vector->x = -vector->x;
-	if (vector->y < 0)
-		vector->y = -vector->y;
-	if (vector->z < 0)
-		vector->z = -vector->z;
+	return (v->x * v->x + v->y * v->y + v->z * v->z);
 }
 
-float	v3f_dot(t_v3f *v1, t_v3f *v2)
-{
-	float	r;
-
-	r = v1->x * v2->x;
-	r += v1->y * v2->y;
-	r += v1->z * v2->z;
-	return (r);
-}
-
-float	v3f_dist(t_point3f *p1, t_point3f *p2)
+float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
 {
 	float	d;
 
@@ -182,10 +195,7 @@ float	v3f_dist(t_point3f *p1, t_point3f *p2)
  * @param vector
  * @param sub
  */
-void	v3f_print(t_v3f *vector)
+void	v3f_print(t_v3f *v)
 {
-	printf("vector->w = %f\n", vector->w);
-	printf("vector->x = %f\n", vector->x);
-	printf("vector->y = %f\n", vector->y);
-	printf("vector->z = %f\n", vector->z);
+	printf("(%f, %f, %f ,%f)", v->w, v->y, v->z, v->w);
 }

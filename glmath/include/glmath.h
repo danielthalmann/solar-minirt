@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 17:09:35 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 10:01:23 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,21 @@ typedef struct s_light
 }	t_light;
 
 t_v3f	*v3f_create(t_v3f *copy);
-void	v3f_add(t_v3f *to, t_v3f *add);
-void	v3f_sub(t_v3f *to, t_v3f *sub);
+void	v3f_plus_equal(t_v3f *to, const t_v3f *add);
+t_v3f	v3f_plus(const t_v3f *to, const t_v3f *add);
+void	v3f_minus_equal(t_v3f *to, const t_v3f *sub);
+t_v3f	v3f_minus(const t_v3f *to, const t_v3f *sub);
 void	v3f_normalize(t_v3f *vector);
-void	v3f_multi_by(t_v3f *vector, t_v3f *multi);
-t_v3f	v3f_multi(t_v3f *vector, t_v3f *multi);
-void	v3f_multi_v(t_v3f *vector, float value);
+
+float	v3f_scalar_product(const t_v3f *v1, const t_v3f *v2);
+t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2);
+t_v3f	v3f_dot_scalar(const t_v3f *vector, float value);
+void	v3f_dot_equal_scalar(t_v3f *vector, float value);
 void	v3f_clear(t_v3f *vector);
 void	v3f_copy(t_v3f *to, t_v3f *copy);
-void	v3f_abs(t_v3f *vector);
+float	v3f_abs(t_v3f *v);
 void	v3f_print(t_v3f *vector);
-float	v3f_dot(t_v3f *v1, t_v3f *v2);
-float	v3f_dist(t_point3f *p1, t_point3f *p2);
+float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
 
 t_color	*color_create(t_color *copy);
 t_color	*color_create_int(int color);
@@ -137,7 +140,7 @@ typedef struct s_scene
 	t_light	*lights;
 }	t_scene;
 
-int		sphere_intersect(t_ray *ray, void *sphere, t_v3f *intersection);
+int		sphere_intersect(t_ray *ray, void *sphere, t_point3f *intersection);
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
 
 void	scene_around(t_scene *scene, void *data,

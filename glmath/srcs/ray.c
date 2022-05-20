@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 10:25:03 by dthalman          #+#    #+#             */
-/*   Updated: 2022/03/05 11:02:59 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/05/20 07:50:07 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,19 @@ t_ray	*ray_create(t_ray *copy)
 /**
  * @brief retourne un nouveau vecteur contenant les coordonnées à la pos du
  * rayon.
- * 
- * @param pos 
- * @param ray 
- * @return t_v3f* 
+ *
+ * @param pos
+ * @param ray
+ * @return t_v3f*
  */
 t_v3f	*ray_at(float pos, t_ray *ray)
 {
 	t_v3f	*at;
-	t_v3f	*multi;
+	t_v3f	multi;
 
+	multi = v3f_dot_scalar(&ray->direction, pos);
 	at = v3f_create(&ray->origin);
-	multi = v3f_create(&ray->direction);
-	v3f_multi_v(multi, pos);
-	v3f_add(at, multi);
-	free(multi);
+	v3f_plus_equal(at, &multi);
 	return (at);
 }
 
@@ -64,8 +62,8 @@ t_color	*ray_color(t_ray *r)
 
 /**
  * @brief initialise à zéro les valeurs du rayon
- * 
- * @param r 
+ *
+ * @param r
  */
 void	ray_clear(t_ray *r)
 {

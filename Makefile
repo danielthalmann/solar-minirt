@@ -1,10 +1,11 @@
 NAME=minirt
 
 SRCS=	main.c \
-		input.c
-		# parsing/parse.c \
-		# parsing/parse_utils.c \
-		# parsing/parse_ambiant.c
+		input.c \
+		print_scene.c \
+		parsing/parse.c \
+		parsing/parse_ambiant.c \
+		parsing/parse_camera.c
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 

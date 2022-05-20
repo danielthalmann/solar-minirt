@@ -6,13 +6,14 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 11:53:22 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 17:16:36 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include "glmath.h"
 #include "parsing/parse.h"
+#include <unistd.h>
 
 int	on_close(void)
 {
@@ -51,7 +52,6 @@ void around(t_scene *scene, int x, int y, void *data)
 	t_ray	r;
 	t_shape	*shape;
 
-	shape = scene->shapes;
 	r.origin.x = scene->cam.pos.x;
 	r.origin.y = scene->cam.pos.y;
 	r.origin.z = scene->cam.pos.z;
@@ -105,14 +105,19 @@ int	main(int argc, char **argv)
 	float ratio = 16.0 / 9.0;
 	app.scene.h = 480;
 	app.scene.w = app.scene.h * ratio;
+	app.scene.shapes = NULL;
+	app.scene.lights = NULL;
 	if (argc < 2)
 	{
-		printf("Error: not enough arguments\n");
+		ft_fprintf(STDERR_FILENO, "Error: not enough arguments\n");
 		return (1);
 	}
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);
+	return (0);						// <-	PROTIP: REMOVE THIS LINE TO SEGFAULT
+									//		due to missing *func for objects
+									//		plane and cylinder
 	app.mlx_ptr = mlx_init();
 	if (!app.mlx_ptr)
 		return (0);

@@ -5,7 +5,12 @@ SRCS=	main.c \
 		print_scene.c \
 		parsing/parse.c \
 		parsing/parse_ambiant.c \
-		parsing/parse_camera.c
+		parsing/parse_light.c \
+		parsing/parse_camera.c \
+		parsing/parse_sphere.c \
+		parsing/parse_plane.c \
+		parsing/parse_cylinder.c \
+		parsing/parse_check.c
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 
@@ -16,7 +21,7 @@ CFLAGS=-Wall -Werror -Wextra \
 	   -I $(GL_INCLUDE) \
 	   -I $(MLX_INCLUDE) \
 	   -I $(LIBFT_INCLUDE) \
-	   -g
+	   #-g -fsanitize=address -fno-omit-frame-pointer
 
 # path
 
@@ -41,7 +46,7 @@ LDFLAGS = -lXext -lX11 -lz
 UNAME_S := $(shell uname -s)
 # pour linux
 ifeq ($(UNAME_S),Linux)
-	LDFLAGS = -lm -lz -lXext -lX11 -g
+	LDFLAGS = -lm -lz -lXext -lX11 #-g -fsanitize=address -fno-omit-frame-pointer
 
 	MLX_LIB_PATH = ./minilibx_linux/
 	MLX_LIB		 = $(MLX_LIB_PATH)

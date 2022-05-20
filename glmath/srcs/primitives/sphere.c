@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 11:09:50 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 17:13:36 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void	sphere_normal_vector(t_ray *normal, void *shape, t_point3f *intersec)
 
 void	sphere_print(t_sphere *s)
 {
-		printf("\tSPHERE\n\torigin = (%f, %f, %f)\n", s->origin.x,
-			s->origin.y, s->origin.z);
-		printf("\tradius = %f\n", s->radius);
-
+	printf("\tSPHERE\n\torigin  = (%f, %f, %f)\n", s->origin.x,
+		s->origin.y, s->origin.z);
+	printf("\tradius  = %f\n", s->radius);
 }

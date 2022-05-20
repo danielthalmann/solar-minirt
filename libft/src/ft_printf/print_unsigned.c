@@ -6,7 +6,7 @@
 /*   By: trossel <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 16:17:36 by trossel           #+#    #+#             */
-/*   Updated: 2021/11/15 16:31:25 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 13:39:49 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	get_print_width(const char *nbr, const t_conv_param *p)
 	return (c);
 }
 
-static void	print_uint_with_prec(const char *nbr, const t_conv_param *p)
+static void	print_uint_with_prec(int fd, const char *nbr, const t_conv_param *p)
 {
 	int	count;
 
@@ -41,18 +41,18 @@ static void	print_uint_with_prec(const char *nbr, const t_conv_param *p)
 	count = ft_strlen(nbr);
 	while (count < p->precision)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
 	while (p->padding_char == '0' && count < p->width)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
-	ft_putstr_fd(nbr, 1);
+	ft_putstr_fd(nbr, fd);
 }
 
-int	print_uint(unsigned int nb, t_conv_param *p)
+int	print_uint(int fd, unsigned int nb, t_conv_param *p)
 {
 	int		count;
 	char	*s;
@@ -64,14 +64,14 @@ int	print_uint(unsigned int nb, t_conv_param *p)
 		p->padding_char = ' ';
 	count = get_print_width(s, p);
 	if (p->left_aligned)
-		print_uint_with_prec(s, p);
+		print_uint_with_prec(fd, s, p);
 	while (count < p->width)
 	{
-		ft_putchar_fd(' ', 1);
+		ft_putchar_fd(' ', fd);
 		count++;
 	}
 	if (!(p->left_aligned))
-		print_uint_with_prec(s, p);
+		print_uint_with_prec(fd, s, p);
 	free(s);
 	return (count);
 }

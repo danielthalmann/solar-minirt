@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_hex.c                                        :+:      :+:    :+:   */
+/*   print_p.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trossel <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 15:42:04 by trossel           #+#    #+#             */
-/*   Updated: 2021/11/16 13:07:11 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 13:38:29 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	get_print_width(const char *nbr, const t_conv_param *p)
 	return (c);
 }
 
-static void	print_ptr_with_prec(const char *nbr, const t_conv_param *p)
+static void	print_ptr_with_prec(int fd, const char *nbr, const t_conv_param *p)
 {
 	int	count;
 
@@ -44,23 +44,23 @@ static void	print_ptr_with_prec(const char *nbr, const t_conv_param *p)
 		return ;
 	count = ft_strlen(nbr);
 	if (p->add_prefix)
-		ft_putstr_fd("0x", 1);
+		ft_putstr_fd("0x", fd);
 	while (count < p->precision)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
 	if (p->add_prefix && nbr[0] != '0')
 		count += 2;
 	while (p->padding_char == '0' && count < p->width)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
-	ft_putstr_fd(nbr, 1);
+	ft_putstr_fd(nbr, fd);
 }
 
-int	print_pointer(void *ptr, t_conv_param *p)
+int	print_pointer(int fd, void *ptr, t_conv_param *p)
 {
 	int		count;
 	char	*s;
@@ -73,14 +73,14 @@ int	print_pointer(void *ptr, t_conv_param *p)
 		p->padding_char = ' ';
 	count = get_print_width(s, p);
 	if (p->left_aligned)
-		print_ptr_with_prec(s, p);
+		print_ptr_with_prec(fd, s, p);
 	while (count < p->width)
 	{
-		ft_putchar_fd(' ', 1);
+		ft_putchar_fd(' ', fd);
 		count++;
 	}
 	if (!(p->left_aligned))
-		print_ptr_with_prec(s, p);
+		print_ptr_with_prec(fd, s, p);
 	free(s);
 	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 15:30:34 by trossel           #+#    #+#             */
-/*   Updated: 2021/11/16 13:38:22 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 13:37:39 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,36 @@ static int	get_print_width(const char *nbr, const t_conv_param *p)
 	return (c);
 }
 
-static void	print_int_with_prec(int n, const char *nbr, const t_conv_param *p)
+static void	print_int_with_prec(int fd, int n, const char *nbr,
+	const t_conv_param *p)
 {
 	int	count;
 
 	if (n < 0)
-		ft_putchar_fd((nbr++)[0], 1);
+		ft_putchar_fd((nbr++)[0], fd);
 	else if (p->force_signed)
-		ft_putchar_fd('+', 1);
+		ft_putchar_fd('+', fd);
 	else if (p->force_space)
-		ft_putchar_fd(' ', 1);
+		ft_putchar_fd(' ', fd);
 	if (p->precision == 0 && nbr[0] == '0')
 		return ;
 	count = ft_strlen(nbr);
 	while (count < p->precision)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
 	if (n < 0 || p->force_signed || p->force_space)
 		count++;
 	while (p->padding_char == '0' && count < p->width)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
-	ft_putstr_fd(nbr, 1);
+	ft_putstr_fd(nbr, fd);
 }
 
-int	print_int(int nb, t_conv_param *p)
+int	print_int(int fd, int nb, t_conv_param *p)
 {
 	int		count;
 	char	*s;
@@ -76,14 +77,14 @@ int	print_int(int nb, t_conv_param *p)
 		p->padding_char = ' ';
 	count = get_print_width(s, p);
 	if (p->left_aligned)
-		print_int_with_prec(nb, s, p);
+		print_int_with_prec(fd, nb, s, p);
 	while (count < p->width)
 	{
-		ft_putchar_fd(' ', 1);
+		ft_putchar_fd(' ', fd);
 		count++;
 	}
 	if (!(p->left_aligned))
-		print_int_with_prec(nb, s, p);
+		print_int_with_prec(fd, nb, s, p);
 	free(s);
 	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: trossel <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 15:42:04 by trossel           #+#    #+#             */
-/*   Updated: 2021/11/16 12:59:56 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 13:35:50 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static int	get_print_width(const char *nbr, const t_conv_param *p)
 	return (c);
 }
 
-static void	print_hex_with_prec(const char *nbr, const t_conv_param *p, char c)
+static void	print_hex_with_prec(int fd, const char *nbr,
+	const t_conv_param *p, char c)
 {
 	int	count;
 
@@ -53,25 +54,25 @@ static void	print_hex_with_prec(const char *nbr, const t_conv_param *p, char c)
 		return ;
 	count = ft_strlen(nbr);
 	if (p->add_prefix && nbr[0] != '0' && c)
-		ft_putstr_fd("0X", 1);
+		ft_putstr_fd("0X", fd);
 	else if (p->add_prefix && nbr[0] != '0')
-		ft_putstr_fd("0x", 1);
+		ft_putstr_fd("0x", fd);
 	while (count < p->precision)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
 	if (p->add_prefix && nbr[0] != '0')
 		count += 2;
 	while (p->padding_char == '0' && count < p->width)
 	{
-		ft_putchar_fd('0', 1);
+		ft_putchar_fd('0', fd);
 		count++;
 	}
-	ft_putstr_fd(nbr, 1);
+	ft_putstr_fd(nbr, fd);
 }
 
-int	print_hex(unsigned int nb, t_conv_param *p, char capitalize)
+int	print_hex(int fd, unsigned int nb, t_conv_param *p, char capitalize)
 {
 	int		count;
 	char	*s;
@@ -85,14 +86,14 @@ int	print_hex(unsigned int nb, t_conv_param *p, char capitalize)
 		p->padding_char = ' ';
 	count = get_print_width(s, p);
 	if (p->left_aligned)
-		print_hex_with_prec(s, p, capitalize);
+		print_hex_with_prec(fd, s, p, capitalize);
 	while (count < p->width)
 	{
-		ft_putchar_fd(' ', 1);
+		ft_putchar_fd(' ', fd);
 		count++;
 	}
 	if (!(p->left_aligned))
-		print_hex_with_prec(s, p, capitalize);
+		print_hex_with_prec(fd, s, p, capitalize);
 	free(s);
 	return (count);
 }

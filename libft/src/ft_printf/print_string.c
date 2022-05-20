@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:23:43 by trossel           #+#    #+#             */
-/*   Updated: 2021/11/10 10:46:53 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 13:38:58 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_printf_conversion.h"
 #include "libft.h"
 
-int	print_string(const char *s, const t_conv_param *p)
+int	print_string(int fd, const char *s, const t_conv_param *p)
 {
 	int	count;
 	int	n_char;
@@ -27,13 +27,13 @@ int	print_string(const char *s, const t_conv_param *p)
 		n_char = p->precision;
 	count = n_char;
 	if (p->left_aligned)
-		write(1, s, n_char);
+		write(fd, s, n_char);
 	while (count < p->width)
 	{
-		ft_putchar_fd(' ', 1);
+		ft_putchar_fd(' ', fd);
 		count++;
 	}
 	if (!p->left_aligned)
-		write(1, s, n_char);
+		write(fd, s, n_char);
 	return (count);
 }

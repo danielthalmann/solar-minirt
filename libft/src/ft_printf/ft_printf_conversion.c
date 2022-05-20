@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:29:36 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/19 12:51:41 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 13:33:38 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static t_conv_param	get_conversion_param(const char **format)
 	return (p);
 }
 
-int	print_conversion(const char **format, va_list val)
+int	print_conversion(int fd, const char **format, va_list val)
 {
 	t_conv_param	p;
 	int				length;
@@ -98,20 +98,20 @@ int	print_conversion(const char **format, va_list val)
 	length = 0;
 	p = get_conversion_param(format);
 	if (p.type == '%' && ++length)
-		ft_putchar_fd('%', 1);
+		ft_putchar_fd('%', fd);
 	else if (p.type == 'c')
-		length = print_char(va_arg(val, int), &p);
+		length = print_char(fd, va_arg(val, int), &p);
 	else if (p.type == 's')
-		length = print_string(va_arg(val, const char *), &p);
+		length = print_string(fd, va_arg(val, const char *), &p);
 	else if (p.type == 'p')
-		length = print_pointer(va_arg(val, void *), &p);
+		length = print_pointer(fd, va_arg(val, void *), &p);
 	else if (p.type == 'd' || p.type == 'i')
-		length = print_int(va_arg(val, int), &p);
+		length = print_int(fd, va_arg(val, int), &p);
 	else if (p.type == 'u')
-		length = print_uint(va_arg(val, unsigned int), &p);
+		length = print_uint(fd, va_arg(val, unsigned int), &p);
 	else if (p.type == 'x')
-		length = print_hex(va_arg(val, unsigned long), &p, 0);
+		length = print_hex(fd, va_arg(val, unsigned long), &p, 0);
 	else if (p.type == 'X')
-		length = print_hex(va_arg(val, unsigned long), &p, 1);
+		length = print_hex(fd, va_arg(val, unsigned long), &p, 1);
 	return (length);
 }

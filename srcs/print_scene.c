@@ -6,11 +6,13 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:21:33 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 15:12:22 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 17:41:59 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
+
+#define TITLE "=========\n| SCENE |\n=========\n"
 
 static void	print_light(t_light *l)
 {
@@ -31,8 +33,8 @@ static void	print_shape(t_shape *s)
 			s->cyl.origin.y, s->cyl.origin.z);
 		printf("\tnormale = (%f, %f, %f)\n", s->cyl.normal.x,
 			s->cyl.normal.y, s->cyl.normal.z);
-		printf("\tradius = %f\n", s->cyl.radius);
-		printf("\theight = %f\n", s->cyl.height);
+		printf("\tradius =  %f\n", s->cyl.radius);
+		printf("\theight =  %f\n", s->cyl.height);
 	}
 	else if (s->type == PLANE)
 	{
@@ -50,15 +52,15 @@ void	print_scene(t_scene *s)
 	t_shape	*shape;
 	t_light	*light;
 
-	printf("=======\nSCENE :\n=======\n");
-	printf("(width, height)\t= (%d, %d)\n", s->w, s->h);
+	printf(TITLE"(width, height)\t= (%d, %d)\n", s->w, s->h);
 	printf("Ambiant color\t= (%f, %f, %f)\nAmb. intensity\t= %f\n",
 		s->ambiant.r, s->ambiant.g, s->ambiant.b, s->ambiant_intensity);
 	printf("Camera position\t= ");
 	v3f_print(&s->cam.pos);
 	printf("\nCamera orien\t= ");
 	v3f_print(&s->cam.orien);
-	printf("\nCamera FOV\t= %f\nShapes:\n\n", s->cam.fov);
+	printf("\nCamera FOV\t= %f rad (%f deg)\nShapes:\n\n", s->cam.fov,
+			s->cam.fov * 180.0f / M_PI);
 	shape = s->shapes;
 	while (shape)
 	{

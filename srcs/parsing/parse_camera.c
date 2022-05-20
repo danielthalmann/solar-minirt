@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 16:51:07 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:04:07 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 17:38:37 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static int	check_error(t_scene *s, int n_parsed)
 
 int	parse_camera(t_scene *s, char *str)
 {
-	static char		has_parsed_already = 0;
-	int				n_parsed;
+	static char	has_parsed_already = 0;
+	int			n_parsed;
+	int			err;
 
 	if (has_parsed_already)
 	{
@@ -49,5 +50,7 @@ int	parse_camera(t_scene *s, char *str)
 			&s->cam.pos.y, &s->cam.pos.z, &s->cam.orien.x, &s->cam.orien.y,
 			&s->cam.orien.z, &s->cam.fov);
 	v3f_normalize(&s->cam.orien);
-	return (check_error(s, n_parsed));
+	err = check_error(s, n_parsed);
+	s->cam.fov *= M_PI / 180.0f;
+	return (err);
 }

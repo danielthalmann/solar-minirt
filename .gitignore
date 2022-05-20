@@ -1,8 +1,18 @@
+# Objects
 *.o
 *.so
+
+# IDE
 .vscode
+.cache
+Session.vim
+compile_commands.json
+
+# MacOS
 *.dSYM
 .DS_Store
+
+# Lib and executables
 *.a
 a.out
 minirt

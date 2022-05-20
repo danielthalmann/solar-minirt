@@ -57,7 +57,7 @@ $(NAME): $(OBJS)
 	$(MAKE) -C $(MLX_LIB_PATH)
 	$(CC) $(OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -L$(GL_LIB) -L$(MLX_LIB) $(LDFLAGS) -o $(NAME)
 
-clean: 
+clean:
 	$(MAKE) -C $(GL_LIB_PATH) clean
 	rm -f $(OBJS)
 
@@ -69,3 +69,6 @@ re: fclean all
 
 run: $(NAME)
 	./$(NAME)
+
+norminette:
+	@norminette $(GL_LIB_PATH) $(SRC_PATH) $(INCLUDE_PATH)

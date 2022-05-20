@@ -1,9 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/20 10:09:06 by trossel           #+#    #+#             */
+/*   Updated: 2022/05/20 10:10:12 by trossel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef INPUT_H
 # define INPUT_H
 
-
-#ifdef __linux__
+# ifdef __linux__
 
 #  define KEY_ESC 65307
 #  define KEY_ENTER 65293
@@ -61,7 +71,7 @@
 #  define KEY_8 56
 #  define KEY_9 57
 
-#else
+# else
 
 #  define KEY_ESC 53
 #  define KEY_ENTER 36
@@ -119,11 +129,11 @@
 #  define KEY_8 28
 #  define KEY_9 25
 
-# define KEY_SIZE 256
+#  define KEY_SIZE 256
 
-#endif
+# endif
 
-int		key_down(int keycode, void *param);
-int		key_up(int keycode, void *param);
+int	key_down(int keycode, void *param);
+int	key_up(int keycode, void *param);
 
 #endif

@@ -6,17 +6,18 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/18 15:12:43 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 10:11:57 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
-#include <stdlib.h>
-#include <stdio.h>
-#include "mlx.h"
-#include "glmath.h"
-#include "input.h"
+
+# include <stdlib.h>
+# include <stdio.h>
+# include "mlx.h"
+# include "glmath.h"
+# include "input.h"
 
 # define MLX_EVT_KEYDN 2
 # define MLX_EVT_KEYUP 3
@@ -32,6 +33,6 @@ typedef struct s_app
 	t_scene			scene;
 }	t_app;
 
-void 	around(t_scene *scene, int x, int y, void *data);
+void	around(t_scene *scene, int x, int y, void *data);
 
 #endif

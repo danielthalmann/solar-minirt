@@ -1,8 +1,10 @@
 NAME=libglmath.a
 
-SRCS=	scene.c vector.c color.c ray.c quaternion.c camera.c \
+SRCS=	scene.c vector.c color.c ray.c quaternion.c camera.c\
+		equations.c \
 		primitives/sphere.c \
 		primitives/cylinder.c \
+		primitives/cylinder_intersection.c \
 		primitives/plane.c
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))

@@ -142,7 +142,8 @@ typedef struct s_sphere
 typedef struct s_cylinder
 {
 	t_point3f	origin;
-	t_v3f		normal;
+	t_v3f		base[3];
+	t_v3f		base_inv[3];
 	float		radius;
 	float		height;
 }	t_cylinder;
@@ -231,5 +232,9 @@ t_v3f	look_at(const t_camera *cam, const t_scene *scene, int x, int y);
 
 void	scene_around(t_scene *scene, void *data,
 			void (*fn)(t_scene *, int, int, void *));
+
+// math
+int		solve_quadratic(float a, float b, float c, float sol[2]);
+void	inverse_matrix(const t_v3f	m[3], t_v3f inv[3]);
 
 #endif

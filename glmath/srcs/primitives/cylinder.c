@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/30 14:53:13 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/07 15:54:22 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 #include <stdio.h>
 
-/* Used the formula described here:
- * https://www.cl.cam.ac.uk/teaching/1999/AGraphHCI/SMAG/node2.html
- */
-int	cylinder_intersect(const t_ray *ray, const t_cylinder *cyl,
-		t_point3f *intersec)
-{
-	(void)intersec;
-	(void)cyl;
-	(void)ray;
-	return (0);
-}
-
 void	cylinder_normal_ray(t_ray *normal, t_cylinder *cyl)
 {
-	(void)normal;
-	(void)cyl;
+	t_v3f	tmp;
+	// 1) Convert intersection point to cylinder coordinate system
+
+	// 2)
+	v3f_copy(&tmp, &normal->origin);
+	tmp.y = 0;
+	if (v3f_abs(&tmp) < cyl->radius)
+	{
+		v3f_copy(&normal->direction, &cyl->base[2]);
+		if (fabsf(normal->origin.y) < 1e-4)
+			v3f_dot_equal_scalar(&normal->direction, -1.0f);
+		return ;
+	}
+	v3f_copy(&normal->direction, &normal->origin);
+	v3f_minus_equal(&normal->direction, &cyl->origin);
+	v3f_normalize(&normal->direction);
+
+	// 3) Convert back to world coordinates
 }
 
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl)
@@ -65,8 +69,8 @@ void	cylinder_print(const t_cylinder *cyl)
 {
 	printf("\tCYLINDER\n\torigin  = (%f, %f, %f)\n", cyl->origin.x,
 		cyl->origin.y, cyl->origin.z);
-	printf("\tnormale = (%f, %f, %f)\n", cyl->normal.x,
-		cyl->normal.y, cyl->normal.z);
+	printf("\tnormale = (%f, %f, %f)\n", cyl->base[2].x,
+		cyl->base[2].y, cyl->base[2].z);
 	printf("\tradius =  %f\n", cyl->radius);
 	printf("\theight =  %f\n", cyl->height);
 }

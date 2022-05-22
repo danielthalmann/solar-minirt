@@ -65,6 +65,7 @@ typedef struct s_light
 }	t_light;
 
 t_v3f	*v3f_create(t_v3f *copy);
+t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2);
 void	v3f_plus_equal(t_v3f *to, const t_v3f *add);
 t_v3f	v3f_plus(const t_v3f *to, const t_v3f *add);
 void	v3f_minus_equal(t_v3f *to, const t_v3f *sub);
@@ -108,7 +109,7 @@ typedef struct s_cylinder
 typedef struct s_plane
 {
 	t_point3f	origin;
-	float		normal;
+	t_v3f		normal;
 	t_color		color;
 }	t_plane;
 enum e_shapetype

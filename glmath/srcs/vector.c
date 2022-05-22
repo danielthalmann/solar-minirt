@@ -44,6 +44,33 @@ void	v3f_plus_equal(t_v3f *vector, const t_v3f *add)
 	vector->z += add->z;
 }
 
+/**
+ * @brief Effectue une division de v1 par v2. Le résultat est retourné
+ *  par la fonction
+ * 
+ * @param v1 
+ * @param v2 
+ * @return t_v3f 
+ */
+t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2)
+{
+	t_v3f	res;
+
+	res.x = v1->x - v2->x;
+	res.y = v1->y - v2->y;
+	res.z = v1->z - v2->z;
+	res.w = v1->w - v2->w;
+	return (res);
+}
+
+/**
+ * @brief Addition de deux vecteurs sans modifier les vecteurs passés en
+ * paramètres
+ * 
+ * @param vector 
+ * @param add 
+ * @return t_v3f 
+ */
 t_v3f	v3f_plus(const t_v3f *vector, const t_v3f *add)
 {
 	t_v3f	res;
@@ -69,6 +96,14 @@ void	v3f_minus_equal(t_v3f *vector, const t_v3f *sub)
 	vector->z -= sub->z;
 }
 
+/**
+ * @brief Soustraction de deux vecteurs sans modifier les vecteurs passés en
+ * paramètres
+ * 
+ * @param vector 
+ * @param add 
+ * @return t_v3f 
+ */
 t_v3f	v3f_minus(const t_v3f *vector, const t_v3f *add)
 {
 	t_v3f	res;
@@ -131,6 +166,13 @@ void	v3f_dot_equal_scalar(t_v3f *vector, float value)
 	vector->z *= value;
 }
 
+/**
+ * @brief 
+ * 
+ * @param v 
+ * @param val 
+ * @return t_v3f 
+ */
 t_v3f	v3f_dot_scalar(const t_v3f *v, float val)
 {
 	t_v3f	res;

@@ -38,16 +38,19 @@ int	parse_ambiant_light(t_scene *scene, char *str)
 	int				n_parsed;
 	int				color[3];
 	int				color_int;
+	int				ret;
 
 	if (has_parsed_already)
 	{
 		ft_fprintf(2, UNIQUE_ERR, ELEM);
 		return (1);
 	}
-	has_parsed_already = 1;
 	n_parsed = ft_sscanf(str, ELEM" %f %d, %d, %d", &scene->ambiant_intensity,
 			&color[0], &color[1], &color[2]);
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	scene->ambiant = color_create_int(color_int);
-	return (check_error(scene, color, n_parsed));
+	ret = check_error(scene, color, n_parsed);
+	if (!ret)
+		has_parsed_already = 1;
+	return (ret);
 }

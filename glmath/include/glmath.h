@@ -66,6 +66,7 @@ typedef struct s_light
 
 t_v3f	*v3f_create(t_v3f *copy);
 t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2);
+t_v3f	v3f_division_val(const t_v3f *v1, float value);
 void	v3f_plus_equal(t_v3f *to, const t_v3f *add);
 t_v3f	v3f_plus(const t_v3f *to, const t_v3f *add);
 void	v3f_minus_equal(t_v3f *to, const t_v3f *sub);
@@ -152,6 +153,8 @@ typedef struct s_scene
 int		sphere_intersect(t_ray *ray, void *sphere, t_point3f *intersection);
 void	sphere_normal_vector(t_ray *normal, void *shape, t_point3f *intersec);
 void	sphere_print(t_sphere *s);
+
+int		plane_intersect(t_ray *ray, void *plane, t_point3f *intersec);
 
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
 

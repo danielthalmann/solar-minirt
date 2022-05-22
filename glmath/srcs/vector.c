@@ -56,10 +56,28 @@ t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2)
 {
 	t_v3f	res;
 
-	res.x = v1->x - v2->x;
-	res.y = v1->y - v2->y;
-	res.z = v1->z - v2->z;
-	res.w = v1->w - v2->w;
+	res.x = v1->x / v2->x;
+	res.y = v1->y / v2->y;
+	res.z = v1->z / v2->z;
+	res.w = v1->w / v2->w;
+	return (res);
+}
+
+/**
+ * @brief Effectue une division de v1 par value. Le résultat est retourné
+ * 
+ * @param v1 
+ * @param value 
+ * @return t_v3f 
+ */
+t_v3f	v3f_division_val(const t_v3f *v1, float value)
+{
+	t_v3f	res;
+
+	res.x = v1->x / value;
+	res.y = v1->y / value;
+	res.z = v1->z / value;
+	res.w = v1->w / value;
 	return (res);
 }
 

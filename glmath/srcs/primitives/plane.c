@@ -12,19 +12,18 @@
 
 #include "glmath.h"
 
-int	plane_intersect(t_ray *ray, void *p, t_point3f *intersec)
+int	plane_intersect(t_ray *ray, void *p, t_point3f *intersec __attribute__((unused)))
 {
-	t_v3f		oc;
-	float		t;
+	t_v3f	p0l0;
+	float	t;
 	t_plane	*plane;
 
 	plane = (t_plane *)p;
-	float denom = v3f_scalar_product(plane->normal, ray->direction); 
+	float denom = v3f_scalar_product(&plane->normal, &ray->direction); 
 	if (denom > 1e-6) { 
-		t_v3f p0l0 = v3f_minus(plane->origin, ray->origin);
-		t_v3f dot = v3f_division(v3f_dot_scalar(p0l0, plane->normal), denom);
-		return (t >= 0); 
+		p0l0 = v3f_minus(&plane->origin, &ray->origin);
+		t = v3f_scalar_product(&p0l0, &plane->normal) / denom;
+		return (t >= 0.0); 
 	}
 	return (0);
 }
-

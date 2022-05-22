@@ -4,6 +4,11 @@ SRCS=main.c input.c
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 
+TESTS=main.c
+
+TEST_OBJS=$(addprefix $(TEST_PATH), $(TESTS:.c=.o))
+
+
 CC=gcc
 
 CFLAGS=-Wall -Werror -Wextra -I $(INCLUDE_PATH) -I $(GL_INCLUDE) -I $(MLX_INCLUDE) -g
@@ -49,6 +54,7 @@ endif
 GL			 = glmath
 INCLUDE_PATH =./include/
 SRC_PATH	 =./srcs/
+TEST_PATH	 =./tests/
 
 all: $(NAME)
 
@@ -69,6 +75,12 @@ re: fclean all
 
 run: $(NAME)
 	./$(NAME)
+
+test: $(TEST_OBJS)
+	$(MAKE) -C $(GL_LIB_PATH)
+	$(MAKE) -C $(MLX_LIB_PATH)
+	$(CC) $(TEST_OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -L$(GL_LIB) -L$(MLX_LIB) $(LDFLAGS) -o test
+	./test
 
 norminette:
 	@norminette $(GL_LIB_PATH) $(SRC_PATH) $(INCLUDE_PATH)

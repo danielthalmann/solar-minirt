@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 10:11:57 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 10:32:21 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,7 @@ typedef struct s_app
 
 void	around(t_scene *scene, int x, int y, void *data);
 
+int		parse(t_scene *scene, char *filename);
+
+void	print_scene(t_scene *s);
 #endif

@@ -47,7 +47,7 @@ static int	parse_line(t_scene *scene, char *line)
 	if (!word)
 		return (0);
 	if (!ft_strcmp(word, "A"))
-		err = parse_ambiant_light(scene, line);
+		err = parse_ambient_light(scene, line);
 	else if (!ft_strcmp(word, "C"))
 		err = parse_camera(scene, line);
 	else if (!ft_strcmp(word, "L"))

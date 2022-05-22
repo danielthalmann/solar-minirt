@@ -63,10 +63,10 @@ void around(t_scene *scene, int x, int y, void *data)
 	v3f_normalize(&r.direction);
 
 	shape = get_closest_shape(scene->shapes, &r);
-	c = color_create(&scene->ambiant);
-	c->r *= scene->ambiant_intensity;
-	c->g *= scene->ambiant_intensity;
-	c->b *= scene->ambiant_intensity;
+	c = color_create(&scene->ambient);
+	c->r *= scene->ambient_intensity;
+	c->g *= scene->ambient_intensity;
+	c->b *= scene->ambient_intensity;
 	if (shape)
 	{
 		c->r = shape->color.r;

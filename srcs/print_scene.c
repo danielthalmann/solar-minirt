@@ -53,8 +53,8 @@ void	print_scene(t_scene *s)
 	t_light	*light;
 
 	printf(TITLE"(width, height)\t= (%d, %d)\n", s->w, s->h);
-	printf("Ambiant color\t= (%f, %f, %f)\nAmb. intensity\t= %f\n",
-		s->ambiant.r, s->ambiant.g, s->ambiant.b, s->ambiant_intensity);
+	printf("ambient color\t= (%f, %f, %f)\nAmb. intensity\t= %f\n",
+		s->ambient.r, s->ambient.g, s->ambient.b, s->ambient_intensity);
 	printf("Camera position\t= ");
 	v3f_print(&s->cam.pos);
 	printf("\nCamera orien\t= ");

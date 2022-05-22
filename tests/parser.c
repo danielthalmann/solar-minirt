@@ -159,7 +159,7 @@ int	parserAmbientAssert(char *line, int expected)
 	int		ret;
 
 	ft_fprintf(1, "TEST : [" ANSI_COLOR_BLUE "%s" ANSI_COLOR_RESET "]", line);
-	ret = parse_ambiant_light(&scene, line);
+	ret = parse_ambient_light(&scene, line);
 	if ((expected && ret) || (!expected && !ret))
 	{
 		ft_fprintf(1, ANSI_COLOR_GREEN " [OK]" ANSI_COLOR_RESET "\n");

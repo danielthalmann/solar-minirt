@@ -142,8 +142,8 @@ typedef struct s_scene
 {
 	int			w;
 	int			h;
-	t_color		ambiant;
-	float		ambiant_intensity;
+	t_color		ambient;
+	float		ambient_intensity;
 	t_shape		*shapes;
 	t_light		*lights;
 	t_camera	cam;

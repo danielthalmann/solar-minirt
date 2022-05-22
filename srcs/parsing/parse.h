@@ -17,7 +17,7 @@
 # include "ft_printf.h"
 
 // All line parsers
-int	parse_ambiant_light(t_scene *scene, char *str);
+int	parse_ambient_light(t_scene *scene, char *str);
 int	parse_light(t_scene *scene, char *str);
 int	parse_camera(t_scene *s, char *str);
 int	parse_sphere(t_scene *scene, char *str);

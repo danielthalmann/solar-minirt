@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 19:33:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/03/05 10:26:28 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/05/19 16:41:38 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 /**
  * @brief Création d'un nouveau vecteur
- * 
- * @param copy 
- * @return color* 
+ *
+ * @param copy
+ * @return color*
  */
 t_color	*color_create(t_color *copy)
 {
@@ -42,28 +42,27 @@ t_color	*color_create(t_color *copy)
 
 /**
  * @brief Création d'une couleur avec un entier
- * 
- * @param color 
- * @return t_color* 
+ *
+ * @param color
+ * @return t_color*
  */
-t_color	*color_create_int(int color)
+t_color	color_create_int(int color)
 {
-	t_color	*c;
+	t_color	c;
 
-	c = malloc(sizeof(t_color));
-	c->b = (color & 0xFF) / 255.0;
-	c->g = ((color >> 8) & 0xFF) / 255.0;
-	c->r = ((color >> 16) & 0xFF) / 255.0;
-	c->a = ((color >> 24) & 0xFF) / 255.0;
+	c.b = (color & 0xFF) / 255.0;
+	c.g = ((color >> 8) & 0xFF) / 255.0;
+	c.r = ((color >> 16) & 0xFF) / 255.0;
+	c.a = ((color >> 24) & 0xFF) / 255.0;
 	return (c);
 }
 
 /**
  * @brief retourne la valeur représenté par la couleur
  * en entier
- * 
- * @param color 
- * @return int 
+ *
+ * @param color
+ * @return int
  */
 int	color_int(t_color *color)
 {
@@ -82,9 +81,9 @@ int	color_int(t_color *color)
 
 /**
  * @brief converti un vecteur en couleur
- * 
- * @param color 
- * @param v 
+ *
+ * @param color
+ * @param v
  */
 void	cpy_vector_to_color(t_color *color, t_v3f *v)
 {

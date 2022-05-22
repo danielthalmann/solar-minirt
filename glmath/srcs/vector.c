@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 09:47:09 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/20 11:12:47 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,51 @@ void	v3f_plus_equal(t_v3f *vector, const t_v3f *add)
 	vector->z += add->z;
 }
 
+/**
+ * @brief Effectue une division de v1 par v2. Le résultat est retourné
+ *  par la fonction
+ * 
+ * @param v1 
+ * @param v2 
+ * @return t_v3f 
+ */
+t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2)
+{
+	t_v3f	res;
+
+	res.x = v1->x / v2->x;
+	res.y = v1->y / v2->y;
+	res.z = v1->z / v2->z;
+	res.w = v1->w / v2->w;
+	return (res);
+}
+
+/**
+ * @brief Effectue une division de v1 par value. Le résultat est retourné
+ * 
+ * @param v1 
+ * @param value 
+ * @return t_v3f 
+ */
+t_v3f	v3f_division_val(const t_v3f *v1, float value)
+{
+	t_v3f	res;
+
+	res.x = v1->x / value;
+	res.y = v1->y / value;
+	res.z = v1->z / value;
+	res.w = v1->w / value;
+	return (res);
+}
+
+/**
+ * @brief Addition de deux vecteurs sans modifier les vecteurs passés en
+ * paramètres
+ * 
+ * @param vector 
+ * @param add 
+ * @return t_v3f 
+ */
 t_v3f	v3f_plus(const t_v3f *vector, const t_v3f *add)
 {
 	t_v3f	res;
@@ -69,6 +114,14 @@ void	v3f_minus_equal(t_v3f *vector, const t_v3f *sub)
 	vector->z -= sub->z;
 }
 
+/**
+ * @brief Soustraction de deux vecteurs sans modifier les vecteurs passés en
+ * paramètres
+ * 
+ * @param vector 
+ * @param add 
+ * @return t_v3f 
+ */
 t_v3f	v3f_minus(const t_v3f *vector, const t_v3f *add)
 {
 	t_v3f	res;
@@ -90,8 +143,9 @@ void	v3f_normalize(t_v3f *vector)
 {
 	float	magnitude;
 
-	magnitude = sqrt((vector->x * vector->x)
-			+ (vector->y * vector->y) + (vector->z * vector->z));
+	magnitude = v3f_abs(vector);
+	if (!magnitude)
+		return ;
 	vector->x /= magnitude;
 	vector->y /= magnitude;
 	vector->z /= magnitude;
@@ -131,6 +185,13 @@ void	v3f_dot_equal_scalar(t_v3f *vector, float value)
 	vector->z *= value;
 }
 
+/**
+ * @brief 
+ * 
+ * @param v 
+ * @param val 
+ * @return t_v3f 
+ */
 t_v3f	v3f_dot_scalar(const t_v3f *v, float val)
 {
 	t_v3f	res;
@@ -176,7 +237,7 @@ void	v3f_copy(t_v3f *to, t_v3f *copy)
  */
 float	v3f_abs(t_v3f *v)
 {
-	return (v->x * v->x + v->y * v->y + v->z * v->z);
+	return (sqrt(v->x * v->x + v->y * v->y + v->z * v->z));
 }
 
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
@@ -197,5 +258,5 @@ float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
  */
 void	v3f_print(t_v3f *v)
 {
-	printf("(%f, %f, %f ,%f)", v->w, v->y, v->z, v->w);
+	printf("(%f, %f, %f, %f)", v->x, v->y, v->z, v->w);
 }

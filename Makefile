@@ -15,18 +15,29 @@ SRCS=	main.c \
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 
-TESTS=main.c
+TESTS=	$(TEST_PATH)/main.c \
+		$(TEST_PATH)/error.c \
+		$(TEST_PATH)/parser.c \
+		$(SRC_PATH)/parsing/parse.c \
+		$(SRC_PATH)/parsing/parse_ambiant.c \
+		$(SRC_PATH)/parsing/parse_light.c \
+		$(SRC_PATH)/parsing/parse_camera.c \
+		$(SRC_PATH)/parsing/parse_sphere.c \
+		$(SRC_PATH)/parsing/parse_plane.c \
+		$(SRC_PATH)/parsing/parse_cylinder.c \
+		$(SRC_PATH)/parsing/parse_check.c
 
-TEST_OBJS=$(addprefix $(TEST_PATH), $(TESTS:.c=.o))
+TEST_OBJS=$(TESTS:.c=.o)
 
 
 CC=gcc
 
 CFLAGS=-Wall -Werror -Wextra \
-	   -I $(INCLUDE_PATH) \
+	   -I $(LIBFT_INCLUDE) \
 	   -I $(GL_INCLUDE) \
 	   -I $(MLX_INCLUDE) \
 	   -I $(LIBFT_INCLUDE) \
+	   -I ./srcs \
 	   #-g -fsanitize=address -fno-omit-frame-pointer
 
 # path
@@ -37,7 +48,7 @@ GL_INCLUDE	 = $(addprefix $(GL_LIB_PATH), include)
 GL_FLAG		 = glmath
 
 LIBFT_PATH		 = ./libft
-LIBFT			 = $(LIBFT_PATH)/libft.a
+LIBFT_LIB	 	 = $(LIBFT_PATH)
 LIBFT_INCLUDE	 = $(LIBFT_PATH)/include
 LIBFT_FLAG		 = ft
 
@@ -79,10 +90,11 @@ TEST_PATH	 =./tests/
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS)
 	$(MAKE) -C $(GL_LIB_PATH)
 	$(MAKE) -C $(MLX_LIB_PATH)
-	$(CC) $(OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) $(LIBFT) -L$(GL_LIB) -L$(MLX_LIB) $(LDFLAGS) -o $(NAME)
+	$(MAKE) -C $(LIBFT_PATH)
+	$(CC) $(OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -l$(LIBFT_FLAG) -L$(GL_LIB) -L$(MLX_LIB) -L$(LIBFT_LIB) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT) :
 	$(MAKE) -C $(LIBFT_PATH)
@@ -100,13 +112,18 @@ fclean: clean
 re: fclean all
 
 run: $(NAME)
-	./$(NAME)
+	./$(NAME) scenes/basic.rt
 
-test: $(TEST_OBJS)
+test: CFLAGS += -g 
+test: $(TEST_OBJS) $(LIBFT)
 	$(MAKE) -C $(GL_LIB_PATH)
 	$(MAKE) -C $(MLX_LIB_PATH)
-	$(CC) $(TEST_OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -L$(GL_LIB) -L$(MLX_LIB) $(LDFLAGS) -o test
-	./test
+	$(MAKE) -C $(LIBFT_PATH)
+	$(CC) $(TEST_OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -l$(LIBFT_FLAG) -L$(GL_LIB) -L$(MLX_LIB) -L$(LIBFT_LIB) $(LDFLAGS) -o test
+
+norm: norminette
 
 norminette:
-	@norminette $(GL_LIB_PATH) $(SRC_PATH) $(INCLUDE_PATH)
+	@norminette $(GL_LIB_PATH) $(SRC_PATH) $(TEST_PATH) $(INCLUDE_PATH) $(INCLUDE_PATH)
+
+.PHONY: clean fclean norm norminette re run

@@ -15,6 +15,24 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <assert.h>
 # include "glmath.h"
+# include "error.h"
+# include "error.h"
+# include "libft.h"
+# include "colors.h"
+# include "parsing/parse.h"
+
+int	planeTest(void);
+int	parserTest(void);
+int	parserSphereAssert(char *line, int expected);
+int	parserSphereTest(void);
+int	parserPlaneAssert(char *line, int expected);
+int	parserPlaneTest(void);
+int	parserCylinderAssert(char *line, int expected);
+int	parserCylinderTest(void);
+int	parserAmbientAssert(char *line, int expected);
+int	parserAmbientTest(void);
+int	parserTest(void);
 
 #endif

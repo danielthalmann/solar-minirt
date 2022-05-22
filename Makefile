@@ -5,7 +5,7 @@ SRCS=	main.c \
 		input.c \
 		print_scene.c \
 		parsing/parse.c \
-		parsing/parse_ambiant.c \
+		parsing/parse_ambient.c \
 		parsing/parse_light.c \
 		parsing/parse_camera.c \
 		parsing/parse_sphere.c \
@@ -19,7 +19,7 @@ TESTS=	$(TEST_PATH)/main.c \
 		$(TEST_PATH)/error.c \
 		$(TEST_PATH)/parser.c \
 		$(SRC_PATH)/parsing/parse.c \
-		$(SRC_PATH)/parsing/parse_ambiant.c \
+		$(SRC_PATH)/parsing/parse_ambient.c \
 		$(SRC_PATH)/parsing/parse_light.c \
 		$(SRC_PATH)/parsing/parse_camera.c \
 		$(SRC_PATH)/parsing/parse_sphere.c \

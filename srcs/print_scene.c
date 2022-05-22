@@ -60,7 +60,7 @@ void	print_scene(t_scene *s)
 	printf("\nCamera orien\t= ");
 	v3f_print(&s->cam.orien);
 	printf("\nCamera FOV\t= %f rad (%f deg)\nShapes:\n\n", s->cam.fov,
-			s->cam.fov * 180.0f / M_PI);
+		s->cam.fov * 180.0f / M_PI);
 	shape = s->shapes;
 	while (shape)
 	{

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include "error.h"
 #include "glmath.h"
 #include "parsing/parse.h"
 #include <unistd.h>
@@ -108,10 +109,7 @@ int	main(int argc, char **argv)
 	app.scene.shapes = NULL;
 	app.scene.lights = NULL;
 	if (argc < 2)
-	{
-		ft_fprintf(STDERR_FILENO, "Error: not enough arguments\n");
-		return (1);
-	}
+		return (notEnoughArguments());
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);

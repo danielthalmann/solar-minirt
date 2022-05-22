@@ -1,6 +1,7 @@
 NAME=minirt
 
 SRCS=	main.c \
+		error.c \
 		input.c \
 		print_scene.c \
 		parsing/parse.c \

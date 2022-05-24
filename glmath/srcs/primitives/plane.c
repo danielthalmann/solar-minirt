@@ -12,9 +12,10 @@
 
 #include "glmath.h"
 
-int	plane_intersect(t_ray *ray, void *p, t_point3f *intersec __attribute__((unused)))
+int	plane_intersect(t_ray *ray, void *p, t_point3f *intersec)
 {
 	t_v3f	p0l0;
+
 	float	t;
 	t_plane	*plane;
 
@@ -23,6 +24,8 @@ int	plane_intersect(t_ray *ray, void *p, t_point3f *intersec __attribute__((unus
 	if (denom > 1e-6) { 
 		p0l0 = v3f_minus(&plane->origin, &ray->origin);
 		t = v3f_scalar_product(&p0l0, &plane->normal) / denom;
+		v3f_copy(intersec, &ray->origin);
+		//v3f_copy(intersec, &p0l0);
 		return (t >= 0.0); 
 	}
 	return (0);

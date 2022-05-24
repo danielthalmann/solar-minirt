@@ -42,6 +42,7 @@ int	parse_plane(t_scene *scene, char *str)
 	s->next = scene->shapes;
 	scene->shapes = s;
 	s->type = PLANE;
+	s->intersect = &plane_intersect;
 	n_parsed = ft_sscanf(str, "pl %f, %f, %f %f, %f, %f %d, %d, %d",
 			&s->plane.origin.x, &s->plane.origin.y, &s->plane.origin.z,
 			&s->plane.normal.x, &s->plane.normal.y, &s->plane.normal.z,

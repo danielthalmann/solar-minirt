@@ -25,6 +25,6 @@ int	help()
 {
 	ft_fprintf(STDERR_FILENO, "Command : \n");
 	ft_fprintf(STDERR_FILENO, "-h\t\tdisplay this help\n");
-	ft_fprintf(STDERR_FILENO, "--parser\ttest parser\n");
+	ft_fprintf(STDERR_FILENO, "-parser\ttest parser\n");
 	return (0);
 }

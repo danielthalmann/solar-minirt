@@ -230,7 +230,7 @@ void	v3f_copy(t_v3f *to, t_v3f *copy)
 }
 
 /**
- * @brief modifie les valeurs du vecteur en absolut
+ * @brief retourne la magnitude
  *
  * @param vector
  * @param sub
@@ -240,6 +240,13 @@ float	v3f_abs(t_v3f *v)
 	return (sqrt(v->x * v->x + v->y * v->y + v->z * v->z));
 }
 
+/**
+ * @brief retourne la distance entre deux vecteurs
+ * 
+ * @param p1 
+ * @param p2 
+ * @return float 
+ */
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
 {
 	float	d;

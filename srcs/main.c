@@ -113,7 +113,7 @@ int	main(int argc, char **argv)
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);
-	return (0);						// <-	PROTIP: REMOVE THIS LINE TO SEGFAULT
+	// return (0);					// <-	PROTIP: REMOVE THIS LINE TO SEGFAULT
 									//		due to missing *func for objects
 									//		plane and cylinder
 	app.mlx_ptr = mlx_init();

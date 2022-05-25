@@ -36,51 +36,39 @@ CFLAGS=-Wall -Werror -Wextra \
 	   -I $(LIBFT_INCLUDE) \
 	   -I $(GL_INCLUDE) \
 	   -I $(MLX_INCLUDE) \
-	   -I $(LIBFT_INCLUDE) \
-	   -I ./srcs \
+	   -I ./include \
 	   #-g -fsanitize=address -fno-omit-frame-pointer
 
-# path
-
 GL_LIB_PATH	 =./glmath/
-GL_LIB		 = $(addprefix $(GL_LIB_PATH), lib)
+GL_LIB		 = $(GL_LIB_PATH)/lib/libglmath.a
 GL_INCLUDE	 = $(addprefix $(GL_LIB_PATH), include)
-GL_FLAG		 = glmath
 
 LIBFT_PATH		 = ./libft
-LIBFT_LIB	 	 = $(LIBFT_PATH)
+LIBFT_LIB	 	 = $(LIBFT_PATH)/libft.a
 LIBFT_INCLUDE	 = $(LIBFT_PATH)/include
-LIBFT_FLAG		 = ft
 
 MLX_LIB_PATH = ./minilibx_linux/
 MLX_LIB		 = $(MLX_LIB_PATH)
 MLX_INCLUDE  = $(MLX_LIB_PATH)
-MLX_FLAG	 = mlx
-
-LDFLAGS = -lXext -lX11 -lz
 
 # detection du systeme d'exploitation
 UNAME_S := $(shell uname -s)
+
 # pour linux
 ifeq ($(UNAME_S),Linux)
-	LDFLAGS = -lm -lz -lXext -lX11 #-g -fsanitize=address -fno-omit-frame-pointer
-
+	LDFLAGS = -lm -lz -lXext -lX11
 	MLX_LIB_PATH = ./minilibx_linux/
-	MLX_LIB		 = $(MLX_LIB_PATH)
+	MLX_LIB		 = $(MLX_LIB_PATH)/libmlx.a
 	MLX_INCLUDE  = $(MLX_LIB_PATH)
 	MLX_FLAG	 = mlx
 
-endif
 # pour macOS
-ifeq ($(UNAME_S),Darwin)
-
+else ifeq ($(UNAME_S),Darwin)
 	LDFLAGS = -lm -lz -framework OpenGL -framework AppKit
-
 	MLX_LIB_PATH = ./minilibx_opengl/
-	MLX_LIB		 = $(MLX_LIB_PATH)
+	MLX_LIB		 = $(MLX_LIB_PATH)/libmlx.a
 	MLX_INCLUDE  = $(MLX_LIB_PATH)
 	MLX_FLAG	 = mlx
-
 endif
 
 GL			 = glmath
@@ -88,19 +76,29 @@ INCLUDE_PATH =./include/
 SRC_PATH	 =./srcs/
 TEST_PATH	 =./tests/
 
-all: $(NAME)
+all: compile
 
-$(NAME): $(OBJS)
-	$(MAKE) -C $(GL_LIB_PATH)
-	$(MAKE) -C $(MLX_LIB_PATH)
-	$(MAKE) -C $(LIBFT_PATH)
-	$(CC) $(OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -l$(LIBFT_FLAG) -L$(GL_LIB) -L$(MLX_LIB) -L$(LIBFT_LIB) $(LDFLAGS) -o $(NAME)
+compile:
+	@$(MAKE) -C $(LIBFT_PATH)
+	@$(MAKE) -C $(GL_LIB_PATH)
+	@$(MAKE) -C $(MLX_LIB_PATH)
+	@$(MAKE) $(NAME)
 
-$(LIBFT) :
-	$(MAKE) -C $(LIBFT_PATH)
+$(LIBFT_LIB):
+	@$(MAKE) -C $(LIBFT_PATH)
+
+$(GL_LIB):
+	@$(MAKE) -C $(GL_LIB_PATH)
+
+$(MLX_LIB):
+	@$(MAKE) -C $(MLX_LIB_PATH)
+
+$(NAME): $(OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB)
+	$(CC) $^ $(LDFLAGS) -o $(NAME)
 
 clean:
 	$(MAKE) -C $(GL_LIB_PATH) clean
+	@#$(MAKE) -C $(MLX_LIB_PATH) clean
 	$(MAKE) -C $(LIBFT_PATH) clean
 	rm -f $(OBJS)
 
@@ -114,16 +112,13 @@ re: fclean all
 run: $(NAME)
 	./$(NAME) scenes/basic.rt
 
-test: CFLAGS += -g 
-test: $(TEST_OBJS) $(LIBFT)
-	$(MAKE) -C $(GL_LIB_PATH)
-	$(MAKE) -C $(MLX_LIB_PATH)
-	$(MAKE) -C $(LIBFT_PATH)
-	$(CC) $(TEST_OBJS) -l$(GL_FLAG) -l$(MLX_FLAG) -l$(LIBFT_FLAG) -L$(GL_LIB) -L$(MLX_LIB) -L$(LIBFT_LIB) $(LDFLAGS) -o test
+test: CFLAGS += -g
+test: $(TEST_OBJS) compile
+	$(CC) $(TEST_OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB) $(LDFLAGS) -o test
 
 norm: norminette
 
 norminette:
-	@norminette $(GL_LIB_PATH) $(SRC_PATH) $(TEST_PATH) $(INCLUDE_PATH) $(INCLUDE_PATH)
+	@norminette $(GL_LIB_PATH) $(SRC_PATH) $(TEST_PATH) $(INCLUDE_PATH)
 
-.PHONY: clean fclean norm norminette re run
+.PHONY: clean fclean norm norminette re run compile

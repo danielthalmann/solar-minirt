@@ -6,7 +6,7 @@
 #    By: trossel <marvin@42lausanne.ch>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 09:07:29 by trossel           #+#    #+#              #
-#    Updated: 2022/05/19 15:26:51 by trossel          ###   ########.fr        #
+#    Updated: 2022/05/25 12:06:53 by trossel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,10 @@ TESTS_EXECS = $(patsubst %.c, $(TESTS_DIR)/%.out, $(_TESTS_SRCS))
 
 .PHONY : all clean fclean re bonus test clean_test
 
+
+$(TARGET): $(OBJS)
+	ar rcs $(TARGET) $(OBJS)
+
 all: $(TARGET)
 
 clean:
@@ -109,9 +113,6 @@ $(OBJS_DIR):
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR)
 	$(CC) -c $(CFLAGS) -o $@ $^ $(INCLUDES)
-
-$(TARGET): $(OBJS)
-	ar rcs $(TARGET) $(OBJS)
 
 $(TESTS_DIR)/%.out : $(TESTS_DIR)/%.c
 	$(CC) $(CFLAGS) -o $@ $^ $(INCLUDES) $(TARGET)

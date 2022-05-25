@@ -17,16 +17,16 @@ endif
 
 # path
 LIB_PATH=./lib/
+LIB=$(LIB_PATH)$(NAME)
 INCLUDE_PATH=./include/
 SRC_PATH=./srcs/
 
+$(LIB): $(OBJS)
+	ar rcs $(addprefix $(LIB_PATH), $(NAME)) $(OBJS)
 
-$(NAME): $(OBJS)
-	ar rsv $(addprefix $(LIB_PATH), $(NAME)) $(OBJS)
-	
-clean: 
+clean:
 	rm -f $(OBJS)
-		
+
 fclean: clean
 	rm -f $(addprefix $(LIB_PATH), $(NAME))
 

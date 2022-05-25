@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 12:47:50 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 14:06:43 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	sphere_intersect(t_ray *ray, void *s, t_point3f *intersec)
 
 	sphere = (t_sphere *)s;
 	oc = v3f_minus(&ray->origin, &sphere->origin);
+
 	disc = v3f_scalar_product(&ray->direction, &oc);
 	disc *= disc;
 	disc -= (v3f_scalar_product(&oc, &oc) - sphere->radius * sphere->radius);

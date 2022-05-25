@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 11:10:18 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 10:05:29 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		color_int(t_color *color);
 void	cpy_vector_to_color(t_color *color, t_v3f *v);
 
 t_ray	*ray_create(t_ray *copy);
-t_v3f	*ray_at(float pos, t_ray *ray);
+t_v3f	ray_at(float pos, t_ray *ray);
 void	ray_clear(t_ray *r);
 
 /* Shapes */

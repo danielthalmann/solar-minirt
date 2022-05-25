@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 19:33:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/19 16:41:38 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 16:56:16 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,23 @@
  * @param copy
  * @return color*
  */
-t_color	*color_create(t_color *copy)
+t_color	color_create(t_color *copy)
 {
-	t_color	*c;
+	t_color	c;
 
-	c = malloc(sizeof(t_color));
 	if (copy != NULL)
 	{
-		c->a = copy->a;
-		c->r = copy->r;
-		c->g = copy->g;
-		c->b = copy->b;
+		c.a = copy->a;
+		c.r = copy->r;
+		c.g = copy->g;
+		c.b = copy->b;
 	}
 	else
 	{
-		c->a = 0;
-		c->r = 0;
-		c->g = 0;
-		c->b = 0;
+		c.a = 0;
+		c.r = 0;
+		c.g = 0;
+		c.b = 0;
 	}
 	return (c);
 }

@@ -11,16 +11,16 @@ C	0,0,-1		0,0,1			70
 #	Light
 #	-----
 #	position	intensity	color
-L	10,0,15		0.4			255,255,255
+L	10,0,0		0.4			255,255,255
 
 #	Sphere
 #	------
 #	center		diameter	color
-sp	0,0,20		5.5			255,0,0
+sp	0,0,10		5.5			255,0,0
 
 
 #	Plan
 #	----\
 #	point		normal		color
-pl 	0,20,14		0,0,1		0,0,225
-
+pl 	0,20,20		0,0,1		0,0,225
+pl 	0,1,0		0,1,0		0,255,0

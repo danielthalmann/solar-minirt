@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 17:16:36 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 17:01:14 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,18 @@ int	on_close(void)
 	exit(0);
 }
 
-t_shape	*get_closest_shape(t_shape *shape, t_ray *ray)
+static t_shape	*get_closest_shape(t_shape *shape, t_ray *input_ray, t_ray *normal)
 {
 	t_shape	*closest;
 	float	closest_dist;
 	float	dist;
-	t_v3f	inter_pt;
 
 	closest = NULL;
 	while (shape)
 	{
-		if (shape->intersect(ray, &shape->shape, &inter_pt))
+		if (shape->intersect(input_ray, &shape->shape, &normal->origin))
 		{
-			dist = v3f_dist(&ray->origin, &inter_pt);
+			dist = v3f_dist(&input_ray->origin, &normal->origin);
 			if (!closest || dist < closest_dist)
 			{
 				closest = shape;
@@ -42,16 +41,37 @@ t_shape	*get_closest_shape(t_shape *shape, t_ray *ray)
 		}
 		shape = shape->next;
 	}
+	if (closest)
+		closest->normal_ray(normal, &closest->shape);
 	return (closest);
 }
 
+t_color	compute_diffuse_color(t_ray normal_ray, t_shape *shape, t_light *light)
+{
+	t_v3f	il;
+	float	dot;
+	t_color	c;
+
+	v3f_copy(&il, &light->origin);
+	v3f_minus_equal(&il, &normal_ray.origin);
+	v3f_normalize(&il);
+	dot = v3f_scalar_product(&normal_ray.direction, &il);
+	dot *= light->intensity;
+	if (dot < 0.0f && shape->type != PLANE)
+		dot = 0.0f;
+	c.r = shape->color.r * dot;
+	c.g = shape->color.g * dot;
+	c.b = shape->color.b * dot;
+	return (c);
+}
 void around(t_scene *scene, int x, int y, void *data)
 {
 	t_app	*app;
 	app = (t_app *)data;
-	t_color	*c;
+	t_color	c;
 	t_ray	r;
 	t_shape	*shape;
+	t_ray normal_ray;
 
 	r.origin.x = scene->cam.pos.x;
 	r.origin.y = scene->cam.pos.y;
@@ -62,19 +82,20 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.direction.z = 1.0;
 	v3f_normalize(&r.direction);
 
-	shape = get_closest_shape(scene->shapes, &r);
 	c = color_create(&scene->ambient);
-	c->r *= scene->ambient_intensity;
-	c->g *= scene->ambient_intensity;
-	c->b *= scene->ambient_intensity;
+	c.r *= scene->ambient_intensity;
+	c.g *= scene->ambient_intensity;
+	c.b *= scene->ambient_intensity;
+
+	shape = get_closest_shape(scene->shapes, &r, &normal_ray);
 	if (shape)
 	{
-		c->r = shape->color.r;
-		c->g = shape->color.g;
-		c->b = shape->color.b;
+		c = compute_diffuse_color(normal_ray, shape, scene->lights);
+		// c.r = (normal_ray.direction.x + 1.0f) * 0.5f ;//* shape->color.r;
+		// c.g = (normal_ray.direction.y + 1.0f) * 0.5f ;//* shape->color.g;
+		// c.b = (-normal_ray.direction.z + 1.0f) * 0.5f ;//* shape->color.b;
 	}
-	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(c);
-	free(c);
+	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }
 
 int	loop(void *param)
@@ -85,6 +106,11 @@ int	loop(void *param)
 
 	if (!app)
 		return (1);
+	app->scene.lights->origin.x -= 1.0f;
+	if (app->scene.lights->origin.x <= -10.0f)
+		app->scene.lights->origin.x = 10.0f;
+
+	app->on_change = 1;
 	if (app->on_change)
 	{
 		int bpp, sl, endian;

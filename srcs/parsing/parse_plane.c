@@ -6,10 +6,11 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/25 14:28:03 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 16:48:26 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "glmath.h"
 #include "parse.h"
 #include "ft_scanf.h"
 #include <unistd.h>
@@ -48,6 +49,7 @@ int	parse_plane(t_scene *scene, char *str)
 			&s->plane.origin.x, &s->plane.origin.y, &s->plane.origin.z,
 			&s->plane.normal.x, &s->plane.normal.y, &s->plane.normal.z,
 			&color[0], &color[1], &color[2]);
+	v3f_normalize(&s->plane.normal);
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	s->color = color_create_int(color_int);
 	return (check_error(scene, color, n_parsed));

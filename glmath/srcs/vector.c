@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 09:25:18 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/05/25 10:36:43 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	v3f_normalize(t_v3f *vector)
 }
 
 /**
- * @brief Mutliplication de deux vecteurs
+ * @brief Produit scalaire de deux vecteurs correspond a |ab| . |cd|
  *
  * @param vector
  * @param add

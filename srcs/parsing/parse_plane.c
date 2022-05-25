@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 16:22:24 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 14:28:03 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	parse_plane(t_scene *scene, char *str)
 	s->next = scene->shapes;
 	scene->shapes = s;
 	s->type = PLANE;
-	s->intersect = &plane_intersect;
+	s->intersect = (int (*)(t_ray *, void *, t_point3f *))plane_intersect;
+	s->normal_ray = (void (*)(t_ray *, void *))plane_normal_ray;
 	n_parsed = ft_sscanf(str, "pl %f, %f, %f %f, %f, %f %d, %d, %d",
 			&s->plane.origin.x, &s->plane.origin.y, &s->plane.origin.z,
 			&s->plane.normal.x, &s->plane.normal.y, &s->plane.normal.z,

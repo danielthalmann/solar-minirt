@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 10:05:29 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/05/25 14:30:23 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ typedef struct s_shape
 	struct s_shape		*next;
 	t_color				color;
 	int					(*intersect)(t_ray *, void *, t_v3f *);
-	t_v3f				(*normal_vector)(t_ray *, void *, t_v3f *);
+	void				(*normal_ray)(t_ray *, void *);
 	union {
 		void		*shape;
 		t_sphere	sphere;
@@ -150,11 +150,17 @@ typedef struct s_scene
 }	t_scene;
 
 // Sphere functions
-int		sphere_intersect(t_ray *ray, void *sphere, t_point3f *intersection);
-void	sphere_normal_vector(t_ray *normal, void *shape, t_point3f *intersec);
+int		sphere_intersect(t_ray *ray, t_sphere *sphere, t_point3f *intersection);
+void	sphere_normal_ray(t_ray *normal, t_sphere *sphere);
 void	sphere_print(t_sphere *s);
 
-int		plane_intersect(t_ray *ray, void *plane, t_point3f *intersec);
+// Plane functions
+int		plane_intersect(t_ray *ray, t_plane *plane, t_point3f *intersec);
+void	plane_normal_ray(t_ray *normal, t_plane *plane);
+
+// Cylinder functions
+int		cylinder_intersect(t_ray *ray, t_cylinder *plane, t_point3f *intersec);
+void	cylinder_normal_ray(t_ray *normal, t_cylinder *plane);
 
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
 

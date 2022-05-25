@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:11:38 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 14:26:01 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	parse_sphere(t_scene *scene, char *str)
 	s->next = scene->shapes;
 	scene->shapes = s;
 	s->type = SPHERE;
-	s->intersect = &sphere_intersect;
+	s->intersect = (int (*)(t_ray *, void *, t_point3f *))sphere_intersect;
+	s->normal_ray = (void (*)(t_ray *, void *))sphere_normal_ray;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f %d, %d, %d",
 			&s->sphere.origin.x, &s->sphere.origin.y, &s->sphere.origin.z,
 			&s->sphere.radius, &color[0], &color[1], &color[2]);

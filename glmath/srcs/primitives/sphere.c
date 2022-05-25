@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 14:25:33 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 14:56:48 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	sphere_intersect(t_ray *ray, t_sphere *sphere, t_point3f *intersec)
 
 void	sphere_normal_ray(t_ray *normal, t_sphere *sphere)
 {
-	v3f_copy(&normal->direction, &normal->direction);
+	v3f_copy(&normal->direction, &normal->origin);
 	v3f_minus_equal(&normal->direction, &sphere->origin);
 	v3f_normalize(&normal->direction);
 }

@@ -79,10 +79,19 @@ TEST_PATH	 =./tests/
 all: compile
 
 compile:
-	@$(MAKE) -C $(MLX_LIB_PATH)
 	@$(MAKE) -C $(LIBFT_PATH)
 	@$(MAKE) -C $(GL_LIB_PATH)
+	@$(MAKE) -C $(MLX_LIB_PATH)
 	@$(MAKE) $(NAME)
+
+$(LIBFT_LIB):
+	@$(MAKE) -C $(LIBFT_PATH)
+
+$(GL_LIB):
+	@$(MAKE) -C $(GL_LIB_PATH)
+
+$(MLX_LIB):
+	@$(MAKE) -C $(MLX_LIB_PATH)
 
 $(NAME): $(OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB)
 	$(CC) $^ $(LDFLAGS) -o $(NAME)

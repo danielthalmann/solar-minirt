@@ -126,8 +126,15 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.origin.z = scene->cam.pos.z;
 
 	r.direction.x = -1.0 + (2 * ((float)x / (float)scene->w));
+<<<<<<< HEAD
 	r.direction.y = 1.0 - (2 * ((float)y / (float)scene->w)) - ((float)(scene->w - scene->h) / (float)scene->w);
 	r.direction.z = 1.0;
+=======
+	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w)) + ((float)(scene->w - scene->h) / (float)scene->w);
+	r.direction.z = -1.0;
+	//v3f_normalize(&r.direction);
+	v3f_plus_equal(&r.direction, &scene->cam.orien);
+>>>>>>> test camera
 	v3f_normalize(&r.direction);
 
 	c = color_create_int(0);
@@ -193,6 +200,7 @@ int	main(int argc, char **argv)
 {
 	t_app	app;
 	app.on_change = 1;
+	app.rotate_camera = 0;
 
 	float ratio = 16.0 / 9.0;
 	app.scene.h = 480;

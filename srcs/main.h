@@ -29,6 +29,7 @@ typedef struct s_app
 	void			*win_ptr;
 	void			*img_ptr;
 	int				on_change;
+	int				rotate_camera;
 	unsigned int	*pix_ptr;
 	t_scene			scene;
 }	t_app;

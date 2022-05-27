@@ -145,6 +145,24 @@ int	main(int argc, char **argv)
 	// return (0);					// <-	PROTIP: REMOVE THIS LINE TO SEGFAULT
 									//		due to missing *func for objects
 									//		plane and cylinder
+
+	t_v3f o;
+	o.x = 0.0;
+	o.y = 0.0;
+	o.z = 1.0;
+	o.w = 0.0;
+
+	v3f_normalize(&o);
+	
+	t_v3f angles = v3f_vtoangle(&app.scene.cam.orien, &o);
+	v3f_print(&o);
+	printf("\n");
+	v3f_print(&app.scene.cam.orien);
+	printf("\n");
+	v3f_print(&angles);
+	printf("\n");
+
+
 	app.mlx_ptr = mlx_init();
 	if (!app.mlx_ptr)
 		return (0);

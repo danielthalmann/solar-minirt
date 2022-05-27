@@ -212,6 +212,7 @@ int	main(int argc, char **argv)
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);
+<<<<<<< HEAD
 	if (init_mlx(&app))
 		return (1);
 	if (argc == 3 && !ft_strcmp(argv[2], "-e"))
@@ -221,5 +222,39 @@ int	main(int argc, char **argv)
 	}
 	else
 		mlx_loop(app.mlx_ptr);
+=======
+	// return (0);					// <-	PROTIP: REMOVE THIS LINE TO SEGFAULT
+									//		due to missing *func for objects
+									//		plane and cylinder
+
+	t_v3f o;
+	o.x = 0.0;
+	o.y = 0.0;
+	o.z = 1.0;
+	o.w = 0.0;
+
+	v3f_normalize(&o);
+	
+	t_v3f angles = v3f_vtoangle(&app.scene.cam.orien, &o);
+	v3f_print(&o);
+	printf("\n");
+	v3f_print(&app.scene.cam.orien);
+	printf("\n");
+	v3f_print(&angles);
+	printf("\n");
+
+
+	app.mlx_ptr = mlx_init();
+	if (!app.mlx_ptr)
+		return (0);
+	app.win_ptr = mlx_new_window(app.mlx_ptr, app.scene.w, app.scene.h, "minirt");
+	mlx_hook(app.win_ptr, MLX_EVT_DESTROY, 0L, &on_close, &app);
+	mlx_hook(app.win_ptr, MLX_EVT_KEYUP, 2L, &key_up, &app);
+	mlx_loop_hook(app.mlx_ptr, &loop, &app);
+
+
+	mlx_loop(app.mlx_ptr);
+
+>>>>>>> add quaternion
 	return (0);
 }

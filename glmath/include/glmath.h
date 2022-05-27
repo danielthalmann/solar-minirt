@@ -6,7 +6,11 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/05/30 08:10:43 by trossel          ###   ########.fr       */
+=======
+/*   Updated: 2022/05/27 17:12:39 by dthalman         ###   ########.fr       */
+>>>>>>> add quaternion
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +19,15 @@
 # include <stdlib.h>
 # include <math.h>
 # include <stdio.h>
+
+# define MATH_PI	3.14159265358979323846f
+# define MATH_PI_2	1.57079632679489661923f
+# define MATH_PI_4	0.785398163397448309616f
+# define MATH_1_PI	0.318309886183790671538f
+# define MATH_2_PI	0.636619772367581343076f
+# define MATH_1_180	0.005555555555555555f
+# define TO_RADIAN	0.01745329251f
+# define TO_DEGRE	57.2957795457f
 
 typedef float				t_c;
 typedef struct s_vector4f
@@ -27,7 +40,7 @@ typedef struct s_vector4f
 
 typedef struct s_vector4f	t_v3f;
 typedef struct s_vector4f	t_point3f;
-
+typedef struct s_vector4f	t_qion;
 typedef struct s_vector2f
 {
 	float	x;
@@ -82,6 +95,12 @@ void	v3f_copy(t_v3f *to, const t_v3f *copy);
 float	v3f_abs(t_v3f *v);
 void	v3f_print(t_v3f *vector);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
+t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
+
+t_qion	qion_create(t_qion *copy);
+void	qion_copy(t_qion *to, t_qion *copy);
+void	qion_clear(t_qion *q);
+t_qion	qion_product(t_qion *q1, t_qion *q2);
 
 t_color	color_create(t_color *copy);
 t_color	color_create_int(int color);

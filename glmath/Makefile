@@ -1,6 +1,6 @@
 NAME=libglmath.a
 
-SRCS=	scene.c vector.c color.c ray.c \
+SRCS=	scene.c vector.c color.c ray.c quaternion.c \
 		primitives/sphere.c \
 		primitives/cylinder.c \
 		primitives/plane.c

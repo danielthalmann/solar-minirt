@@ -77,9 +77,16 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.origin.y = scene->cam.pos.y;
 	r.origin.z = scene->cam.pos.z;
 
+	t_qion q;
+	q = qion_rotation(app->scene.cam.orien, app->scene.cam.degree_orien);
+
 	r.direction.x = -1.0 + (2 * ((float)x / (float)scene->w));
 	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w)) + ((float)(scene->w - scene->h) / (float)scene->w);
 	r.direction.z = -1.0;
+	r.direction.w = 0.0;
+
+	r.direction = qion_product(&q, &r.direction);
+
 	//v3f_normalize(&r.direction);
 	v3f_plus_equal(&r.direction, &scene->cam.orien);
 	v3f_normalize(&r.direction);
@@ -151,7 +158,7 @@ int	main(int argc, char **argv)
 	o.y = 0.0;
 	o.z = 1.0;
 	o.w = 0.0;
-
+	app.scene.cam.degree_orien = TO_DEGRE * acosf( v3f_scalar_product( &o, &app.scene.cam.orien ) );
 	v3f_normalize(&o);
 	
 	t_v3f angles = v3f_vtoangle(&app.scene.cam.orien, &o);

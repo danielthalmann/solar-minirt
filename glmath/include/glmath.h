@@ -101,6 +101,7 @@ t_qion	qion_create(t_qion *copy);
 void	qion_copy(t_qion *to, t_qion *copy);
 void	qion_clear(t_qion *q);
 t_qion	qion_product(t_qion *q1, t_qion *q2);
+t_qion	qion_rotation(t_v3f n, float a);
 
 t_color	color_create(t_color *copy);
 t_color	color_create_int(int color);
@@ -159,6 +160,7 @@ typedef struct s_camera
 	t_v3f	pos;
 	t_v3f	orien;
 	float	fov;
+	float	degree_orien;
 }	t_camera;
 typedef struct s_scene
 {

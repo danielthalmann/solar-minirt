@@ -14,6 +14,8 @@
 #include "export_ppm.h"
 #include "error.h"
 #include "glmath.h"
+#include "libft.h"
+#include "mlx.h"
 #include "parsing/parse.h"
 #include <unistd.h>
 
@@ -107,9 +109,8 @@ void around(t_scene *scene, int x, int y, void *data)
 int	loop(void *param)
 {
 	t_app	*app;
-	app = (t_app *)param;
-	(void)param;
 
+	app = (t_app *)param;
 	if (!app)
 		return (1);
 	app->scene.lights->origin.x -= 1.0f;
@@ -119,14 +120,37 @@ int	loop(void *param)
 	app->on_change = 1;
 	if (app->on_change)
 	{
-		int bpp, sl, endian;
-		app->img_ptr = mlx_new_image(app->mlx_ptr, app->scene.w, app->scene.h);
-		app->pix_ptr = (unsigned int *)mlx_get_data_addr(app->img_ptr, &(bpp), &(sl), &(endian));
+		mlx_clear_window(app->mlx_ptr, app->win_ptr);
+		ft_memset(app->pix_ptr, 0, app->scene.w*app->scene.h*4);
 		scene_around(&(app->scene), app, &around);
 		mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, 0, 0);
 		app->on_change = 0;
 	}
 
+	return (0);
+}
+
+static int init_mlx(t_app *app)
+{
+	int	bpp;
+	int	endian;
+	int	size_line;
+
+	app->mlx_ptr = mlx_init();
+	if (!app->mlx_ptr)
+		return (1);
+	app->win_ptr = mlx_new_window(app->mlx_ptr, app->scene.w, app->scene.h, "minirt");
+	if (!app->win_ptr)
+		return (2);
+	app->img_ptr = mlx_new_image(app->mlx_ptr, app->scene.w, app->scene.h);
+	if (!app->img_ptr)
+		return (3);
+	app->pix_ptr = (unsigned int *)mlx_get_data_addr(app->img_ptr, &bpp, &size_line, &endian);
+	if (!app->pix_ptr)
+		return (4);
+	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, &app);
+	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, &app);
+	mlx_loop_hook(app->mlx_ptr, &loop, app);
 	return (0);
 }
 
@@ -145,19 +169,14 @@ int	main(int argc, char **argv)
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);
-	// return (0);					// <-	PROTIP: REMOVE THIS LINE TO SEGFAULT
-									//		due to missing *func for objects
-									//		plane and cylinder
-	app.mlx_ptr = mlx_init();
-	if (!app.mlx_ptr)
-		return (0);
-	app.win_ptr = mlx_new_window(app.mlx_ptr, app.scene.w, app.scene.h, "minirt");
-	mlx_hook(app.win_ptr, MLX_EVT_DESTROY, 0L, &on_close, &app);
-	mlx_hook(app.win_ptr, MLX_EVT_KEYUP, 2L, &key_up, &app);
-	mlx_loop_hook(app.mlx_ptr, &loop, &app);
-
-
-	mlx_loop(app.mlx_ptr);
-
+	if (init_mlx(&app))
+		return (1);
+	if (argc == 3 && !ft_strcmp(argv[2], "-e"))
+	{
+		scene_around(&(app.scene), &app, &around);
+		export_ppm("export.ppm", &app);
+	}
+	else
+		mlx_loop(app.mlx_ptr);
 	return (0);
 }

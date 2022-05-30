@@ -17,13 +17,15 @@ int	quaternionTest(void)
 	t_qion q;
 	t_v3f v;
 	t_v3f euler;
+	//t_v3f conj;
 
-	v.x = 5.0;
-	v.y = 6.0;
-	v.z = 7.0;
+
+	v.x = 1.0;
+	v.y = 3.0;
+	v.z = 5.0;
 
 	euler.x = 0.0;
-	euler.y = 1.57;
+	euler.y = M_PI_4;
 	euler.z = 0.0;
 
 	printf(ANSI_COLOR_BLUE);
@@ -40,8 +42,18 @@ int	quaternionTest(void)
 	v3f_print(&q);
 	printf(ANSI_COLOR_RESET "\n");
 
-	v = qion_product(&v, &q);
-	v.w = 1 - v.w;
+	
+//	v.w = 1 - v.w;
+
+//	conj = qion_create(&q);
+//	conj.x *= -1;
+//	conj.y *= -1;
+//	conj.z *= -1;
+//
+//	v = qion_product(&q, &v);
+//	v = qion_product(&v, &conj);
+
+	v = qion_rotation(&v, &q);
 
 	printf(ANSI_COLOR_RED);
 	v3f_print(&v);

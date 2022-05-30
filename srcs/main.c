@@ -90,18 +90,12 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.direction.z = 1.0;
 	v3f_normalize(&r.direction);
 
-	c = color_create(&scene->ambient);
-	c.r *= scene->ambient_intensity;
-	c.g *= scene->ambient_intensity;
-	c.b *= scene->ambient_intensity;
-
+	c = color_create_int(0);
 	shape = get_closest_shape(scene->shapes, &r, &normal_ray);
 	if (shape)
 	{
-		c = compute_diffuse_color(normal_ray, shape, scene->lights);
-		// c.r = (normal_ray.direction.x + 1.0f) * 0.5f ;//* shape->color.r;
-		// c.g = (normal_ray.direction.y + 1.0f) * 0.5f ;//* shape->color.g;
-		// c.b = (-normal_ray.direction.z + 1.0f) * 0.5f ;//* shape->color.b;
+		c = color_mult_c(scene->ambient, scene->ambient_intensity);
+		c = color_add(c, compute_diffuse_color(normal_ray, shape, scene->lights));
 	}
 	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }

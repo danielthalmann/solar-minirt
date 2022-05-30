@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 19:01:15 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/01 13:27:22 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray
 	return (closest);
 }
 
-t_color	compute_diffuse_color(t_ray normal_ray, const t_shape *shape, const t_light *light)
+t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape, const t_light *light)
 {
 	t_v3f	il;
 	float	dot;
@@ -59,10 +59,10 @@ t_color	compute_diffuse_color(t_ray normal_ray, const t_shape *shape, const t_li
 
 	c = color_create_int(0);
 	v3f_copy(&il, &light->origin);
-	v3f_minus_equal(&il, &normal_ray.origin);
+	v3f_minus_equal(&il, &normal_ray->origin);
 	v3f_normalize(&il);
-	dot = v3f_scalar_product(&normal_ray.direction, &il);
-	dot *= light->intensity;
+	dot = v3f_scalar_product(&normal_ray->direction, &il);
+	dot *= light->intensity * shape->color_mask(normal_ray, &shape->shape);
 	if (dot < 0.0f)
 	{
 		if (shape->type == PLANE)
@@ -199,7 +199,7 @@ int	loop(void *param)
 	return (0);
 }
 
-static int init_mlx(t_app *app)
+static int	init_mlx(t_app *app)
 {
 	int	bpp;
 	int	endian;

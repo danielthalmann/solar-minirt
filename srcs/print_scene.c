@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:21:33 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:41:59 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 14:31:46 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,9 @@ static void	print_shape(t_shape *s)
 	if (s->type == SPHERE)
 		sphere_print(&s->sphere);
 	else if (s->type == CYLINDER)
-	{
-		printf("\tCYLINDER\n\torigin  = (%f, %f, %f)\n", s->cyl.origin.x,
-			s->cyl.origin.y, s->cyl.origin.z);
-		printf("\tnormale = (%f, %f, %f)\n", s->cyl.normal.x,
-			s->cyl.normal.y, s->cyl.normal.z);
-		printf("\tradius =  %f\n", s->cyl.radius);
-		printf("\theight =  %f\n", s->cyl.height);
-	}
+		cylinder_print(&s->cyl);
 	else if (s->type == PLANE)
-	{
-		printf("\tPLANE\n\torigin  = (%f, %f, %f)\n", s->plane.origin.x,
-			s->plane.origin.y, s->plane.origin.z);
-		printf("\tnormale = (%f, %f, %f)\n", s->plane.normal.x,
-			s->plane.normal.y, s->plane.normal.z);
-	}
+		plane_print(&s->plane);
 	printf("\tcolor   = (%f, %f, %f)\n\n", s->color.r, s->color.g, s->color.b);
 }
 

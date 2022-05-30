@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/29 19:15:28 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 14:52:04 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	parse_cylinder(t_scene *scene, char *str)
 	s->type = CYLINDER;
 	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))cylinder_intersect;
 	s->normal_ray = (void (*)(t_ray *, const void *))cylinder_normal_ray;
+	s->color_mask = (float (*)(const t_ray *, const void *))cylinder_color_mask;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",
 			&s->cyl.origin.x, &s->cyl.origin.y, &s->cyl.origin.z,
 			&s->cyl.normal.x, &s->cyl.normal.y, &s->cyl.normal.z,

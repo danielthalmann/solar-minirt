@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/30 08:14:32 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 14:53:13 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,14 @@ void	cylinder_normal_ray(t_ray *normal, t_cylinder *cyl)
 	(void)cyl;
 }
 
-void	cylinder_print(t_cylinder *cyl)
+float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl)
+{
+	(void)normale;
+	(void)cyl;
+	return (1.0f);
+}
+
+void	cylinder_print(const t_cylinder *cyl)
 {
 	printf("\tCYLINDER\n\torigin  = (%f, %f, %f)\n", cyl->origin.x,
 		cyl->origin.y, cyl->origin.z);

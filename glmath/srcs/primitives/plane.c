@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 21:35:39 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/03 09:22:56 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 08:14:58 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,34 @@ int	plane_intersect(const t_ray *ray, const t_plane *plane, t_point3f *intersec)
 void	plane_normal_ray(t_ray *normal_ray, t_plane *plane)
 {
 	v3f_copy(&normal_ray->direction, &plane->normal);
+}
+
+float	plane_color_mask(const t_ray *normale, const t_plane *plane)
+{
+	int		v[3];
+	t_v3f	io;
+
+	v3f_copy(&io, &plane->origin);
+	v3f_minus_equal(&io, &normale->origin);
+	if (absf(io.x) < 1e-6)
+		io.x = +0.0f;
+	if (absf(io.y) < 1e-6)
+		io.y = +0.0f;
+	if (absf(io.z) < 1e-6)
+		io.z = +0.0f;
+	v[0] = ((abs((int)floorf(io.x)) % 2) * 2) - 1;
+	v[1] = ((abs((int)floorf(io.y)) % 2) * 2) - 1;
+	v[2] = ((abs((int)floorf(io.z)) % 2) * 2) - 1;
+	if (v[0] * v[1] * v[2] > 0)
+		return (0.5f);
+	else
+		return (1.0f);
+}
+
+void	plane_print(const t_plane *p)
+{
+	printf("\tPLANE\n\torigin  = (%f, %f, %f)\n", p->origin.x,
+		p->origin.y, p->origin.z);
+	printf("\tnormale = (%f, %f, %f)\n", p->normal.x,
+		p->normal.y, p->normal.z);
 }

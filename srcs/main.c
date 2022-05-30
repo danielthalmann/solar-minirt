@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include "export_ppm.h"
 #include "error.h"
 #include "glmath.h"
 #include "parsing/parse.h"

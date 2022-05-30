@@ -3,6 +3,7 @@ NAME=minirt
 SRCS=	main.c \
 		error.c \
 		input.c \
+		export_ppm.c \
 		print_scene.c \
 		parsing/parse.c \
 		parsing/parse_ambient.c \
@@ -37,7 +38,7 @@ CFLAGS=-Wall -Werror -Wextra \
 	   -I $(GL_INCLUDE) \
 	   -I $(MLX_INCLUDE) \
 	   -I ./include \
-	   #-g -fsanitize=address -fno-omit-frame-pointer
+	   # -g -fsanitize=address -fno-omit-frame-pointer
 
 GL_LIB_PATH	 =./glmath/
 GL_LIB		 = $(GL_LIB_PATH)/lib/libglmath.a
@@ -56,7 +57,9 @@ UNAME_S := $(shell uname -s)
 
 # pour linux
 ifeq ($(UNAME_S),Linux)
-	LDFLAGS = -lm -lz -lXext -lX11
+	LDFLAGS = -lm -lz -lXext -lX11 \
+			  # -g -fsanitize=address -fno-omit-frame-pointer
+
 	MLX_LIB_PATH = ./minilibx_linux/
 	MLX_LIB		 = $(MLX_LIB_PATH)/libmlx.a
 	MLX_INCLUDE  = $(MLX_LIB_PATH)

@@ -1,3 +1,6 @@
+# Images
+*.ppm
+
 # Objects
 *.o
 *.so

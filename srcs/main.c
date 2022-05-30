@@ -72,6 +72,42 @@ t_color	compute_diffuse_color(t_ray normal_ray, const t_shape *shape, const t_li
 	return (c);
 }
 
+static t_v3f	compute_reflection_vector(t_v3f input_vec, t_v3f normale)
+{
+	t_v3f	tmp;
+	float	scalar;
+	t_v3f	reflection_vec;
+
+	v3f_copy(&reflection_vec, &input_vec);
+	scalar = 2 * v3f_scalar_product(&input_vec, &normale);
+	tmp = v3f_dot_scalar(&normale, scalar);
+	v3f_minus_equal(&reflection_vec, &tmp);
+	return (reflection_vec);
+}
+
+t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray, const t_shape *shape, const t_light *light)
+{
+	t_color	c;
+	float	dot;
+	t_v3f	reflec;
+	t_v3f	light_vec;
+	float	alpha;
+
+	alpha = 50.0f;
+	(void)shape;
+	c = color_create_int(0);
+	light_vec = normal_ray->origin;
+	v3f_minus_equal(&light_vec, &light->origin);
+	v3f_normalize(&light_vec);
+	reflec = compute_reflection_vector(light_vec, normal_ray->direction);
+	dot = - v3f_scalar_product(&reflec, &input_ray->direction);
+	if (dot < 0)
+		return (c);
+	dot = powf(dot, alpha);
+	c = color_mult_c(light->color, dot * light->intensity);
+	return (c);
+}
+
 void around(t_scene *scene, int x, int y, void *data)
 {
 	t_app	*app;
@@ -96,6 +132,7 @@ void around(t_scene *scene, int x, int y, void *data)
 	{
 		c = color_mult_c(scene->ambient, scene->ambient_intensity);
 		c = color_add(c, compute_diffuse_color(normal_ray, shape, scene->lights));
+		c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
 	}
 	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }

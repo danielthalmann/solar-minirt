@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 14:29:23 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 08:14:32 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 /* Used the formula described here:
  * https://www.cl.cam.ac.uk/teaching/1999/AGraphHCI/SMAG/node2.html
  */
-int	cylinder_intersect(t_ray *ray, t_cylinder *cyl, t_point3f *intersec)
+int	cylinder_intersect(const t_ray *ray, const t_cylinder *cyl,
+		t_point3f *intersec)
 {
 	(void)intersec;
 	(void)cyl;

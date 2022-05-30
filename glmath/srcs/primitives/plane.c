@@ -19,7 +19,7 @@ static float	absf(float f)
 	return (-f);
 }
 
-int	plane_intersect(t_ray *ray, t_plane *plane, t_point3f *intersec)
+int	plane_intersect(const t_ray *ray, const t_plane *plane, t_point3f *intersec)
 {
 	t_v3f	p0l0;
 	float	t;

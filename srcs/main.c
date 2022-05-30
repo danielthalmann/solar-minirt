@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 17:01:14 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 08:54:56 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	on_close(void)
 	exit(0);
 }
 
-static t_shape	*get_closest_shape(t_shape *shape, t_ray *input_ray, t_ray *normal)
+static const t_shape	*get_closest_shape(const t_shape *shape, const t_ray *input_ray, t_ray *normal)
 {
-	t_shape	*closest;
+	const t_shape	*closest;
 	float	closest_dist;
 	float	dist;
 
@@ -49,7 +49,7 @@ static t_shape	*get_closest_shape(t_shape *shape, t_ray *input_ray, t_ray *norma
 	return (closest);
 }
 
-t_color	compute_diffuse_color(t_ray normal_ray, t_shape *shape, t_light *light)
+t_color	compute_diffuse_color(t_ray normal_ray, const t_shape *shape, const t_light *light)
 {
 	t_v3f	il;
 	float	dot;
@@ -78,7 +78,7 @@ void around(t_scene *scene, int x, int y, void *data)
 	app = (t_app *)data;
 	t_color	c;
 	t_ray	r;
-	t_shape	*shape;
+	const t_shape	*shape;
 	t_ray normal_ray;
 
 	r.origin.x = scene->cam.pos.x;

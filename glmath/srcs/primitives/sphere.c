@@ -15,7 +15,7 @@
 /* Used the formula described here:
  * https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
  * */
-int	sphere_intersect(t_ray *ray, t_sphere *sph, t_point3f *inter)
+int	sphere_intersect(const t_ray *ray, const t_sphere *sph, t_point3f *inter)
 {
 	t_v3f		oc;
 	float		disc;

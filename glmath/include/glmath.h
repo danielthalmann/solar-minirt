@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 16:55:46 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 08:10:43 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
-t_v3f	*v3f_create(t_v3f *copy);
+t_v3f	*v3f_create(const t_v3f *copy);
 t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2);
 t_v3f	v3f_division_val(const t_v3f *v1, float value);
 void	v3f_plus_equal(t_v3f *to, const t_v3f *add);
@@ -78,7 +78,7 @@ t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2);
 t_v3f	v3f_dot_scalar(const t_v3f *vector, float value);
 void	v3f_dot_equal_scalar(t_v3f *vector, float value);
 void	v3f_clear(t_v3f *vector);
-void	v3f_copy(t_v3f *to, t_v3f *copy);
+void	v3f_copy(t_v3f *to, const t_v3f *copy);
 float	v3f_abs(t_v3f *v);
 void	v3f_print(t_v3f *vector);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
@@ -91,8 +91,8 @@ t_color	color_add(t_color c1, t_color c2);
 void	color_check(t_color *c);
 t_color	color_mult_c(const t_color c, float f);
 
-t_ray	*ray_create(t_ray *copy);
-t_v3f	ray_at(float pos, t_ray *ray);
+t_ray	*ray_create(const t_ray *copy);
+t_v3f	ray_at(float pos, const t_ray *ray);
 void	ray_clear(t_ray *r);
 
 /* Shapes */
@@ -125,8 +125,8 @@ typedef struct s_shape
 	enum e_shapetype	type;
 	struct s_shape		*next;
 	t_color				color;
-	int					(*intersect)(t_ray *, void *, t_v3f *);
-	void				(*normal_ray)(t_ray *, void *);
+	int					(*intersect)(const t_ray *, const void *, t_v3f *);
+	void				(*normal_ray)(t_ray *, const void *);
 	union {
 		void		*shape;
 		t_sphere	sphere;
@@ -153,16 +153,17 @@ typedef struct s_scene
 }	t_scene;
 
 // Sphere functions
-int		sphere_intersect(t_ray *ray, t_sphere *sphere, t_point3f *intersection);
+int		sphere_intersect(const t_ray *r, const t_sphere *s, t_point3f *inter);
 void	sphere_normal_ray(t_ray *normal, t_sphere *sphere);
 void	sphere_print(t_sphere *s);
 
 // Plane functions
-int		plane_intersect(t_ray *ray, t_plane *plane, t_point3f *intersec);
+int		plane_intersect(const t_ray *r, const t_plane *p, t_point3f *inter);
 void	plane_normal_ray(t_ray *normal, t_plane *plane);
 
 // Cylinder functions
-int		cylinder_intersect(t_ray *ray, t_cylinder *plane, t_point3f *intersec);
+int		cylinder_intersect(const t_ray *r, const t_cylinder *cyl,
+			t_point3f *inter);
 void	cylinder_normal_ray(t_ray *normal, t_cylinder *plane);
 
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);

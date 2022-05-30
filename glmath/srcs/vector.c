@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 15:16:05 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/25 23:29:58 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param copy
  * @return t_v3f*
  */
-t_v3f	*v3f_create(t_v3f *copy)
+t_v3f	*v3f_create(const t_v3f *copy)
 {
 	t_v3f	*v;
 
@@ -221,7 +221,7 @@ void	v3f_clear(t_v3f *vector)
  * @param to
  * @param copy
  */
-void	v3f_copy(t_v3f *to, t_v3f *copy)
+void	v3f_copy(t_v3f *to, const t_v3f *copy)
 {
 	to->w = copy->w;
 	to->x = copy->x;

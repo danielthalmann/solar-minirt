@@ -87,6 +87,9 @@ t_color	color_create(t_color *copy);
 t_color	color_create_int(int color);
 int		color_int(t_color *color);
 void	cpy_vector_to_color(t_color *color, t_v3f *v);
+t_color	color_add(t_color c1, t_color c2);
+void	color_check(t_color *c);
+t_color	color_mult_c(const t_color c, float f);
 
 t_ray	*ray_create(t_ray *copy);
 t_v3f	ray_at(float pos, t_ray *ray);

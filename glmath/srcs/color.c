@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 19:33:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 16:56:16 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 08:12:40 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,42 @@ void	cpy_vector_to_color(t_color *color, t_v3f *v)
 	color->g = v->y;
 	color->b = v->z;
 	color->a = v->w;
+}
+
+t_color	color_add(t_color c1, t_color c2)
+{
+	t_color	c;
+
+	c.r = c1.r + c2.r;
+	c.g = c1.g + c2.g;
+	c.b = c1.b + c2.b;
+	color_check(&c);
+	return (c);
+}
+
+t_color	color_mult_c(const t_color c, float f)
+{
+	t_color	c2;
+
+	c2.r = c.r * f;
+	c2.g = c.g * f;
+	c2.b = c.b * f;
+	color_check(&c2);
+	return (c2);
+}
+
+void	color_check(t_color *c)
+{
+	if (c->r > 1.0f)
+		c->r = 1.0f;
+	else if (c->r < 0.0f)
+		c->r = 0.0f;
+	if (c->g > 1.0f)
+		c->g = 1.0f;
+	else if (c->g < 0.0f)
+		c->g = 0.0f;
+	if (c->b > 1.0f)
+		c->b = 1.0f;
+	else if (c->b < 0.0f)
+		c->g = 0.0f;
 }

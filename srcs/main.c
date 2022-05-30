@@ -53,18 +53,23 @@ t_color	compute_diffuse_color(t_ray normal_ray, t_shape *shape, t_light *light)
 	float	dot;
 	t_color	c;
 
+	c = color_create_int(0);
 	v3f_copy(&il, &light->origin);
 	v3f_minus_equal(&il, &normal_ray.origin);
 	v3f_normalize(&il);
 	dot = v3f_scalar_product(&normal_ray.direction, &il);
 	dot *= light->intensity;
-	if (dot < 0.0f && shape->type != PLANE)
-		dot = 0.0f;
-	c.r = shape->color.r * dot;
-	c.g = shape->color.g * dot;
-	c.b = shape->color.b * dot;
+	if (dot < 0.0f)
+	{
+		if (shape->type == PLANE)
+			dot = -dot;
+		else
+			return (c);
+	}
+	c = color_mult_c(shape->color, dot);
 	return (c);
 }
+
 void around(t_scene *scene, int x, int y, void *data)
 {
 	t_app	*app;

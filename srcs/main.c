@@ -94,8 +94,10 @@ t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray, 
 	t_v3f	reflec;
 	t_v3f	light_vec;
 	float	alpha;
+	float	k_s;
 
 	alpha = 50.0f;
+	k_s = 5.0f;
 	(void)shape;
 	c = color_create_int(0);
 	light_vec = normal_ray->origin;
@@ -105,7 +107,7 @@ t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray, 
 	dot = - v3f_scalar_product(&reflec, &input_ray->direction);
 	if (dot < 0)
 		return (c);
-	dot = powf(dot, alpha);
+	dot = k_s * powf(dot, alpha);
 	c = color_mult_c(light->color, dot * light->intensity);
 	return (c);
 }

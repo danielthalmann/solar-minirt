@@ -97,12 +97,12 @@ void	v3f_print(t_v3f *vector);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
 t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
 
-t_qion	qion_create(t_qion *copy);
-void	qion_copy(t_qion *to, t_qion *copy);
+t_qion	qion_create(const t_qion *copy);
+void	qion_copy(t_qion *to, const t_qion *copy);
 void	qion_clear(t_qion *q);
 t_qion	qion_product(const t_qion *q1, const t_qion *q2);
 t_qion	qion_euler_rotation(float x, float y, float z);
-
+t_qion	qion_inverse(const t_qion *q);
 t_qion	qion_rotation(const t_qion *q, const t_qion *rot);
 float	qion_norm(const t_qion *q);
 void	qion_normalize(t_qion *q);

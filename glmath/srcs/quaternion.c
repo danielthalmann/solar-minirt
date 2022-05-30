@@ -19,7 +19,7 @@
  * @param copy
  * @return t_v3f*
  */
-t_qion	qion_create(t_qion *copy)
+t_qion	qion_create(const t_qion *copy)
 {
 	t_qion	q;
 
@@ -46,7 +46,7 @@ void	qion_clear(t_qion *q)
  * @param to 
  * @param copy 
  */
-void	qion_copy(t_qion *to, t_qion *copy)
+void	qion_copy(t_qion *to, const t_qion *copy)
 {
 	v3f_copy(to, copy);
 }
@@ -101,11 +101,23 @@ t_qion	qion_euler_rotation(float x, float y, float z)
 t_qion	qion_rotation(const t_qion *q, const t_qion *rot)
 {
 	t_qion	ret;
+	t_qion	inv;
 
-	ret = qion_product(q, rot);
-	ret.w = 1 - ret.w;
-	qion_normalize(&ret);
+	inv = qion_inverse(rot);
+	ret = qion_product(rot, q);
+	ret = qion_product(&ret, &inv);
 	return (ret);
+}
+
+t_qion	qion_inverse(const t_qion *q)
+{
+	t_qion	inv;
+
+	inv = qion_create(q);
+	inv.x *= -1;
+	inv.y *= -1;
+	inv.z *= -1;
+	return (inv);
 }
 
 float	qion_norm(const t_qion *q)

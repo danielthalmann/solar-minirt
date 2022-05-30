@@ -265,7 +265,7 @@ float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
  */
 void	v3f_print(t_v3f *v)
 {
-	printf("(%f, %f, %f, %f)", v->x, v->y, v->z, v->w);
+	printf("(%f, %f, %f, %f)", v->w, v->x, v->y, v->z);
 }
 
 /**

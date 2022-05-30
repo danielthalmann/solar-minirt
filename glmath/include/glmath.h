@@ -100,8 +100,12 @@ t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
 t_qion	qion_create(t_qion *copy);
 void	qion_copy(t_qion *to, t_qion *copy);
 void	qion_clear(t_qion *q);
-t_qion	qion_product(t_qion *q1, t_qion *q2);
-t_qion	qion_rotation(t_v3f n, float a);
+t_qion	qion_product(const t_qion *q1, const t_qion *q2);
+t_qion	qion_euler_rotation(float x, float y, float z);
+
+t_qion	qion_rotation(const t_qion *q, const t_qion *rot);
+float	qion_norm(const t_qion *q);
+void	qion_normalize(t_qion *q);
 
 t_color	color_create(t_color *copy);
 t_color	color_create_int(int color);

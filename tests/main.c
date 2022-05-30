@@ -42,15 +42,14 @@ int	planeTest(void)
 
 int	main(int argc, char **argv)
 {
-	(void) argc;
-	(void) argv;
-
 	if (argc != 2)
 		return (notEnoughArguments());
 	else if (!ft_strcmp(argv[1], "-h"))
 		return (help());
 	else if (!ft_strcmp(argv[1], "-parser"))
 		return (parserTest());
+	else if (!ft_strcmp(argv[1], "-quaternion"))
+		return (quaternionTest());
 	else if (!ft_strcmp(argv[1], "-plane"))
 		return (planeTest());
 	return (0);

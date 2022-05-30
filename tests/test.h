@@ -21,7 +21,7 @@
 # include "error.h"
 # include "libft.h"
 # include "colors.h"
-# include "parsing/parse.h"
+# include "../srcs/parsing/parse.h"
 
 int	planeTest(void);
 int	parserTest(void);
@@ -34,5 +34,7 @@ int	parserCylinderTest(void);
 int	parserAmbientAssert(char *line, int expected);
 int	parserAmbientTest(void);
 int	parserTest(void);
+
+int	quaternionTest(void);
 
 #endif

@@ -58,7 +58,7 @@ void	qion_copy(t_qion *to, t_qion *copy)
  * @param q2 
  * @return t_qion 
  */
-t_qion	qion_product(t_qion *q1, t_qion *q2)
+t_qion	qion_product(const t_qion *q1, const t_qion *q2)
 {
 	t_qion	q;
 
@@ -72,18 +72,61 @@ t_qion	qion_product(t_qion *q1, t_qion *q2)
 /**
  * @brief Crée un quaternion de rotation
  * 
- * @param n normal utilisé pour la rotation
- * @param a angle de rotation en degré
  * @return t_qion 
  */
-t_qion	qion_rotation(t_v3f n, float a)
+t_qion	qion_euler_rotation(float x, float y, float z)
 {
-	t_qion	q;
+    float c1 = cos(y/2);
+    float c2 = cos(z/2);
+    float c3 = cos(x/2);
 
-	q = qion_create(&n);
-	q.w = cosf(a * TO_RADIAN / 2);
-	q.x *= sinf(a * TO_RADIAN / 2);
-	q.y *= sinf(a * TO_RADIAN / 2);
-	q.z *= sinf(a * TO_RADIAN / 2);
-	return (q);
+    float s1 = sin(y/2);
+    float s2 = sin(z/2);
+    float s3 = sin(x/2);
+    t_qion q;
+    q.w = c1 * c2 * c3 + s1 * s2 * s3;
+    q.x = c1 * c2 * s3 - s1 * s2 * c3;
+    q.y = s1 * c2 * c3 + c1 * s2 * s3;
+    q.z = c1 * s2 * c3 - s1 * c2 * s3;
+    return q;
+}
+
+/**
+ * @brief effectue une rotation a l'aide des quaternion
+ * 
+ * @param a 
+ * @param rot 
+ * @return t_qion 
+ */
+t_qion	qion_rotation(const t_qion *q, const t_qion *rot)
+{
+	t_qion	ret;
+
+	ret = qion_product(q, rot);
+	ret.w = 1 - ret.w;
+	qion_normalize(&ret);
+	return (ret);
+}
+
+float	qion_norm(const t_qion *q)
+{
+	float norm = q->w * q->w + q->x * q->x + q->y * q->y + q->z * q->z;
+	return sqrt(norm);
+}
+
+/**
+ * @brief Retourne un vecteur à partir du point (0,0,0) d'une valeur de 1
+ *  exemple, avec le vecteur (2,0,0) on obtiendra (1,0,0)
+ *
+ * @param v
+ */
+void	qion_normalize(t_qion *q)
+{
+	float	n;
+
+	n = qion_norm(q);
+	q->w /= n;
+	q->x /= n;
+	q->y /= n;
+	q->z /= n;
 }

@@ -77,15 +77,13 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.origin.y = scene->cam.pos.y;
 	r.origin.z = scene->cam.pos.z;
 
-	t_qion q;
-	q = qion_rotation(app->scene.cam.orien, app->scene.cam.degree_orien);
 
 	r.direction.x = -1.0 + (2 * ((float)x / (float)scene->w));
 	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w)) + ((float)(scene->w - scene->h) / (float)scene->w);
 	r.direction.z = -1.0;
 	r.direction.w = 0.0;
 
-	r.direction = qion_product(&q, &r.direction);
+	//r.direction = qion_product(&q, &r.direction);
 
 	//v3f_normalize(&r.direction);
 	v3f_plus_equal(&r.direction, &scene->cam.orien);

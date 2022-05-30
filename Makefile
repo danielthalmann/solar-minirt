@@ -18,6 +18,7 @@ OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 TESTS=	$(TEST_PATH)/main.c \
 		$(TEST_PATH)/error.c \
 		$(TEST_PATH)/parser.c \
+		$(TEST_PATH)/quaternion.c \
 		$(SRC_PATH)/parsing/parse.c \
 		$(SRC_PATH)/parsing/parse_ambient.c \
 		$(SRC_PATH)/parsing/parse_light.c \
@@ -98,7 +99,7 @@ $(NAME): $(OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB)
 
 clean:
 	$(MAKE) -C $(GL_LIB_PATH) clean
-	@#$(MAKE) -C $(MLX_LIB_PATH) clean
+	#@$(MAKE) -C $(MLX_LIB_PATH) clean
 	$(MAKE) -C $(LIBFT_PATH) clean
 	rm -f $(OBJS)
 
@@ -113,7 +114,7 @@ run: $(NAME)
 	./$(NAME) scenes/basic.rt
 
 test: CFLAGS += -g
-test: $(TEST_OBJS) compile
+test: $(TEST_OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB)
 	$(CC) $(TEST_OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB) $(LDFLAGS) -o test
 
 norm: norminette

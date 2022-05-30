@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/30 08:54:56 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 11:08:12 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,27 @@ int	on_close(void)
 	exit(0);
 }
 
-static const t_shape	*get_closest_shape(const t_shape *shape, const t_ray *input_ray, t_ray *normal)
+static const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray, t_ray *normal)
 {
 	const t_shape	*closest;
 	float	closest_dist;
 	float	dist;
+	t_v3f	inter;
 
 	closest = NULL;
-	while (shape)
+	while (s)
 	{
-		if (shape->intersect(input_ray, &shape->shape, &normal->origin))
+		if (s->intersect(input_ray, &s->shape, &inter))
 		{
-			dist = v3f_dist(&input_ray->origin, &normal->origin);
+			dist = v3f_dist(&input_ray->origin, &inter);
 			if (!closest || dist < closest_dist)
 			{
-				closest = shape;
+				closest = s;
+				v3f_copy(&normal->origin, &inter);
 				closest_dist = dist;
 			}
 		}
-		shape = shape->next;
+		s = s->next;
 	}
 	if (closest)
 		closest->normal_ray(normal, &closest->shape);

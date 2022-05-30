@@ -35,6 +35,9 @@ typedef struct s_app
 	t_scene			scene;
 }	t_app;
 
+void	free_app(t_app *app);
+int		on_close(void *app);
+
 void	around(t_scene *scene, int x, int y, void *data);
 
 int		parse(t_scene *scene, char *filename);

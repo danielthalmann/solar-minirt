@@ -19,8 +19,12 @@
 #include "parsing/parse.h"
 #include <unistd.h>
 
-int	on_close(void)
+int	on_close(void *param)
 {
+	t_app	*app;
+
+	app = (t_app *)param;
+	free_app(app);
 	exit(0);
 }
 

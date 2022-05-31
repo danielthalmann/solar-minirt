@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 15:16:05 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/31 08:56:18 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,4 +298,24 @@ t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2)
 	v.z = 0;
 	angle.z = TO_DEGRE * acosf( v3f_scalar_product( &u, &v ) );
 	return (angle);
+}
+
+float	v3f_horizontal(const t_v3f *v)
+{
+	t_v3f	u;
+
+	v3f_copy(&u, v);
+	u.y = 0;
+	v3f_normalize(&u);
+	return atanf(u.x / u.z);
+}
+
+float	v3f_vertical(const t_v3f *v)
+{
+	t_v3f	u;
+
+	v3f_copy(&u, v);
+	u.x = 0;
+	v3f_normalize(&u);
+	return atanf(u.z / u.y);
 }

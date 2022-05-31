@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2022/05/30 08:10:43 by trossel          ###   ########.fr       */
 =======
 /*   Updated: 2022/05/27 17:12:39 by dthalman         ###   ########.fr       */
 >>>>>>> add quaternion
+=======
+/*   Updated: 2022/05/31 08:56:25 by dthalman         ###   ########.fr       */
+>>>>>>> quaternion is the base
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +100,8 @@ float	v3f_abs(t_v3f *v);
 void	v3f_print(t_v3f *vector);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
 t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
+float	v3f_horizontal(const t_v3f *v);
+float	v3f_vertical(const t_v3f *v);
 
 t_qion	qion_create(const t_qion *copy);
 void	qion_copy(t_qion *to, const t_qion *copy);

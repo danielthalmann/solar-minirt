@@ -6,7 +6,11 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/05/30 11:08:12 by trossel          ###   ########.fr       */
+=======
+/*   Updated: 2022/05/31 09:08:02 by dthalman         ###   ########.fr       */
+>>>>>>> quaternion is the base
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +129,9 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.origin.y = scene->cam.pos.y;
 	r.origin.z = scene->cam.pos.z;
 
+	float angle_v = v3f_horizontal(&scene->cam.orien);
+	float angle_h = v3f_vertical(&scene->cam.orien);
+	t_qion qr = qion_euler_rotation(angle_h, 0, angle_v);
 
 	r.direction.x = -1.0 + (2 * ((float)x / (float)scene->w));
 <<<<<<< HEAD
@@ -132,12 +139,15 @@ void around(t_scene *scene, int x, int y, void *data)
 	r.direction.z = 1.0;
 =======
 	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w)) + ((float)(scene->w - scene->h) / (float)scene->w);
-	r.direction.z = -1.0;
+	r.direction.z = 1.0;
 	r.direction.w = 0.0;
 
-	//r.direction = qion_product(&q, &r.direction);
+	qion_rotation(&r.direction, &qr);
+	
+	// r.direction = qion_product(&q, &r.direction);
 
-	//v3f_normalize(&r.direction);
+	v3f_normalize(&r.direction);
+
 	v3f_plus_equal(&r.direction, &scene->cam.orien);
 >>>>>>> test camera
 	v3f_normalize(&r.direction);

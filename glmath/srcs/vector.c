@@ -6,11 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/05/25 23:29:58 by trossel          ###   ########.fr       */
-=======
-/*   Updated: 2022/05/31 08:56:18 by dthalman         ###   ########.fr       */
->>>>>>> quaternion is the base
+/*   Updated: 2022/06/01 11:14:40 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,20 +302,10 @@ t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2)
 
 float	v3f_horizontal(const t_v3f *v)
 {
-	t_v3f	u;
-
-	v3f_copy(&u, v);
-	u.y = 0;
-	v3f_normalize(&u);
-	return atanf(u.x / u.z);
+	return atan2f(v->z, v->x);
 }
 
 float	v3f_vertical(const t_v3f *v)
 {
-	t_v3f	u;
-
-	v3f_copy(&u, v);
-	u.x = 0;
-	v3f_normalize(&u);
-	return atanf(u.z / u.y);
+	return atan2f(v->y, v->z);
 }

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 17:30:00 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/01 19:01:15 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,17 @@ void around(t_scene *scene, int x, int y, void *data)
 
 	v3f_normalize(&r.direction);
 	r.direction = qion_rotation(&r.direction, &qr);
+
+	if(x == 0 && y == 0)
+	{
+		printf("\x1b[35m");
+		v3f_print(&qr);
+		printf("\x1b[36m");
+		v3f_print(&scene->cam.orien);
+		printf("\x1b[33m");
+		v3f_print(&r.direction);
+		printf("\x1b[0m" "\n");
+	}
 
 	// r.direction = qion_product(&q, &r.direction);
 	// v3f_normalize(&r.direction);

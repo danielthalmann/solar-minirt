@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 11:57:15 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/01 14:05:12 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,14 +156,17 @@ void around(t_scene *scene, int x, int y, void *data)
 int	loop(void *param)
 {
 	t_app	*app;
+	static float angle = 0;
 
 	app = (t_app *)param;
 	if (!app)
 		return (1);
-	app->scene.lights->origin.x -= 1.0f;
-	if (app->scene.lights->origin.x <= -10.0f)
-		app->scene.lights->origin.x = 10.0f;
-
+	angle += 0.1f;
+	app->scene.cam.pos.x = 15.0f * cosf(angle);
+	app->scene.cam.pos.z = 15.0f * sinf(angle);
+	app->scene.cam.pos.y = 0.0f;
+	app->scene.cam.orien = v3f_dot_scalar(&app->scene.cam.pos, -1);
+	v3f_normalize(&app->scene.cam.orien);
 	app->on_change = 1;
 	if (app->on_change)
 	{

@@ -6,11 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/05/30 11:08:12 by trossel          ###   ########.fr       */
-=======
-/*   Updated: 2022/05/31 09:08:02 by dthalman         ###   ########.fr       */
->>>>>>> quaternion is the base
+/*   Updated: 2022/06/01 11:51:02 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +97,7 @@ t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray, 
 	float	k_s;
 
 	alpha = 50.0f;
-	k_s = 5.0f;
+	k_s = 1.0f;
 	(void)shape;
 	c = color_create_int(0);
 	light_vec = normal_ray->origin;
@@ -123,34 +119,28 @@ void around(t_scene *scene, int x, int y, void *data)
 	t_color	c;
 	t_ray	r;
 	const t_shape	*shape;
-	t_ray normal_ray;
+	t_ray	normal_ray;
+	float	fov_ratio;
+	float	half_fov;
 
 	r.origin.x = scene->cam.pos.x;
 	r.origin.y = scene->cam.pos.y;
 	r.origin.z = scene->cam.pos.z;
 
-	float angle_v = v3f_horizontal(&scene->cam.orien);
-	float angle_h = v3f_vertical(&scene->cam.orien);
-	t_qion qr = qion_euler_rotation(angle_h, 0, angle_v);
+	r.direction.x = scene->cam.orien.x;
+	r.direction.y = scene->cam.orien.y;
+	r.direction.z = scene->cam.orien.z;
 
-	r.direction.x = -1.0 + (2 * ((float)x / (float)scene->w));
-<<<<<<< HEAD
-	r.direction.y = 1.0 - (2 * ((float)y / (float)scene->w)) - ((float)(scene->w - scene->h) / (float)scene->w);
-	r.direction.z = 1.0;
-=======
-	r.direction.y = -1.0 + (2 * ((float)y / (float)scene->w)) + ((float)(scene->w - scene->h) / (float)scene->w);
-	r.direction.z = 1.0;
-	r.direction.w = 0.0;
+	fov_ratio = scene->cam.fov / (float)scene->w;
+	half_fov = scene->cam.fov / 2;
+	t_qion qr = qion_euler_rotation(-half_fov + ((y + ((scene->w - scene->h) / 2)) * fov_ratio), -half_fov + (x * fov_ratio), 0);
 
-	qion_rotation(&r.direction, &qr);
-	
+	v3f_normalize(&r.direction);
+	r.direction = qion_rotation(&r.direction, &qr);
+
 	// r.direction = qion_product(&q, &r.direction);
-
-	v3f_normalize(&r.direction);
-
-	v3f_plus_equal(&r.direction, &scene->cam.orien);
->>>>>>> test camera
-	v3f_normalize(&r.direction);
+	// v3f_normalize(&r.direction);
+	// v3f_plus_equal(&r.direction, &scene->cam.orien);
 
 	c = color_create_int(0);
 	shape = get_closest_shape(scene->shapes, &r, &normal_ray);
@@ -217,9 +207,9 @@ int	main(int argc, char **argv)
 	app.on_change = 1;
 	app.rotate_camera = 0;
 
-	float ratio = 16.0 / 9.0;
+	app.scene.ratio = 16.0 / 9.0;
 	app.scene.h = 480;
-	app.scene.w = app.scene.h * ratio;
+	app.scene.w = app.scene.h * app.scene.ratio;
 	app.scene.shapes = NULL;
 	app.scene.lights = NULL;
 	if (argc < 2)
@@ -227,7 +217,6 @@ int	main(int argc, char **argv)
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);
-<<<<<<< HEAD
 	if (init_mlx(&app))
 		return (1);
 	if (argc == 3 && !ft_strcmp(argv[2], "-e"))
@@ -237,39 +226,5 @@ int	main(int argc, char **argv)
 	}
 	else
 		mlx_loop(app.mlx_ptr);
-=======
-	// return (0);					// <-	PROTIP: REMOVE THIS LINE TO SEGFAULT
-									//		due to missing *func for objects
-									//		plane and cylinder
-
-	t_v3f o;
-	o.x = 0.0;
-	o.y = 0.0;
-	o.z = 1.0;
-	o.w = 0.0;
-	app.scene.cam.degree_orien = TO_DEGRE * acosf( v3f_scalar_product( &o, &app.scene.cam.orien ) );
-	v3f_normalize(&o);
-	
-	t_v3f angles = v3f_vtoangle(&app.scene.cam.orien, &o);
-	v3f_print(&o);
-	printf("\n");
-	v3f_print(&app.scene.cam.orien);
-	printf("\n");
-	v3f_print(&angles);
-	printf("\n");
-
-
-	app.mlx_ptr = mlx_init();
-	if (!app.mlx_ptr)
-		return (0);
-	app.win_ptr = mlx_new_window(app.mlx_ptr, app.scene.w, app.scene.h, "minirt");
-	mlx_hook(app.win_ptr, MLX_EVT_DESTROY, 0L, &on_close, &app);
-	mlx_hook(app.win_ptr, MLX_EVT_KEYUP, 2L, &key_up, &app);
-	mlx_loop_hook(app.mlx_ptr, &loop, &app);
-
-
-	mlx_loop(app.mlx_ptr);
-
->>>>>>> add quaternion
 	return (0);
 }

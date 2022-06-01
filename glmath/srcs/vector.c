@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 11:14:40 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/01 11:57:11 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,5 +307,12 @@ float	v3f_horizontal(const t_v3f *v)
 
 float	v3f_vertical(const t_v3f *v)
 {
+<<<<<<< HEAD
 	return atan2f(v->y, v->z);
-}
+=======
+	t_v3f	u;
+
+	v3f_copy(&u, v);
+	u.x = 0;
+	v3f_normalize(&u);
+	return atanf(u.z / u.y);

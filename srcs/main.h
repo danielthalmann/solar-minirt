@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 10:32:21 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/01 14:15:08 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_app
 	void			*win_ptr;
 	void			*img_ptr;
 	int				on_change;
+	int				on_rotate;
 	int				rotate_camera;
 	unsigned int	*pix_ptr;
 	t_scene			scene;

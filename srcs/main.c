@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 14:05:12 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/01 17:30:00 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,17 @@ int	loop(void *param)
 	app = (t_app *)param;
 	if (!app)
 		return (1);
-	angle += 0.1f;
+	if (app->rotate_camera)
+		angle += 0.1f;
 	app->scene.cam.pos.x = 15.0f * cosf(angle);
 	app->scene.cam.pos.z = 15.0f * sinf(angle);
 	app->scene.cam.pos.y = 0.0f;
 	app->scene.cam.orien = v3f_dot_scalar(&app->scene.cam.pos, -1);
 	v3f_normalize(&app->scene.cam.orien);
 	app->on_change = 1;
+	
+	v3f_print(&app->scene.cam.orien);
+	printf("\n");
 	if (app->on_change)
 	{
 		mlx_clear_window(app->mlx_ptr, app->win_ptr);
@@ -198,8 +202,8 @@ static int init_mlx(t_app *app)
 	app->pix_ptr = (unsigned int *)mlx_get_data_addr(app->img_ptr, &bpp, &size_line, &endian);
 	if (!app->pix_ptr)
 		return (4);
-	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, &app);
-	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, &app);
+	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, app);
+	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, app);
 	mlx_loop_hook(app->mlx_ptr, &loop, app);
 	return (0);
 }
@@ -208,7 +212,7 @@ int	main(int argc, char **argv)
 {
 	t_app	app;
 	app.on_change = 1;
-	app.rotate_camera = 0;
+	app.rotate_camera = 1;
 
 	app.scene.ratio = 16.0 / 9.0;
 	app.scene.h = 480;

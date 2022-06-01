@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 23:55:37 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/31 08:57:03 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/01 18:04:08 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	quaternionTest(void)
 {
 	t_qion q;
 	t_v3f v;
+	t_v3f v2;
 	t_v3f euler;
 	float angle;
 	//t_v3f conj;
-
 
 	v.x = 1.0;
 	v.y = 3.0;
@@ -74,7 +74,29 @@ int	quaternionTest(void)
 	printf(" %f \n", angle);
 	printf(ANSI_COLOR_RESET "\n");
 
+	v3f_clear(&v2);
+	v2.x = 1.0;
+	v2.z = 0.5;
 
+	for (float i = 0; i > -M_PI; i-=0.1)
+	{
+		t_qion qr = qion_euler_rotation(0, i, 0);	
+		v = qion_rotation(&v2, &qr);
+		
+		printf(ANSI_COLOR_RED);
+		v3f_print(&v);
+		printf(ANSI_COLOR_RESET "\n");	
+	}
+
+	for (float i = 0; i < M_PI; i+=0.1)
+	{
+		t_qion qr = qion_euler_rotation(0, i, 0);	
+		v = qion_rotation(&v2, &qr);
+		
+		printf(ANSI_COLOR_RED);
+		v3f_print(&v);
+		printf(ANSI_COLOR_RESET "\n");	
+	}
 
 	return (0);
 }

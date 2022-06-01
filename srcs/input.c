@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/20 10:11:07 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/01 14:45:30 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ int	key_up(int keycode, void *param)
 	app = (t_app *)param;
 	if (keycode == KEY_ESC)
 		exit(0);
-	if (keycode == KEY_C)
+	if (keycode == KEY_1)
 		app->rotate_camera = !app->rotate_camera;
-	(void)keycode;
 	app->on_change = 1;
 	return (0);
 }

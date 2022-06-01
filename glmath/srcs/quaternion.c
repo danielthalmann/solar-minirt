@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 15:43:40 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 16:05:41 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/01 20:58:03 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ t_qion	qion_rotation(const t_qion *q, const t_qion *rot)
 {
 	t_qion	ret;
 	t_qion	inv;
+	t_qion	norm;
 
+	qion_copy(&norm, q);
+	qion_normalize(&norm);
 	inv = qion_inverse(rot);
 	ret = qion_product(rot, q);
 	ret = qion_product(&ret, &inv);

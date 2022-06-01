@@ -6,15 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2022/05/30 08:10:43 by trossel          ###   ########.fr       */
-=======
-/*   Updated: 2022/05/27 17:12:39 by dthalman         ###   ########.fr       */
->>>>>>> add quaternion
-=======
-/*   Updated: 2022/05/31 08:56:25 by dthalman         ###   ########.fr       */
->>>>>>> quaternion is the base
+/*   Updated: 2022/06/01 11:15:57 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +168,7 @@ typedef struct s_scene
 {
 	int			w;
 	int			h;
+	float		ratio;
 	t_color		ambient;
 	float		ambient_intensity;
 	t_shape		*shapes;

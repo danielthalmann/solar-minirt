@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 23:55:37 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 18:04:08 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/01 19:31:07 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,38 @@ int	quaternionTest(void)
 	printf(ANSI_COLOR_RESET "\n");
 
 	v3f_clear(&v2);
-	v2.x = 1.0;
-	v2.z = 0.5;
 
-	for (float i = 0; i > -M_PI; i-=0.1)
+	t_qion qr ;	
+	qr.w = 0.939607;
+	qr.x = -0.163449;
+	qr.y = -0.296257;
+	qr.z = -0.05153;
+
+	qion_normalize(&qr);
+		
+	for (float i = 0; i >= -(2 * MATH_PI); i-=0.1)
 	{
-		t_qion qr = qion_euler_rotation(0, i, 0);	
+		v2.x = 10.0 * cosf(i);
+		v2.z = 10.0 * sinf(i);
+
 		v = qion_rotation(&v2, &qr);
 		
-		printf(ANSI_COLOR_RED);
+		printf(ANSI_COLOR_MAGENTA);
+		v3f_print(&v2);
+		printf(ANSI_COLOR_GREEN);
 		v3f_print(&v);
 		printf(ANSI_COLOR_RESET "\n");	
 	}
-
+/*
 	for (float i = 0; i < M_PI; i+=0.1)
 	{
 		t_qion qr = qion_euler_rotation(0, i, 0);	
 		v = qion_rotation(&v2, &qr);
 		
-		printf(ANSI_COLOR_RED);
+		printf(ANSI_COLOR_GREEN);
 		v3f_print(&v);
 		printf(ANSI_COLOR_RESET "\n");	
 	}
-
+*/
 	return (0);
 }

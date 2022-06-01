@@ -6,11 +6,13 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 21:35:39 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/30 08:14:58 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/01 13:17:52 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
+
+#define TILE_SIZE 0.25f
 
 int	plane_intersect(const t_ray *ray, const t_plane *plane, t_point3f *intersec)
 {
@@ -56,9 +58,9 @@ float	plane_color_mask(const t_ray *normale, const t_plane *plane)
 		io.y = +0.0f;
 	if (absf(io.z) < 1e-6)
 		io.z = +0.0f;
-	v[0] = ((abs((int)floorf(io.x)) % 2) * 2) - 1;
-	v[1] = ((abs((int)floorf(io.y)) % 2) * 2) - 1;
-	v[2] = ((abs((int)floorf(io.z)) % 2) * 2) - 1;
+	v[0] = ((abs((int)floorf(io.x / TILE_SIZE)) % 2) * 2) - 1;
+	v[1] = ((abs((int)floorf(io.y / TILE_SIZE)) % 2) * 2) - 1;
+	v[2] = ((abs((int)floorf(io.z / TILE_SIZE)) % 2) * 2) - 1;
 	if (v[0] * v[1] * v[2] > 0)
 		return (0.5f);
 	else

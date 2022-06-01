@@ -123,22 +123,26 @@ void around(t_scene *scene, int x, int y, void *data)
 	float	fov_ratio;
 	float	half_fov;
 
-	r.origin.x = scene->cam.pos.x;
-	r.origin.y = scene->cam.pos.y;
-	r.origin.z = scene->cam.pos.z;
+	v3f_copy(&r.origin, &scene->cam.pos);
 
-	r.direction.x = scene->cam.orien.x;
-	r.direction.y = scene->cam.orien.y;
-	r.direction.z = scene->cam.orien.z;
+	// r.origin.x = scene->cam.pos.x;
+	// r.origin.y = scene->cam.pos.y;
+	// r.origin.z = scene->cam.pos.z;
+
+	v3f_copy(&r.direction, &scene->cam.orien);
+
+	// r.direction.x = scene->cam.orien.x;
+	// r.direction.y = scene->cam.orien.y;
+	// r.direction.z = scene->cam.orien.z;
 
 	fov_ratio = scene->cam.fov / (float)scene->w;
 	half_fov = scene->cam.fov / 2;
-	t_qion qr = qion_euler_rotation(-half_fov + ((y + ((scene->w - scene->h) / 2)) * fov_ratio), -half_fov + (x * fov_ratio), 0);
+	t_qion qr = qion_euler_rotation(-half_fov + ((y + ((scene->w - scene->h) / 2)) * fov_ratio), -half_fov + (x * fov_ratio), .01);
 
 	v3f_normalize(&r.direction);
 	r.direction = qion_rotation(&r.direction, &qr);
 
-	if(x == 0 && y == 0)
+	if(x == app->scene.w / 2 && y == app->scene.h / 2)
 	{
 		printf("\x1b[35m");
 		v3f_print(&qr);

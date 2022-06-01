@@ -82,6 +82,11 @@ int	quaternionTest(void)
 	qr.y = -0.296257;
 	qr.z = -0.05153;
 
+	qr.w = 0.939607;
+	qr.x = -0.0;
+	qr.y = -0.296257;
+	qr.z = -0.05153;
+
 	qion_normalize(&qr);
 		
 	for (float i = 0; i >= -(2 * MATH_PI); i-=0.1)

@@ -76,13 +76,13 @@ t_qion	qion_product(const t_qion *q1, const t_qion *q2)
  */
 t_qion	qion_euler_rotation(float x, float y, float z)
 {
-    float c1 = cos(y/2);
-    float c2 = cos(z/2);
-    float c3 = cos(x/2);
+    float c1 = cosf(y/2);
+    float c2 = cosf(z/2);
+    float c3 = cosf(x/2);
 
-    float s1 = sin(y/2);
-    float s2 = sin(z/2);
-    float s3 = sin(x/2);
+    float s1 = sinf(y/2);
+    float s2 = sinf(z/2);
+    float s3 = sinf(x/2);
     t_qion q;
     q.w = c1 * c2 * c3 + s1 * s2 * s3;
     q.x = c1 * c2 * s3 - s1 * s2 * c3;
@@ -98,18 +98,42 @@ t_qion	qion_euler_rotation(float x, float y, float z)
  * @param rot 
  * @return t_qion 
  */
-t_qion	qion_rotation(const t_qion *q, const t_qion *rot)
+t_qion	qion_rotation2(const t_qion *q, const t_qion *rot)
 {
 	t_qion	ret;
 	t_qion	inv;
 	t_qion	norm;
 
-	qion_copy(&norm, q);
+	qion_copy(&norm, rot);
 	qion_normalize(&norm);
-	inv = qion_inverse(rot);
+	inv = qion_inverse(&norm);
 	ret = qion_product(rot, q);
 	ret = qion_product(&ret, &inv);
 	return (ret);
+}
+
+t_qion	qion_rotation(const t_qion *point, const t_qion *rotation)
+{
+	float x = rotation->x * 2.0f;
+	float y = rotation->y * 2.0f;
+	float z = rotation->z * 2.0f;
+	float xx = rotation->x * x;
+	float yy = rotation->y * y;
+	float zz = rotation->z * z;
+	float xy = rotation->x * y;
+	float xz = rotation->x * z;
+	float yz = rotation->y * z;
+	float wx = rotation->w * x;
+	float wy = rotation->w * y;
+	float wz = rotation->w * z;
+
+	t_qion res;
+	res.w = 0.0f;
+	res.x = (1.0f - (yy + zz)) * point->x + (xy - wz) * point->y + (xz + wy) * point->z;
+	res.y = (xy + wz) * point->x + (1.0f - (xx + zz)) * point->y + (yz - wx) * point->z;
+	res.z = (xz - wy) * point->x + (yz + wx) * point->y + (1.0f - (xx + yy)) * point->z;
+	
+	return res;
 }
 
 t_qion	qion_inverse(const t_qion *q)

@@ -1,5 +1,5 @@
-#ifndef COLORS_HPP
-#define COLORS_HPP
+#ifndef COLORS_H
+#define COLORS_H
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"

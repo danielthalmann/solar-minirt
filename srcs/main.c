@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/03 11:47:14 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/01 19:01:15 by dthalman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,25 @@ t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray, 
 	return (c);
 }
 
-void around(t_scene *scene, int x, int y, void *data)
+t_ray	init_ray(t_scene *s, int x, int y)
+{
+	t_ray	r;
+	float	scale;
+
+	scale = tan(s->cam.fov / 2);
+	v3f_copy(&r.origin, &s->cam.pos);
+
+	r.direction.x = (2.0f * ((float)x + 0.5f) / (float)s->w - 1.0f) * s->ratio * scale;
+	r.direction.y = (1.0f - 2.0f * ((float)y + 0.5f) / (float)s->h - 1.0f) * scale;
+	r.direction.z = 1.0f;
+	r.direction.w = 0.0f;
+
+	r.direction = cam2world(&s->cam, r.direction);
+	v3f_normalize(&r.direction);
+	return (r);
+}
+
+void	around(t_scene *scene, int x, int y, void *data)
 {
 	t_app	*app;
 	app = (t_app *)data;
@@ -124,27 +142,8 @@ void around(t_scene *scene, int x, int y, void *data)
 	t_ray	r;
 	const t_shape	*shape;
 	t_ray	normal_ray;
-	float	fov_ratio;
-	float	half_fov;
 
-	v3f_copy(&r.origin, &scene->cam.pos);
-
-	// r.origin.x = scene->cam.pos.x;
-	// r.origin.y = scene->cam.pos.y;
-	// r.origin.z = scene->cam.pos.z;
-
-	v3f_copy(&r.direction, &scene->cam.orien);
-
-	// r.direction.x = scene->cam.orien.x;
-	// r.direction.y = scene->cam.orien.y;
-	// r.direction.z = scene->cam.orien.z;
-
-	fov_ratio = scene->cam.fov / (float)scene->w;
-	half_fov = scene->cam.fov / 2;
-	t_qion qr = qion_euler_rotation(-half_fov + ((y + ((scene->w - scene->h) / 2)) * fov_ratio), -half_fov + (x * fov_ratio), .01);
-
-	v3f_normalize(&r.direction);
-	r.direction = qion_rotation(&r.direction, &qr);
+	r = init_ray(scene, x, y);
 
 	if(x == app->scene.w / 2 && y == app->scene.h / 2)
 	{
@@ -156,10 +155,6 @@ void around(t_scene *scene, int x, int y, void *data)
 		v3f_print(&r.direction);
 		printf("\x1b[0m" "\n");
 	}
-
-	// r.direction = qion_product(&q, &r.direction);
-	// v3f_normalize(&r.direction);
-	// v3f_plus_equal(&r.direction, &scene->cam.orien);
 
 	c = color_create_int(0);
 	shape = get_closest_shape(scene->shapes, &r, &normal_ray);
@@ -182,15 +177,11 @@ int	loop(void *param)
 		return (1);
 	if (app->rotate_camera)
 		angle += 0.1f;
-	app->scene.cam.pos.x = 15.0f * cosf(angle);
-	app->scene.cam.pos.z = 15.0f * sinf(angle);
-	app->scene.cam.pos.y = 0.0f;
-	app->scene.cam.orien = v3f_dot_scalar(&app->scene.cam.pos, -1);
+	v3f_set(&app->scene.cam.pos, 10.0f * cosf(angle), 0.0f, 10.0f * sinf(angle));
+	camera_update_orien(&app->scene.cam, v3f_dot_scalar(&app->scene.cam.pos, -1));
 	v3f_normalize(&app->scene.cam.orien);
 	app->on_change = 1;
 
-	v3f_print(&app->scene.cam.orien);
-	printf("\n");
 	if (app->on_change)
 	{
 		mlx_clear_window(app->mlx_ptr, app->win_ptr);

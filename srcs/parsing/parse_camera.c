@@ -6,13 +6,15 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 16:51:07 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:38:37 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/03 10:42:03 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
 #include "parse.h"
 #include "ft_scanf.h"
+
+#include <math.h>
 
 #define N_ELEMENTS 7
 
@@ -49,8 +51,8 @@ int	parse_camera(t_scene *s, char *str)
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f", &s->cam.pos.x,
 			&s->cam.pos.y, &s->cam.pos.z, &s->cam.orien.x, &s->cam.orien.y,
 			&s->cam.orien.z, &s->cam.fov);
-	v3f_normalize(&s->cam.orien);
 	err = check_error(s, n_parsed);
-	s->cam.fov *= M_PI / 180.0f;
+	s->cam.fov *= TO_RADIAN;
+	camera_update_orien(&s->cam, s->cam.orien);
 	return (err);
 }

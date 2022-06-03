@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 19:01:15 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/03 15:02:27 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_ray	init_ray(t_scene *s, int x, int y)
 	v3f_copy(&r.origin, &s->cam.pos);
 
 	r.direction.x = (2.0f * ((float)x + 0.5f) / (float)s->w - 1.0f) * s->ratio * scale;
-	r.direction.y = (1.0f - 2.0f * ((float)y + 0.5f) / (float)s->h - 1.0f) * scale;
+	r.direction.y = - (2.0f * ((float)y + 0.5f) / (float)s->h - 1.0f) * scale;
 	r.direction.z = 1.0f;
 	r.direction.w = 0.0f;
 
@@ -141,16 +141,13 @@ void	around(t_scene *scene, int x, int y, void *data)
 
 	r = init_ray(scene, x, y);
 
-	if(x == app->scene.w / 2 && y == app->scene.h / 2)
-	{
-		printf("\x1b[35m");
-		v3f_print(&qr);
-		printf("\x1b[36m");
-		v3f_print(&scene->cam.orien);
-		printf("\x1b[33m");
-		v3f_print(&r.direction);
-		printf("\x1b[0m" "\n");
-	}
+	// if((x == 0 || x == scene->w -1 || x == app->scene.w / 2 )
+	// 	&& (/* y == 0 || y == scene->h - 1 ||  */y == scene->h / 2))
+	// {
+	// 	printf("\x1b[33m" "\nray (%3d, %3d) : ", x, y);
+	// 	v3f_print(&r.direction);
+	// 	printf("\x1b[0m" "");
+	// }
 
 	c = color_create_int(0);
 	shape = get_closest_shape(scene->shapes, &r, &normal_ray);

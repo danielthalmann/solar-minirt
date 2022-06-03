@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 15:16:05 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/01 13:21:31 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param copy
  * @return t_v3f*
  */
-t_v3f	*v3f_create(t_v3f *copy)
+t_v3f	*v3f_create(const t_v3f *copy)
 {
 	t_v3f	*v;
 
@@ -28,6 +28,22 @@ t_v3f	*v3f_create(t_v3f *copy)
 	else
 		v3f_clear(v);
 	return (v);
+}
+
+/**
+ * @brief Défini les valeurs contenu dans le vecteur
+ * 
+ * @param vector 
+ * @param x 
+ * @param y 
+ * @param z 
+ */
+void	v3f_set(t_v3f *vector, float x, float y, float z)
+{
+	vector->x = x;
+	vector->y = y;
+	vector->z = z;
+	vector->w = 0.0;
 }
 
 /**
@@ -221,7 +237,7 @@ void	v3f_clear(t_v3f *vector)
  * @param to
  * @param copy
  */
-void	v3f_copy(t_v3f *to, t_v3f *copy)
+void	v3f_copy(t_v3f *to, const t_v3f *copy)
 {
 	to->w = copy->w;
 	to->x = copy->x;
@@ -265,5 +281,59 @@ float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
  */
 void	v3f_print(t_v3f *v)
 {
-	printf("(%f, %f, %f, %f)", v->x, v->y, v->z, v->w);
+	printf("(%f, %f, %f, %f)", v->w, v->x, v->y, v->z);
+}
+
+/**
+ * @brief retourne un vecteur contenant les angles entre deux
+ * vecteur en radian
+ *
+ * @param v1
+ * @param v2
+ * @return t_v3f
+ */
+t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2)
+{
+	t_v3f	angle;
+	t_v3f	u;
+	t_v3f	v;
+
+	v3f_copy(&u, v1);
+	v3f_copy(&v, v2);
+	u.x = 0;
+	v.x = 0;
+	angle.x = TO_DEGRE * acosf(v3f_scalar_product(&u, &v));
+	v3f_copy(&u, v1);
+	v3f_copy(&v, v2);
+	u.y = 0;
+	v.y = 0;
+	angle.y = TO_DEGRE * acosf(v3f_scalar_product(&u, &v));
+	v3f_copy(&u, v1);
+	v3f_copy(&v, v2);
+	u.z = 0;
+	v.z = 0;
+	angle.z = TO_DEGRE * acosf(v3f_scalar_product(&u, &v));
+	return (angle);
+}
+
+/**
+ * @brief retourne l'angle horizontal du plan
+ * 
+ * @param v 
+ * @return float 
+ */
+float	v3f_horizontal(const t_v3f *v)
+{
+	return (atan2f(v->z, v->x));
+}
+
+/**
+ * @brief retourne l'angle vertical du plan
+ * 
+ * @param v 
+ * @return float 
+ */
+float	v3f_vertical(const t_v3f *v)
+{
+	return (atan2f(v->y, v->z));
 }

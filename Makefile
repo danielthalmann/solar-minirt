@@ -3,6 +3,7 @@ NAME=minirt
 SRCS=	main.c \
 		error.c \
 		input.c \
+		export_ppm.c \
 		print_scene.c \
 		parsing/parse.c \
 		parsing/parse_ambient.c \
@@ -18,6 +19,8 @@ OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 TESTS=	$(TEST_PATH)/main.c \
 		$(TEST_PATH)/error.c \
 		$(TEST_PATH)/parser.c \
+		$(TEST_PATH)/parser2.c \
+		$(TEST_PATH)/quaternion.c \
 		$(SRC_PATH)/parsing/parse.c \
 		$(SRC_PATH)/parsing/parse_ambient.c \
 		$(SRC_PATH)/parsing/parse_light.c \
@@ -37,7 +40,7 @@ CFLAGS=-Wall -Werror -Wextra \
 	   -I $(GL_INCLUDE) \
 	   -I $(MLX_INCLUDE) \
 	   -I ./include \
-	   #-g -fsanitize=address -fno-omit-frame-pointer
+	   # -g -fsanitize=address -fno-omit-frame-pointer
 
 GL_LIB_PATH	 =./glmath/
 GL_LIB		 = $(GL_LIB_PATH)/lib/libglmath.a
@@ -56,7 +59,9 @@ UNAME_S := $(shell uname -s)
 
 # pour linux
 ifeq ($(UNAME_S),Linux)
-	LDFLAGS = -lm -lz -lXext -lX11
+	LDFLAGS = -lm -lz -lXext -lX11 \
+			  # -g -fsanitize=address -fno-omit-frame-pointer
+
 	MLX_LIB_PATH = ./minilibx_linux/
 	MLX_LIB		 = $(MLX_LIB_PATH)/libmlx.a
 	MLX_INCLUDE  = $(MLX_LIB_PATH)
@@ -98,7 +103,7 @@ $(NAME): $(OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB)
 
 clean:
 	$(MAKE) -C $(GL_LIB_PATH) clean
-	@#$(MAKE) -C $(MLX_LIB_PATH) clean
+	#@$(MAKE) -C $(MLX_LIB_PATH) clean
 	$(MAKE) -C $(LIBFT_PATH) clean
 	rm -f $(OBJS)
 
@@ -113,7 +118,7 @@ run: $(NAME)
 	./$(NAME) scenes/basic.rt
 
 test: CFLAGS += -g
-test: $(TEST_OBJS) compile
+test: $(TEST_OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB)
 	$(CC) $(TEST_OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB) $(LDFLAGS) -o test
 
 norm: norminette

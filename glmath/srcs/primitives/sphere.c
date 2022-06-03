@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/05/25 15:25:27 by trossel          ###   ########.fr       */
+/*   Updated: 2022/05/30 08:47:52 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,30 @@
 /* Used the formula described here:
  * https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
  * */
-int	sphere_intersect(t_ray *ray, t_sphere *sphere, t_point3f *intersec)
+int	sphere_intersect(const t_ray *ray, const t_sphere *sph, t_point3f *inter)
 {
 	t_v3f		oc;
 	float		disc;
+	float		t;
 
-	oc = v3f_minus(&ray->origin, &sphere->origin);
-
+	oc = v3f_minus(&ray->origin, &sph->origin);
 	disc = v3f_scalar_product(&ray->direction, &oc);
 	disc *= disc;
-	disc -= (v3f_scalar_product(&oc, &oc) - sphere->radius * sphere->radius);
+	disc -= (v3f_scalar_product(&oc, &oc) - sph->radius * sph->radius);
 	if (disc < 0.0f)
 		return (0);
-	if (!intersec)
+	if (!inter)
 		return (1);
 	disc = sqrtf(disc);
-	*intersec = ray_at(-(v3f_scalar_product(&ray->direction, &oc) + disc), ray);
+	t = -(v3f_scalar_product(&ray->direction, &oc) + disc);
+	if (t < 0)
+		t = -(v3f_scalar_product(&ray->direction, &oc) - disc);
+	if (t < 0)
+		return (0);
+	*inter = ray_at(t, ray);
 	return (1);
 }
 
-#include <stdio.h>
 void	sphere_normal_ray(t_ray *normal, t_sphere *sphere)
 {
 	v3f_copy(&normal->direction, &normal->origin);

@@ -12,7 +12,7 @@
 
 #include "test.h"
 
-int	planeTest(void)
+int	plane_test(void)
 {
 	t_plane	plane;
 	t_ray	ray;
@@ -42,16 +42,15 @@ int	planeTest(void)
 
 int	main(int argc, char **argv)
 {
-	(void) argc;
-	(void) argv;
-
 	if (argc != 2)
-		return (notEnoughArguments());
+		return (not_enough_arguments());
 	else if (!ft_strcmp(argv[1], "-h"))
 		return (help());
 	else if (!ft_strcmp(argv[1], "-parser"))
-		return (parserTest());
+		return (parser_test());
+	else if (!ft_strcmp(argv[1], "-quaternion"))
+		return (quaternion_test());
 	else if (!ft_strcmp(argv[1], "-plane"))
-		return (planeTest());
+		return (plane_test());
 	return (0);
 }

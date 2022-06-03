@@ -49,17 +49,6 @@ t_v3f	ray_at(float pos, const t_ray *ray)
 	return (at);
 }
 
-t_color	*ray_color(t_ray *r)
-{
-	(void)r;
-	/*
-	vec3 unit_direction = unit_vector(r.direction());
-	auto t = 0.5*(unit_direction.y() + 1.0);
-	return (1.0-t)*color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
-	*/
-	return (0);
-}
-
 /**
  * @brief initialise à zéro les valeurs du rayon
  *

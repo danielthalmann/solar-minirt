@@ -6,11 +6,13 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 23:55:37 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 19:31:07 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:05:08 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
+
+#include <math.h>
 
 void	print_angle_color(float angle, const char *color)
 {
@@ -28,7 +30,7 @@ void	print_vect_color(t_v3f *v, const char *color)
 
 int	quaternion_rotate_test(void)
 {
-	t_qion	qr;	
+	t_qion	qr;
 	float	i;
 	t_v3f	v;
 	t_v3f	v2;
@@ -40,7 +42,7 @@ int	quaternion_rotate_test(void)
 	qr.z = -0.05153;
 	qion_normalize(&qr);
 	i = 0;
-	while (i >= -(2 * MATH_PI))
+	while (i >= -(2 * M_PI))
 	{
 		v2.x = 10.0 * cosf(i);
 		v2.z = 10.0 * sinf(i);

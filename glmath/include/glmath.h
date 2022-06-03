@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 11:57:12 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/03 09:15:32 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@
 # include <math.h>
 # include <stdio.h>
 
-# define MATH_PI	3.14159265358979323846f
-# define MATH_PI_2	1.57079632679489661923f
-# define MATH_PI_4	0.785398163397448309616f
-# define MATH_1_PI	0.318309886183790671538f
-# define MATH_2_PI	0.636619772367581343076f
-# define MATH_1_180	0.005555555555555555f
 # define TO_RADIAN	0.01745329251f
 # define TO_DEGRE	57.2957795457f
 

@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef ERROR_H
 # define ERROR_H
 
-int	notEnoughArguments();
-int	help();
+int	not_enough_arguments(void);
+int	help(void);
 
 #endif

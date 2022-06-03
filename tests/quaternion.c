@@ -12,106 +12,72 @@
 
 #include "test.h"
 
-int	quaternionTest(void)
+void	print_angle_color(float angle, const char *color)
 {
-	t_qion q;
-	t_v3f v;
-	t_v3f v2;
-	t_v3f euler;
-	float angle;
-	//t_v3f conj;
-
-	v.x = 1.0;
-	v.y = 3.0;
-	v.z = 5.0;
-
-	euler.x = 0.0;
-	euler.y = M_PI;
-	euler.z = 0.0;
-
-	printf(ANSI_COLOR_BLUE);
-	v3f_print(&v);
+	printf("%s", color);
+	printf("angle (%f) \n", angle);
 	printf(ANSI_COLOR_RESET "\n");
+}
 
-	printf(ANSI_COLOR_YELLOW);
-	v3f_print(&euler);
+void	print_vect_color(t_v3f *v, const char *color)
+{
+	printf("%s", color);
+	v3f_print(v);
 	printf(ANSI_COLOR_RESET "\n");
+}
 
-	q = qion_euler_rotation(euler.x, euler.y, euler.z);
-
-	printf(ANSI_COLOR_GREEN);
-	v3f_print(&q);
-	printf(ANSI_COLOR_RESET "\n");
-
-	v = qion_rotation(&v, &q);
-
-	printf(ANSI_COLOR_RED);
-	v3f_print(&v);
-	printf(ANSI_COLOR_RESET "\n");
-
-	v.x = 5.0;
-	v.y = 1.0;
-	v.z = 5.0;
-	printf(ANSI_COLOR_BLUE);
-	v3f_print(&v);
-	printf(ANSI_COLOR_RESET "\n");
-
-	angle = v3f_horizontal(&v);
-	printf(ANSI_COLOR_RED);
-	printf(" %f \n", angle);
-	printf(ANSI_COLOR_RESET "\n");
-	
-
-	v.x = 1.0;
-	v.y = 5.0;
-	v.z = 5.0;
-	printf(ANSI_COLOR_BLUE);
-	v3f_print(&v);
-	printf(ANSI_COLOR_RESET "\n");
-
-	angle = v3f_vertical(&v);
-	printf(ANSI_COLOR_RED);
-	printf(" %f \n", angle);
-	printf(ANSI_COLOR_RESET "\n");
+int	quaternion_rotate_test(void)
+{
+	t_qion	qr;	
+	float	i;
+	t_v3f	v;
+	t_v3f	v2;
 
 	v3f_clear(&v2);
-
-	t_qion qr ;	
-	qr.w = 0.939607;
-	qr.x = -0.163449;
-	qr.y = -0.296257;
-	qr.z = -0.05153;
-
 	qr.w = 0.939607;
 	qr.x = -0.0;
 	qr.y = -0.296257;
 	qr.z = -0.05153;
-
 	qion_normalize(&qr);
-		
-	for (float i = 0; i >= -(2 * MATH_PI); i-=0.1)
+	i = 0;
+	while (i >= -(2 * MATH_PI))
 	{
 		v2.x = 10.0 * cosf(i);
 		v2.z = 10.0 * sinf(i);
-
 		v = qion_rotation(&v2, &qr);
-		
 		printf(ANSI_COLOR_MAGENTA);
 		v3f_print(&v2);
 		printf(ANSI_COLOR_GREEN);
 		v3f_print(&v);
-		printf(ANSI_COLOR_RESET "\n");	
+		printf(ANSI_COLOR_RESET "\n");
+		i -= 0.1;
 	}
-/*
-	for (float i = 0; i < M_PI; i+=0.1)
-	{
-		t_qion qr = qion_euler_rotation(0, i, 0);	
-		v = qion_rotation(&v2, &qr);
-		
-		printf(ANSI_COLOR_GREEN);
-		v3f_print(&v);
-		printf(ANSI_COLOR_RESET "\n");	
-	}
-*/
+	return (0);
+}
+
+int	quaternion_test(void)
+{
+	t_qion	q;
+	t_v3f	v;
+	t_v3f	euler;
+	float	angle;
+
+	v3f_set(&v, 1.0, 3.0, 5.0);
+	v3f_set(&euler, 0.0, M_PI, 0.0);
+	print_vect_color(&v, ANSI_COLOR_BLUE);
+	print_vect_color(&euler, ANSI_COLOR_YELLOW);
+	q = qion_euler_rotation(euler.x, euler.y, euler.z);
+	print_vect_color(&q, ANSI_COLOR_GREEN);
+	v = qion_rotation(&v, &q);
+	print_vect_color(&v, ANSI_COLOR_RED);
+	v3f_set(&v, 5.0, 1.0, 5.0);
+	print_vect_color(&v, ANSI_COLOR_BLUE);
+	angle = v3f_horizontal(&v);
+	print_angle_color(angle, ANSI_COLOR_RED);
+	v3f_set(&v, 1.0, 5.0, 5.0);
+	print_vect_color(&v, ANSI_COLOR_BLUE);
+	angle = v3f_vertical(&v);
+	print_angle_color(angle, ANSI_COLOR_RED);
+	quaternion_rotate_test();
 	return (0);
 }

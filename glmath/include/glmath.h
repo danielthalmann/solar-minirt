@@ -74,6 +74,7 @@ typedef struct s_light
 }	t_light;
 
 t_v3f	*v3f_create(const t_v3f *copy);
+void	v3f_set(t_v3f *vector, float x, float y, float z);
 t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2);
 t_v3f	v3f_division_val(const t_v3f *v1, float value);
 void	v3f_plus_equal(t_v3f *to, const t_v3f *add);

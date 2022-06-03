@@ -31,6 +31,22 @@ t_v3f	*v3f_create(const t_v3f *copy)
 }
 
 /**
+ * @brief Défini les valeurs contenu dans le vecteur
+ * 
+ * @param vector 
+ * @param x 
+ * @param y 
+ * @param z 
+ */
+void	v3f_set(t_v3f *vector, float x, float y, float z)
+{
+	vector->x = x;
+	vector->y = y;
+	vector->z = z;
+	vector->w = 0.0;
+}
+
+/**
  * @brief Addition de deux vecteurs
  *
  * @param vector

@@ -19,6 +19,7 @@ OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 TESTS=	$(TEST_PATH)/main.c \
 		$(TEST_PATH)/error.c \
 		$(TEST_PATH)/parser.c \
+		$(TEST_PATH)/parser2.c \
 		$(TEST_PATH)/quaternion.c \
 		$(SRC_PATH)/parsing/parse.c \
 		$(SRC_PATH)/parsing/parse_ambient.c \

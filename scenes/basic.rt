@@ -17,7 +17,7 @@ L	0,2,05		1.0			255,255,255
 #	Sphere
 #	------
 #	center		diameter	color
-sp	0,0,10		5.5			255,0,0
+sp	0,0,00		5.5			255,0,0
 
 
 #	Plan

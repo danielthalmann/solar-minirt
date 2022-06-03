@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:42:10 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 13:21:31 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/03 10:52:18 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ t_v3f	*v3f_create(const t_v3f *copy)
 
 /**
  * @brief Défini les valeurs contenu dans le vecteur
- * 
- * @param vector 
- * @param x 
- * @param y 
- * @param z 
+ *
+ * @param vector
+ * @param x
+ * @param y
+ * @param z
  */
 void	v3f_set(t_v3f *vector, float x, float y, float z)
 {
@@ -185,6 +185,7 @@ t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2)
 	res.x = v1->y * v2->z - v1->z * v2->y;
 	res.y = v1->z * v2->x - v1->x * v2->z;
 	res.z = v1->x * v2->y - v1->y * v2->x;
+	res.w = 0;
 	return (res);
 }
 
@@ -215,6 +216,7 @@ t_v3f	v3f_dot_scalar(const t_v3f *v, float val)
 	res.x = v->x * val;
 	res.y = v->y * val;
 	res.z = v->z * val;
+	res.w = 0;
 	return (res);
 }
 
@@ -281,7 +283,7 @@ float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
  */
 void	v3f_print(t_v3f *v)
 {
-	printf("(%f, %f, %f, %f)", v->w, v->x, v->y, v->z);
+	printf("(% 7f, % 7f, % 7f, % 7f)", v->w, v->x, v->y, v->z);
 }
 
 /**
@@ -318,9 +320,9 @@ t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2)
 
 /**
  * @brief retourne l'angle horizontal du plan
- * 
- * @param v 
- * @return float 
+ *
+ * @param v
+ * @return float
  */
 float	v3f_horizontal(const t_v3f *v)
 {
@@ -329,9 +331,9 @@ float	v3f_horizontal(const t_v3f *v)
 
 /**
  * @brief retourne l'angle vertical du plan
- * 
- * @param v 
- * @return float 
+ *
+ * @param v
+ * @return float
  */
 float	v3f_vertical(const t_v3f *v)
 {

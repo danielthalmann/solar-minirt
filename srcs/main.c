@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 13:27:22 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/03 11:47:14 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void around(t_scene *scene, int x, int y, void *data)
 	if (shape)
 	{
 		c = color_mult_c(scene->ambient, scene->ambient_intensity);
-		c = color_add(c, compute_diffuse_color(normal_ray, shape, scene->lights));
+		c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
 		c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
 	}
 	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
@@ -184,7 +184,7 @@ int	loop(void *param)
 	app->scene.cam.orien = v3f_dot_scalar(&app->scene.cam.pos, -1);
 	v3f_normalize(&app->scene.cam.orien);
 	app->on_change = 1;
-	
+
 	v3f_print(&app->scene.cam.orien);
 	printf("\n");
 	if (app->on_change)

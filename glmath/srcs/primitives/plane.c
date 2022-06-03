@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 21:35:39 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 13:17:52 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/03 11:46:13 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ float	plane_color_mask(const t_ray *normale, const t_plane *plane)
 
 	v3f_copy(&io, &plane->origin);
 	v3f_minus_equal(&io, &normale->origin);
-	if (absf(io.x) < 1e-6)
+	if (fabsf(io.x) < 1e-6)
 		io.x = +0.0f;
-	if (absf(io.y) < 1e-6)
+	if (fabsf(io.y) < 1e-6)
 		io.y = +0.0f;
-	if (absf(io.z) < 1e-6)
+	if (fabsf(io.z) < 1e-6)
 		io.z = +0.0f;
 	v[0] = ((abs((int)floorf(io.x / TILE_SIZE)) % 2) * 2) - 1;
 	v[1] = ((abs((int)floorf(io.y / TILE_SIZE)) % 2) * 2) - 1;

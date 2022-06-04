@@ -28,12 +28,12 @@ int	on_close(void *param)
 	exit(0);
 }
 
-static const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray, t_ray *normal)
+const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray, t_ray *normal)
 {
 	const t_shape	*closest;
-	float	closest_dist;
-	float	dist;
-	t_v3f	inter;
+	float			closest_dist;
+	float			dist;
+	t_v3f			inter;
 
 	closest = NULL;
 	while (s)
@@ -208,9 +208,9 @@ static int	init_mlx(t_app *app)
 int	main(int argc, char **argv)
 {
 	t_app	app;
+
 	app.on_change = 1;
 	app.rotate_camera = 1;
-
 	app.scene.ratio = 16.0 / 9.0;
 	app.scene.h = 480;
 	app.scene.w = app.scene.h * app.scene.ratio;

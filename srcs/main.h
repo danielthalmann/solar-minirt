@@ -47,6 +47,8 @@ void	print_scene(t_scene *s);
 t_color	get_image_color(struct s_image *i, int x, int y);
 void	load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
 
+const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray,
+			t_ray *normal);
 t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape,
 			const t_light *light, const t_color color);
 t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray,

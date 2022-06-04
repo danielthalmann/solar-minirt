@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:04:32 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/03 16:17:36 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,16 @@ static int	check_error(t_scene *s, int color[3], int n_parsed)
  */
 int	parse_light(t_scene *scene, char *str)
 {
-	static char		has_parsed_already = 0;
 	int				n_parsed;
 	int				color[3];
 	int				color_int;
 	t_light			*light;
 
-	if (has_parsed_already)
-	{
-		ft_fprintf(2, UNIQUE_ERR, ELEM);
-		return (1);
-	}
 	light = malloc(sizeof(t_light));
 	if (!light)
 		return (1);
 	light->next = scene->lights;
 	scene->lights = light;
-	has_parsed_already = 1;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f %d, %d, %d", &light->origin.x,
 			&light->origin.y, &light->origin.z, &light->intensity,
 			&color[0], &color[1], &color[2]);

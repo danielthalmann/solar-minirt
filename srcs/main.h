@@ -43,4 +43,8 @@ void	around(t_scene *scene, int x, int y, void *data);
 int		parse(t_scene *scene, char *filename);
 
 void	print_scene(t_scene *s);
+
+t_color	get_image_color(struct s_image *i, int x, int y);
+void	load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
+
 #endif

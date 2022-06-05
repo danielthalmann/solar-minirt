@@ -90,6 +90,18 @@ t_color	compute_normal_color(t_ray *normal_ray, const t_shape *shape, float inte
 	return (c);
 }
 
+t_color	compute_normal_texture(t_ray *normal_ray, const t_shape *shape, t_image *textures)
+{
+	t_color	c;
+	
+	c.r = 0;
+	c.g = 0;
+	c.b = 0;
+	if (shape->type == SPHERE)
+		c = shape->color_texture(normal_ray, &shape->shape, textures);
+	return (c);
+}
+
 static t_v3f	compute_reflection_vector(t_v3f input_vec, t_v3f normale)
 {
 	t_v3f	tmp;
@@ -173,7 +185,8 @@ void	around(t_scene *scene, int x, int y, void *data)
 		c = color_mult_c(scene->ambient, scene->ambient_intensity);
 		c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
 		c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
-		c = color_add(c, compute_normal_color(&normal_ray, shape, .09f));
+		c = color_add(c, compute_normal_color(&normal_ray, shape, .15f));
+		c = color_add(c, compute_normal_texture(&normal_ray, shape, scene->textures));
 	}
 	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }
@@ -223,6 +236,8 @@ static int	init_mlx(t_app *app)
 	app->pix_ptr = (unsigned int *)mlx_get_data_addr(app->img_ptr, &bpp, &size_line, &endian);
 	if (!app->pix_ptr)
 		return (4);
+	app->scene.textures = malloc(sizeof(t_image));
+	load_texture_xpm("textures/2k_earth_daymap.xpm", app->mlx_ptr, app->scene.textures);
 	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, app);
 	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, app);
 	mlx_loop_hook(app->mlx_ptr, &loop, app);

@@ -4,6 +4,7 @@ SRCS=	main.c \
 		error.c \
 		input.c \
 		free.c \
+		texture.c \
 		export_ppm.c \
 		print_scene.c \
 		parsing/parse.c \

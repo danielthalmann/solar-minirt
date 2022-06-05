@@ -80,6 +80,20 @@ t_color	sphere_color_normal(const t_ray *normale, const t_sphere *sphere, float 
 	return (c);
 }
 
+t_color	sphere_color_texture(const t_ray *normale, const t_sphere *sphere, t_image *texture)
+{
+	t_color	c;
+	t_v3f	vect;
+
+	(void) texture;
+	vect = v3f_minus(&sphere->origin, &normale->origin);
+	v3f_normalize(&vect);
+	cpy_vector_to_color(&c, &vect);
+
+	c = color_mult_c(c, .2);
+	return (c);
+}
+
 void	sphere_print(const t_sphere *s)
 {
 	printf("\tSPHERE\n\torigin  = (%f, %f, %f)\n", s->origin.x,

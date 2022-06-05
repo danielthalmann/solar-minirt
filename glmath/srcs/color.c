@@ -103,6 +103,24 @@ t_color	color_add(t_color c1, t_color c2)
 	return (c);
 }
 
+/**
+ * @brief soustraie c2 de c1
+ * 
+ * @param c1 
+ * @param c2 
+ * @return t_color 
+ */
+t_color	color_minus(t_color c1, t_color c2)
+{
+	t_color	c;
+
+	c.r = c1.r - c2.r;
+	c.g = c1.g - c2.g;
+	c.b = c1.b - c2.b;
+	color_check(&c);
+	return (c);
+}
+
 t_color	color_mult_c(const t_color c, float f)
 {
 	t_color	c2;

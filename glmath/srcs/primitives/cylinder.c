@@ -50,6 +50,17 @@ t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl, float
 	return (c);
 }
 
+t_color	cylinder_color_texture(const t_ray *normale, const t_cylinder *cyl, t_image *texture)
+{
+	t_color	c;
+
+	(void) normale;
+	(void) cyl;
+	(void) texture;
+	c = color_create_int(0);	
+	return (c);
+}
+
 void	cylinder_print(const t_cylinder *cyl)
 {
 	printf("\tCYLINDER\n\torigin  = (%f, %f, %f)\n", cyl->origin.x,

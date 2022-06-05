@@ -3,6 +3,8 @@ NAME=libgfx.a
 SRCS=	init.c \
 		window.c \
 		image.c \
+		image2.c \
+		loop.c \
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 

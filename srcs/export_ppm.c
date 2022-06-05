@@ -37,7 +37,7 @@ int	export_ppm(char	*filename, t_app *app)
 	i = -1;
 	while (++i < app->scene.w * app->scene.h)
 	{
-		color = app->pix_ptr[i];
+		color = img_get_pixel(app->img, i % app->scene.w, i / app->scene.w);
 		ft_fprintf(fd, "%d %d %d\n", ptr[2], ptr[1], ptr[0]);
 		ft_printf("\rExport to PPM: %d %%", i * 100 / n_pixels);
 	}

@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   image2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 08:44:17 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/06 07:32:52 by trossel          ###   ########.fr       */
+/*   Created: 2022/06/05 22:02:59 by trossel           #+#    #+#             */
+/*   Updated: 2022/06/05 23:08:59 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gfx.h"
 #include "mlx.h"
 
-#include <stdlib.h>
+#include <stddef.h>
 
-t_gfx_ctx	*gfx_init(void)
+void	img_clear(t_img *img)
 {
-	t_gfx_ctx	*ctx;
+	unsigned char	*p;
+	size_t			len;
 
-	ctx = malloc(sizeof(*ctx));
-	if (!ctx)
-		return (NULL);
-	ctx->_ctx = mlx_init();
-	if (!ctx->_ctx)
-	{
-		free(ctx);
-		return (NULL);
-	}
-	return (ctx);
+	p = (unsigned char *)img->pixels;
+	len = img->w * img->h * img->bpp / 8;
+	while (len--)
+		*(p++) = 0;
+}
+
+void	img_draw_to_win(t_img *img, t_win *win, int x, int y)
+{
+	mlx_put_image_to_window(img->ctx->mlx, win, img, x, y);
 }

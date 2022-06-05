@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 08:44:17 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/06 07:32:52 by trossel          ###   ########.fr       */
+/*   Created: 2022/06/05 22:38:32 by trossel           #+#    #+#             */
+/*   Updated: 2022/06/05 22:45:33 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gfx.h"
 #include "mlx.h"
 
-#include <stdlib.h>
-
-t_gfx_ctx	*gfx_init(void)
+void	gfx_loop_hook(t_gfx_ctx *ctx, int (*funct_ptr)(), void *param)
 {
-	t_gfx_ctx	*ctx;
+	mlx_loop_hook(ctx->mlx, funct_ptr, param);
+}
 
-	ctx = malloc(sizeof(*ctx));
-	if (!ctx)
-		return (NULL);
-	ctx->_ctx = mlx_init();
-	if (!ctx->_ctx)
-	{
-		free(ctx);
-		return (NULL);
-	}
-	return (ctx);
+void	gfx_loop(t_gfx_ctx *ctx)
+{
+	mlx_loop(ctx->mlx);
 }

@@ -18,6 +18,7 @@
 # include "mlx.h"
 # include "glmath.h"
 # include "input.h"
+#include "gfx.h"
 
 # define MLX_EVT_KEYDN 2
 # define MLX_EVT_KEYUP 3
@@ -25,13 +26,12 @@
 
 typedef struct s_app
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-	void			*img_ptr;
+	t_gfx_ctx		*gfx_ctx;
+	t_img			*img;
+	t_win			*win;
 	int				on_change;
 	int				on_rotate;
 	int				rotate_camera;
-	unsigned int	*pix_ptr;
 	t_scene			scene;
 }	t_app;
 

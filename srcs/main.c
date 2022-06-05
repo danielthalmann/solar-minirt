@@ -137,7 +137,7 @@ void	around(t_scene *scene, int x, int y, void *data)
 	}
 	ft_printf("\rRendering... (%d %%)",
 			100 * (y * scene->w + x) / (scene->w * scene->h));
-	((t_app *)data)->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
+	img_set_pixel(((t_app *)data)->img, x, y, color_int(&c));
 }
 
 int	loop(void *param)
@@ -157,41 +157,30 @@ int	loop(void *param)
 
 	if (app->on_change)
 	{
-		mlx_clear_window(app->mlx_ptr, app->win_ptr);
-		ft_memset(app->pix_ptr, 0, app->scene.w*app->scene.h*4);
+		win_clear(app->win);
+		img_clear(app->img);
 		scene_around(&(app->scene), app, &around);
-		mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, 0, 0);
+		img_draw_to_win(app->img, app->win, 0, 0);
 		app->on_change = 0;
 	}
 
 	return (0);
 }
 
-static int	init_mlx(t_app *app)
+static int	init_mlx(t_app *app, int w, int h)
 {
-	int	bpp;
-	int	endian;
-	int	size_line;
-
-	app->mlx_ptr = mlx_init();
-	if (!app->mlx_ptr)
+	app->gfx_ctx = gfx_init();
+	app->win = win_init(app->gfx_ctx, w, h, "Solar MiniRT");
+	app->img = img_init(app->gfx_ctx, w, h);
+	if (!app->gfx_ctx || !app->win || !app->img)
 		return (1);
-	app->win_ptr = mlx_new_window(app->mlx_ptr, app->scene.w, app->scene.h, "minirt");
-	if (!app->win_ptr)
-		return (2);
-	app->img_ptr = mlx_new_image(app->mlx_ptr, app->scene.w, app->scene.h);
-	if (!app->img_ptr)
-		return (3);
-	app->pix_ptr = (unsigned int *)mlx_get_data_addr(app->img_ptr, &bpp, &size_line, &endian);
-	if (!app->pix_ptr)
-		return (4);
 	app->scene.textures = malloc(3 * sizeof(t_image));
 	load_texture_xpm("textures/2k_earth_daymap.xpm", app->mlx_ptr, &app->scene.textures[0]);
 	load_texture_xpm("textures/2k_earth_clouds.xpm", app->mlx_ptr, &app->scene.textures[1]);
 	load_texture_xpm("textures/2k_earth_normal_map.xpm", app->mlx_ptr, &app->scene.textures[2]);
-	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, app);
-	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, app);
-	mlx_loop_hook(app->mlx_ptr, &loop, app);
+	mlx_hook(app->win->mlx_win, MLX_EVT_DESTROY, 0L, &on_close, app);
+	mlx_hook(app->win->mlx_win, MLX_EVT_KEYUP, 2L, &key_up, app);
+	gfx_loop_hook(app->gfx_ctx, &loop, app);
 	return (0);
 }
 
@@ -202,7 +191,7 @@ int	main(int argc, char **argv)
 	app.on_change = 1;
 	app.rotate_camera = 1;
 	app.scene.ratio = 16.0 / 9.0;
-	app.scene.h = 2160;
+	app.scene.h = 480;
 	app.scene.w = app.scene.h * app.scene.ratio;
 	app.scene.shapes = NULL;
 	app.scene.lights = NULL;
@@ -211,7 +200,7 @@ int	main(int argc, char **argv)
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);
-	if (init_mlx(&app))
+	if (init_mlx(&app, app.scene.w, app.scene.h))
 		return (1);
 	if (argc == 3 && !ft_strcmp(argv[2], "-e"))
 	{
@@ -219,6 +208,6 @@ int	main(int argc, char **argv)
 		export_ppm("export.ppm", &app);
 	}
 	else
-		mlx_loop(app.mlx_ptr);
+		gfx_loop(app.gfx_ctx);
 	return (0);
 }

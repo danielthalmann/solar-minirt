@@ -43,6 +43,7 @@ CC=gcc
 CFLAGS=-Wall -Werror -Wextra \
 	   -I $(LIBFT_INCLUDE) \
 	   -I $(GL_INCLUDE) \
+	   -I $(GFX_INCLUDE) \
 	   -I $(MLX_INCLUDE) \
 	   -I ./include \
 	   # -g -fsanitize=address -fno-omit-frame-pointer
@@ -51,13 +52,13 @@ GL_LIB_PATH	 =./glmath/
 GL_LIB		 = $(GL_LIB_PATH)/lib/libglmath.a
 GL_INCLUDE	 = $(addprefix $(GL_LIB_PATH), include)
 
+GFX_LIB_PATH	 =./gfx/
+GFX_LIB		 = $(GFX_LIB_PATH)/lib/libgfx.a
+GFX_INCLUDE	 = $(addprefix $(GFX_LIB_PATH), include)
+
 LIBFT_PATH		 = ./libft
 LIBFT_LIB	 	 = $(LIBFT_PATH)/libft.a
 LIBFT_INCLUDE	 = $(LIBFT_PATH)/include
-
-MLX_LIB_PATH = ./minilibx_linux/
-MLX_LIB		 = $(MLX_LIB_PATH)
-MLX_INCLUDE  = $(MLX_LIB_PATH)
 
 # detection du systeme d'exploitation
 UNAME_S := $(shell uname -s)
@@ -91,6 +92,7 @@ all: compile
 compile:
 	@$(MAKE) -C $(LIBFT_PATH)
 	@$(MAKE) -C $(GL_LIB_PATH)
+	@$(MAKE) -C $(GFX_LIB_PATH)
 	@$(MAKE) -C $(MLX_LIB_PATH)
 	@$(MAKE) $(NAME)
 
@@ -100,20 +102,25 @@ $(LIBFT_LIB):
 $(GL_LIB):
 	@$(MAKE) -C $(GL_LIB_PATH)
 
+$(GFX_LIB):
+	@$(MAKE) -C $(GFX_LIB_PATH)
+
 $(MLX_LIB):
 	@$(MAKE) -C $(MLX_LIB_PATH)
 
-$(NAME): $(OBJS) $(LIBFT_LIB) $(GL_LIB) $(MLX_LIB)
+$(NAME): $(OBJS) $(LIBFT_LIB) $(GL_LIB) $(GFX_LIB) $(MLX_LIB)
 	$(CC) $^ $(LDFLAGS) -o $(NAME)
 
 clean:
 	$(MAKE) -C $(GL_LIB_PATH) clean
+	$(MAKE) -C $(GFX_LIB_PATH) clean
 	#@$(MAKE) -C $(MLX_LIB_PATH) clean
 	$(MAKE) -C $(LIBFT_PATH) clean
 	rm -f $(OBJS)
 
 fclean: clean
 	$(MAKE) -C $(GL_LIB_PATH) fclean
+	$(MAKE) -C $(GFX_LIB_PATH) fclean
 	$(MAKE) -C $(LIBFT_PATH) fclean
 	rm -f $(NAME)
 

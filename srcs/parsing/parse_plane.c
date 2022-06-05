@@ -47,6 +47,7 @@ int	parse_plane(t_scene *scene, char *str)
 	s->normal_ray = (void (*)(t_ray *, const void *))plane_normal_ray;
 	s->color_mask = (float (*)(const t_ray *, const void *))plane_color_mask;
 	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))plane_color_normal;
+	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image *i))plane_color_texture;
 	n_parsed = ft_sscanf(str, "pl %f, %f, %f %f, %f, %f %d, %d, %d",
 			&s->plane.origin.x, &s->plane.origin.y, &s->plane.origin.z,
 			&s->plane.normal.x, &s->plane.normal.y, &s->plane.normal.z,

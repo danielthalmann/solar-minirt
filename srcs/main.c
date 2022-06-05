@@ -86,9 +86,7 @@ t_color	compute_normal_color(t_ray *normal_ray, const t_shape *shape, float inte
 	c.g = 0;
 	c.b = 0;
 	if (shape->type == SPHERE)
-	{
-		c = shape->color_normal(normal_ray, (t_sphere *)shape->shape, intensity);
-	}
+		c = shape->color_normal(normal_ray, &shape->shape, intensity);
 	return (c);
 }
 

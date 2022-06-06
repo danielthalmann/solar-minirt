@@ -91,15 +91,13 @@ t_color	sphere_color_texture(const t_ray *normale, const t_sphere *sphere, t_ima
 	(void) sphere;
 	theta = acosf(normale->direction.y);
 	phi = atan2f(normale->direction.x, normale->direction.z);
-
-	y = abs((int)((theta / M_PI) * texture->h));
-	x = abs((int)((phi / M_PI) * texture->w )) / M_PI_2;
-
+	y = abs((int)(theta * M_1_PI * texture->h));
+	if (normale->direction.x < 0)
+		x = abs((int)(phi * M_1_PI * texture->w / 2));
+	else
+		x = texture->w - (abs((int)(phi * M_1_PI * texture->w / 2)) );
 	c = texture->get_image_color(texture, x, y);
 	return (c);
-
-
-
 }
 
 void	sphere_print(const t_sphere *s)

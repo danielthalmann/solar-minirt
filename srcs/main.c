@@ -182,11 +182,19 @@ void	around(t_scene *scene, int x, int y, void *data)
 	shape = get_closest_shape(scene->shapes, &r, &normal_ray);
 	if (shape)
 	{
-		c = color_mult_c(scene->ambient, scene->ambient_intensity);
-		c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
-		c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
-		c = color_add(c, compute_normal_color(&normal_ray, shape, .15f));
-		c = color_add(c, compute_normal_texture(&normal_ray, shape, scene->textures));
+		if (shape->type == SPHERE)
+		{
+			//c = color_mult_c(scene->ambient, scene->ambient_intensity);
+			//c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
+			c = color_add(c, compute_normal_texture(&normal_ray, shape, &scene->textures[0]));
+			c = color_add(c, color_mult_c(compute_normal_texture(&normal_ray, shape, &scene->textures[1]), 0.5));
+		}
+		else 
+		{
+			c = color_mult_c(scene->ambient, scene->ambient_intensity);
+			c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
+			c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
+		}
 	}
 	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }
@@ -236,8 +244,10 @@ static int	init_mlx(t_app *app)
 	app->pix_ptr = (unsigned int *)mlx_get_data_addr(app->img_ptr, &bpp, &size_line, &endian);
 	if (!app->pix_ptr)
 		return (4);
-	app->scene.textures = malloc(sizeof(t_image));
-	load_texture_xpm("textures/2k_earth_daymap.xpm", app->mlx_ptr, app->scene.textures);
+	app->scene.textures = malloc(3 * sizeof(t_image));
+	load_texture_xpm("textures/2k_earth_daymap.xpm", app->mlx_ptr, &app->scene.textures[0]);
+	load_texture_xpm("textures/2k_earth_clouds.xpm", app->mlx_ptr, &app->scene.textures[1]);
+	load_texture_xpm("textures/2k_earth_normal_map.xpm", app->mlx_ptr, &app->scene.textures[2]);
 	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, app);
 	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, app);
 	mlx_loop_hook(app->mlx_ptr, &loop, app);

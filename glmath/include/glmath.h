@@ -19,7 +19,8 @@
 # define TO_RADIAN	0.01745329251f
 # define TO_DEGRE	57.2957795457f
 
-typedef float				t_c;
+typedef unsigned int	t_ui;
+typedef float			t_c;
 typedef struct s_vector4f
 {
 	float	x;
@@ -103,8 +104,8 @@ void	qion_normalize(t_qion *q);
 t_v3f	qion_rotation_angle(const float angle, const t_v3f *v);
 
 t_color	color_create(t_color *copy);
-t_color	color_create_int(int color);
-int		color_int(t_color *color);
+t_color	color_create_int(t_ui color);
+t_ui	color_int(t_color *color);
 void	cpy_vector_to_color(t_color *color, t_v3f *v);
 t_color	color_add(t_color c1, t_color c2);
 t_color	color_minus(t_color c1, t_color c2);
@@ -120,8 +121,13 @@ typedef struct s_image
 {
 	void	*mlx_ptr;
 	void	*img_ptr;
+	t_ui	*c_ptr;
 	int		w;
 	int		h;
+	int		bpp;
+	int		size_line;
+	int		endian;
+	int		bytes;
 	t_color	(*get_image_color)(struct s_image *i, int x, int y);
 }	t_image;
 

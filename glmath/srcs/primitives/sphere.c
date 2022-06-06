@@ -83,15 +83,23 @@ t_color	sphere_color_normal(const t_ray *normale, const t_sphere *sphere, float 
 t_color	sphere_color_texture(const t_ray *normale, const t_sphere *sphere, t_image *texture)
 {
 	t_color	c;
-	t_v3f	vect;
+	int		y;
+	int		x;
+	float	theta;
+	float	phi;	
 
-	(void) texture;
-	vect = v3f_minus(&sphere->origin, &normale->origin);
-	v3f_normalize(&vect);
-	cpy_vector_to_color(&c, &vect);
+	(void) sphere;
+	theta = acosf(normale->direction.y);
+	phi = atan2f(normale->direction.x, normale->direction.z);
 
-	c = color_mult_c(c, .2);
+	y = abs((int)((theta / M_PI) * texture->h));
+	x = abs((int)((phi / M_PI) * texture->w )) / M_PI_2;
+
+	c = texture->get_image_color(texture, x, y);
 	return (c);
+
+
+
 }
 
 void	sphere_print(const t_sphere *s)

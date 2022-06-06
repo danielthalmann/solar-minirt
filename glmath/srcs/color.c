@@ -45,7 +45,7 @@ t_color	color_create(t_color *copy)
  * @param color
  * @return t_color*
  */
-t_color	color_create_int(int color)
+t_color	color_create_int(t_ui color)
 {
 	t_color	c;
 
@@ -63,9 +63,9 @@ t_color	color_create_int(int color)
  * @param color
  * @return int
  */
-int	color_int(t_color *color)
+t_ui	color_int(t_color *color)
 {
-	int	c;
+	t_ui	c;
 
 	c = 0;
 	c += (int)(color->a * 255.0) & 0xFF;

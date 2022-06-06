@@ -1,0 +1,28 @@
+#	Ambient light
+#	-------------
+#	intensity				color
+A 	0.1						255,255,255
+
+#	Camera
+#	------
+#	position	orientation		FOV
+C	0,0,10		0.2,0.2,-1			70
+
+#	Light
+#	-----
+#	position	intensity	color
+L	0,2,10		0.5			255,255,255
+
+#	Sphere
+#	------
+#	center		diameter	color
+sp	0,0,0		5.5			255,0,0
+
+
+#	Plan
+#	----\
+#	point		normal		color
+
+pl 	-20,0,0		-1,0,0		0,0,122
+pl 	20,0,0		1,0,0		0,0,122
+

@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/30 14:52:15 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/07 19:25:45 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	parse_plane(t_scene *scene, char *str)
 	s->next = scene->shapes;
 	scene->shapes = s;
 	s->type = PLANE;
-	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))plane_intersect;
+	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))
+		plane_intersect;
 	s->normal_ray = (void (*)(t_ray *, const void *))plane_normal_ray;
 	s->color_mask = (float (*)(const t_ray *, const void *))plane_color_mask;
 	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))plane_color_normal;

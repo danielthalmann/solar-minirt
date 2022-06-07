@@ -92,6 +92,13 @@ void	cpy_vector_to_color(t_color *color, t_v3f *v)
 	color->a = v->w;
 }
 
+/**
+ * @brief Addition deux couleurs
+ * 
+ * @param c1 
+ * @param c2 
+ * @return t_color 
+ */
 t_color	color_add(t_color c1, t_color c2)
 {
 	t_color	c;
@@ -121,6 +128,13 @@ t_color	color_minus(t_color c1, t_color c2)
 	return (c);
 }
 
+/**
+ * @brief multiplie la couleur c avec un float
+ * 
+ * @param c 
+ * @param f 
+ * @return t_color 
+ */
 t_color	color_mult_c(const t_color c, float f)
 {
 	t_color	c2;
@@ -132,6 +146,12 @@ t_color	color_mult_c(const t_color c, float f)
 	return (c2);
 }
 
+/**
+ * @brief normalise les valeurs r g b pour qu'elles ne dépassement pas 
+ * les limites de la couleur
+ * 
+ * @param c 
+ */
 void	color_check(t_color *c)
 {
 	if (c->r > 1.0f)

@@ -111,7 +111,7 @@ t_color	color_add(t_color c1, t_color c2);
 t_color	color_minus(t_color c1, t_color c2);
 void	color_check(t_color *c);
 t_color	color_mult_c(const t_color c, float f);
-t_color	color_mult(const t_color *c1, const t_color *c2);
+t_color	color_mult(const t_color c1, const t_color c2);
 
 t_ray	*ray_create(const t_ray *copy);
 t_v3f	ray_at(float pos, const t_ray *ray);

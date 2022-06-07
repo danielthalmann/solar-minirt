@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/07 19:07:22 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/07 19:48:57 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,19 @@ void	cylinder_normal_ray(t_ray *normal, t_cylinder *cyl)
 
 	r = cylinder_world2cyl(normal, cyl);
 	if (r.origin.y >= cyl->height)
-		r.direction = cyl->base[1];
+		normal->direction = cyl->base[1];
 	else if (r.origin.y <= 0)
-		r.direction = v3f_dot_scalar(&cyl->base[1], -1.0f);
+	{
+		normal->direction = v3f_dot_scalar(&cyl->base[1], -1.0f);
+		// printf("-N = (%f, %f, %f)\n", r.direction.x, r.direction.y, r.direction.z);
+	}
 	else
 	{
-		v3f_copy(&r.direction, &r.origin);
-		v3f_minus_equal(&r.direction, &cyl->origin);
+		r.direction = r.origin;
+		r.direction.y = 0;
 		v3f_normalize(&r.direction);
+		*normal = cylinder_cyl2world(&r, cyl);
 	}
-	*normal = cylinder_cyl2world(&r, cyl);
 }
 
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl)

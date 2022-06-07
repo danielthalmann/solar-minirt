@@ -184,3 +184,18 @@ void	color_check(t_color *c)
 	else if (c->b < 0.0f)
 		c->g = 0.0f;
 }
+
+/**
+ * @brief applique la valeur 1 - x sur toutes les couleur
+ * 
+ * @param vector 
+ */
+t_color	color_reverse(t_color c)
+{
+	t_color	c2;
+
+	c2.r = 1 - c.r;
+	c2.g = 1 - c.g;
+	c2.b = 1 - c.b;
+	return (c2);
+}

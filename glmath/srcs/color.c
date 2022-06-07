@@ -147,6 +147,22 @@ t_color	color_mult_c(const t_color c, float f)
 }
 
 /**
+ * @brief multiplie la couleur c1 avec la couleur c2
+ * 
+ * @param c1 
+ * @param c2 
+ * @return t_color 
+ */
+t_color	color_mult(const t_color *c1, const t_color *c2)
+{
+	t_color	c3;
+
+	c3.r = c1->r * c2->r;
+	c3.g = c1->g * c2->g;
+	c3.b = c1->b * c2->b;
+}
+
+/**
  * @brief normalise les valeurs r g b pour qu'elles ne dépassement pas 
  * les limites de la couleur
  * 

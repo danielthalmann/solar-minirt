@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 19:49:48 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/07 14:10:23 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/07 18:18:32 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ t_v3f	matrix_dot_v3f(const t_v3f	m[3], const t_v3f *v)
 {
 	t_v3f	v2;
 
-	v2.x = m[0].x * v->x + m[1].x * v->y * m[2].x * v->z;
-	v2.y = m[0].y * v->x + m[1].y * v->y * m[2].y * v->z;
-	v2.z = m[0].z * v->x + m[1].z * v->y * m[2].z * v->z;
+	v2.x = m[0].x * v->x + m[1].x * v->y + m[2].x * v->z;
+	v2.y = m[0].y * v->x + m[1].y * v->y + m[2].y * v->z;
+	v2.z = m[0].z * v->x + m[1].z * v->y + m[2].z * v->z;
+	v2.w = 0;
 	return (v2);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/07 15:54:22 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/07 19:07:22 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,42 @@
 
 #include <stdio.h>
 
+t_ray	cylinder_world2cyl(const t_ray *world_ray, const t_cylinder *c)
+{
+	t_ray	cyl_ray;
+
+	cyl_ray.origin = matrix_dot_v3f(c->base_inv, &world_ray->origin);
+	v3f_minus_equal(&cyl_ray.origin, &c->origin);
+	cyl_ray.direction = matrix_dot_v3f(c->base_inv, &world_ray->direction);
+	return (cyl_ray);
+}
+
+t_ray	cylinder_cyl2world(const t_ray *cyl_ray, const t_cylinder *c)
+{
+	t_ray	world_ray;
+
+	world_ray.origin = matrix_dot_v3f(c->base, &cyl_ray->origin);
+	v3f_plus_equal(&world_ray.origin, &c->origin);
+	world_ray.direction = matrix_dot_v3f(c->base, &cyl_ray->direction);
+	return (world_ray);
+}
+
 void	cylinder_normal_ray(t_ray *normal, t_cylinder *cyl)
 {
-	t_v3f	tmp;
-	// 1) Convert intersection point to cylinder coordinate system
+	t_ray	r;
 
-	// 2)
-	v3f_copy(&tmp, &normal->origin);
-	tmp.y = 0;
-	if (v3f_abs(&tmp) < cyl->radius)
+	r = cylinder_world2cyl(normal, cyl);
+	if (r.origin.y >= cyl->height)
+		r.direction = cyl->base[1];
+	else if (r.origin.y <= 0)
+		r.direction = v3f_dot_scalar(&cyl->base[1], -1.0f);
+	else
 	{
-		v3f_copy(&normal->direction, &cyl->base[2]);
-		if (fabsf(normal->origin.y) < 1e-4)
-			v3f_dot_equal_scalar(&normal->direction, -1.0f);
-		return ;
+		v3f_copy(&r.direction, &r.origin);
+		v3f_minus_equal(&r.direction, &cyl->origin);
+		v3f_normalize(&r.direction);
 	}
-	v3f_copy(&normal->direction, &normal->origin);
-	v3f_minus_equal(&normal->direction, &cyl->origin);
-	v3f_normalize(&normal->direction);
-
-	// 3) Convert back to world coordinates
+	*normal = cylinder_cyl2world(&r, cyl);
 }
 
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl)
@@ -69,8 +85,12 @@ void	cylinder_print(const t_cylinder *cyl)
 {
 	printf("\tCYLINDER\n\torigin  = (%f, %f, %f)\n", cyl->origin.x,
 		cyl->origin.y, cyl->origin.z);
-	printf("\tnormale = (%f, %f, %f)\n", cyl->base[2].x,
-		cyl->base[2].y, cyl->base[2].z);
+	printf("\tbase =      (%f, %f, %f)\n", cyl->base[0].x, cyl->base[1].x, cyl->base[2].x);
+	printf("\t            (%f, %f, %f)\n", cyl->base[0].y, cyl->base[1].y, cyl->base[2].y);
+	printf("\t            (%f, %f, %f)\n", cyl->base[0].z, cyl->base[1].z, cyl->base[2].z);
+	printf("\tinv. base = (%f, %f, %f)\n", cyl->base_inv[0].x, cyl->base_inv[1].x, cyl->base_inv[2].x);
+	printf("\t            (%f, %f, %f)\n", cyl->base_inv[0].y, cyl->base_inv[1].y, cyl->base_inv[2].y);
+	printf("\t            (%f, %f, %f)\n", cyl->base_inv[0].z, cyl->base_inv[1].z, cyl->base_inv[2].z);
 	printf("\tradius =  %f\n", cyl->radius);
 	printf("\theight =  %f\n", cyl->height);
 }

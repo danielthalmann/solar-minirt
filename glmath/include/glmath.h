@@ -218,6 +218,8 @@ void	plane_print(const t_plane *p);
 // Cylinder functions
 int		cylinder_intersect(const t_ray *r, const t_cylinder *cyl,
 			t_point3f *inter);
+t_ray	cylinder_world2cyl(const t_ray *ray, const t_cylinder *cyl);
+t_ray	cylinder_cyl2world(const t_ray *ray, const t_cylinder *cyl);
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl);
 void	cylinder_normal_ray(t_ray *normale, t_cylinder *plane);
 t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl, float intensity);
@@ -236,5 +238,6 @@ void	scene_around(t_scene *scene, void *data,
 // math
 int		solve_quadratic(float a, float b, float c, float sol[2]);
 void	inverse_matrix(const t_v3f	m[3], t_v3f inv[3]);
+t_v3f	matrix_dot_v3f(const t_v3f	m[3], const t_v3f *v);
 
 #endif

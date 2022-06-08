@@ -38,7 +38,7 @@ int	sphere_intersect(const t_ray *ray, const t_sphere *sph, t_point3f *inter)
 		t = -(v3f_scalar_product(&ray->direction, &oc) - disc);
 	if (t < 0)
 		return (0);
-	*inter = ray_at(t, ray);
+	*inter = ray_at(0.99999 * t, ray);
 	return (1);
 }
 

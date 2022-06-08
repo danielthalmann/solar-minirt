@@ -34,7 +34,7 @@ int	plane_intersect(const t_ray *ray, const t_plane *plane, t_point3f *intersec)
 	else
 	{
 		t = up / denom;
-		*intersec = ray_at(t, ray);
+		*intersec = ray_at(0.99999 * t, ray);
 		return (t >= 0.0);
 	}
 	return (0);

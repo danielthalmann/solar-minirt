@@ -104,13 +104,13 @@ t_qion	qion_rotation(const t_qion *q, const t_qion *rot)
 	t_qion	ret;
 	t_qion	inv;
 
-	inv = qion_inverse(rot);
+	inv = qion_conjugate(rot);
 	ret = qion_product(rot, q);
 	ret = qion_product(&ret, &inv);
 	return (ret);
 }
 
-t_qion	qion_inverse(const t_qion *q)
+t_qion	qion_conjugate(const t_qion *q)
 {
 	t_qion	inv;
 
@@ -150,4 +150,20 @@ void	qion_normalize(t_qion *q)
 	q->x /= n;
 	q->y /= n;
 	q->z /= n;
+}
+
+
+t_v3f	qion_rotation_angle(const float angle, const t_v3f *v)
+{
+	float	sinus;
+	float	cosinus;
+	t_v3f	vr;
+
+	sinus = sinf(angle / 2);
+	cosinus = cosf(angle / 2);
+	vr.x = v->x * sinus;
+	vr.y = v->y * sinus;
+	vr.z = v->z * sinus;
+	vr.w = cosinus;
+	return (vr);
 }

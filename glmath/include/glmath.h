@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 12:05:24 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 09:10:19 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,8 @@ void	camera_update_orien(t_camera *c, t_v3f orien);
 t_v3f	cam2world(t_camera *c, t_v3f p);
 t_v3f	look_at(const t_camera *cam, const t_scene *scene, int x, int y);
 
+// Scene functions
+void	init_scene(t_scene *s);
 void	scene_around(t_scene *scene, void *data,
 			void (*fn)(t_scene *, int, int, void *));
 

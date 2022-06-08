@@ -6,11 +6,20 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 09:55:20 by dthalman          #+#    #+#             */
-/*   Updated: 2022/03/20 10:40:25 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/08 17:12:21 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
+
+void	init_scene(t_scene *s)
+{
+	s->cam.fov = -1.0f;
+	s->ambient_intensity = -1.0f;
+	s->lights = NULL;
+	s->shapes = NULL;
+	s->textures = NULL;
+}
 
 void	scene_around(t_scene *scene, void *data,
 		void (*fn)(t_scene *, int, int, void *))

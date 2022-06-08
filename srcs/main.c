@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 12:29:20 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 14:58:44 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,18 @@ static t_color	color_object_from_lights(const t_shape *shape, t_ray *r,
 {
 	t_color	c;
 
-	c = color_mult_c(scene->ambient, scene->ambient_intensity);
+	c = color_create_int(0);
 	if(get_light_ray(&normale->origin, l, scene->shapes))
 	{
-		c = color_mult_c(scene->ambient, scene->ambient_intensity);
 		if (shape->type == SPHERE)
 		{
 			c = color_add(c, compute_normal_texture(normale, shape, &scene->textures[0]));
 			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &scene->textures[1]), 0.8));
 			c = color_mult(c, (compute_diffuse_color(normale, shape, l, color_create_int(0xFFFFFFFF))));
-			//c = color_mult(c2, compute_chess_color(&normal_ray, shape));
 		}
 		else
 		{
 			c = color_add(c, compute_diffuse_color(normale, shape, l, shape->color));
-			c = color_mult(c, compute_chess_color(normale, shape));
 		}
 		c = color_add(c, compute_specular_color(r, normale, shape, l));
 	}
@@ -129,14 +126,18 @@ void	around(t_scene *scene, int x, int y, void *data)
 	if (shape)
 	{
 		l = scene->lights;
+		c = color_mult_c(scene->ambient, scene->ambient_intensity);
+		c = color_mult(c, shape->color);
 		while (l)
 		{
 			c = color_add(c, color_object_from_lights(shape, &r, scene, &normal_ray, l));
 			l = l->next;
 		}
+		if (shape->type != SPHERE)
+			c = color_mult(c, compute_chess_color(&normal_ray, shape));
 	}
-	ft_printf("\rRendering... (%d %%)",
-			100 * (y * scene->w + x) / (scene->w * scene->h));
+	// ft_printf("\rRendering... (%d %%)",
+	// 		100 * (y * scene->w + x) / (scene->w * scene->h));
 	((t_app *)data)->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }
 
@@ -202,7 +203,7 @@ int	main(int argc, char **argv)
 	app.on_change = 1;
 	app.rotate_camera = 1;
 	app.scene.ratio = 16.0 / 9.0;
-	app.scene.h = 2160;
+	app.scene.h = 480;
 	app.scene.w = app.scene.h * app.scene.ratio;
 	app.scene.shapes = NULL;
 	app.scene.lights = NULL;

@@ -55,7 +55,7 @@ static const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray
 	return (closest);
 }
 
-t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape, const t_light *light)
+t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape, const t_light *light, const t_color color)
 {
 	t_v3f	il;
 	float	dot;
@@ -66,7 +66,7 @@ t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape, const t_l
 	v3f_minus_equal(&il, &normal_ray->origin);
 	v3f_normalize(&il);
 	dot = v3f_scalar_product(&normal_ray->direction, &il);
-	dot *= light->intensity * shape->color_mask(normal_ray, &shape->shape);
+	dot *= light->intensity;
 	if (dot < 0.0f)
 	{
 		if (shape->type == PLANE)
@@ -74,8 +74,18 @@ t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape, const t_l
 		else
 			return (c);
 	}
-	c = color_mult_c(shape->color, dot);
+	c = color_mult_c(color, dot);
 	return (c);
+}
+
+t_color	compute_chess_color(t_ray *normal_ray, const t_shape *shape)
+{
+	t_color	c;
+	float	mask;
+
+	c = color_create_int(0xFFFFFFFF);
+	mask = shape->color_mask(normal_ray, &shape->shape);
+	return (color_mult_c(c, mask));
 }
 
 t_color	compute_normal_color(t_ray *normal_ray, const t_shape *shape, float intensity)
@@ -184,15 +194,17 @@ void	around(t_scene *scene, int x, int y, void *data)
 	{
 		if (shape->type == SPHERE)
 		{
-			//c = color_mult_c(scene->ambient, scene->ambient_intensity);
-			//c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
+			c = color_mult_c(scene->ambient, scene->ambient_intensity);
 			c = color_add(c, compute_normal_texture(&normal_ray, shape, &scene->textures[0]));
-			c = color_add(c, color_mult_c(compute_normal_texture(&normal_ray, shape, &scene->textures[1]), 0.5));
+			c = color_add(c, color_mult_c(compute_normal_texture(&normal_ray, shape, &scene->textures[1]), 0.8));
+			c = color_mult(c, (compute_diffuse_color(&normal_ray, shape, scene->lights, color_create_int(0xFFFFFFFF))));
+			//c = color_mult(c, compute_chess_color(&normal_ray, shape));
 		}
 		else 
 		{
 			c = color_mult_c(scene->ambient, scene->ambient_intensity);
-			c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
+			c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights, shape->color));
+			c = color_mult(c, compute_chess_color(&normal_ray, shape));
 			c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
 		}
 	}

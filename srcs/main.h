@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 11:25:14 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 11:43:00 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	print_scene(t_scene *s);
 t_color	get_image_color(struct s_image *i, int x, int y);
 void	load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
 
+char	get_light_ray(t_point3f *p, t_light *l, t_shape *shapes);
 const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray,
 			t_ray *normal);
 t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape,

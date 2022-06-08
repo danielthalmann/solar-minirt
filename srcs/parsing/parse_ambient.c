@@ -6,10 +6,11 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:04:15 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 11:55:39 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "glmath.h"
 #include "parse.h"
 #include "ft_scanf.h"
 

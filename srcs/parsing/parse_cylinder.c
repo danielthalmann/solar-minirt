@@ -50,6 +50,7 @@ int	parse_cylinder(t_scene *scene, char *str)
 	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))cylinder_intersect;
 	s->normal_ray = (void (*)(t_ray *, const void *))cylinder_normal_ray;
 	s->color_mask = (float (*)(const t_ray *, const void *))cylinder_color_mask;
+	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))cylinder_color_normal;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",
 			&s->cyl.origin.x, &s->cyl.origin.y, &s->cyl.origin.z,
 			&s->cyl.normal.x, &s->cyl.normal.y, &s->cyl.normal.z,

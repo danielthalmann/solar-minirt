@@ -89,6 +89,7 @@ float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
 t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
 float	v3f_horizontal(const t_v3f *v);
 float	v3f_vertical(const t_v3f *v);
+void	v3f_invers(t_v3f *vector);
 
 t_qion	qion_create(const t_qion *copy);
 void	qion_copy(t_qion *to, const t_qion *copy);
@@ -146,6 +147,7 @@ typedef struct s_shape
 	int					(*intersect)(const t_ray *, const void *, t_v3f *);
 	void				(*normal_ray)(t_ray *, const void *);
 	float				(*color_mask)(const t_ray *, const void *);
+	t_color				(*color_normal)(const t_ray *, const void *, float i);
 	union {
 		void		*shape;
 		t_sphere	sphere;
@@ -178,12 +180,14 @@ typedef struct s_scene
 // Sphere functions
 int		sphere_intersect(const t_ray *r, const t_sphere *s, t_point3f *inter);
 void	sphere_normal_ray(t_ray *normal, t_sphere *sphere);
+t_color	sphere_color_normal(const t_ray *normale, const t_sphere *sphere, float intensity);
 float	sphere_color_mask(const t_ray *normale, const t_sphere *sphere);
 void	sphere_print(const t_sphere *s);
 
 // Plane functions
 int		plane_intersect(const t_ray *r, const t_plane *p, t_point3f *inter);
 float	plane_color_mask(const t_ray *normale, const t_plane *plane);
+t_color	plane_color_normal(const t_ray *normale, const t_plane *plane, float intensity);
 void	plane_normal_ray(t_ray *normal, t_plane *plane);
 void	plane_print(const t_plane *p);
 
@@ -192,6 +196,7 @@ int		cylinder_intersect(const t_ray *r, const t_cylinder *cyl,
 			t_point3f *inter);
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl);
 void	cylinder_normal_ray(t_ray *normale, t_cylinder *plane);
+t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl, float intensity);
 void	cylinder_print(const t_cylinder *cyl);
 
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);

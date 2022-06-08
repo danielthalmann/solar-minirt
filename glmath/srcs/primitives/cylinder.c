@@ -39,6 +39,17 @@ float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl)
 	return (1.0f);
 }
 
+t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl, float intensity)
+{
+	t_color	c;
+
+	(void) normale;
+	(void) cyl;
+	(void) intensity;
+	c = color_create_int(0);	
+	return (c);
+}
+
 void	cylinder_print(const t_cylinder *cyl)
 {
 	printf("\tCYLINDER\n\torigin  = (%f, %f, %f)\n", cyl->origin.x,

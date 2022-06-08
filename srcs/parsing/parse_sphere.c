@@ -46,6 +46,7 @@ int	parse_sphere(t_scene *scene, char *str)
 	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))sphere_intersect;
 	s->normal_ray = (void (*)(t_ray *, const void *))sphere_normal_ray;
 	s->color_mask = (float (*)(const t_ray *, const void *))sphere_color_mask;
+	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))sphere_color_normal;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f %d, %d, %d",
 			&s->sphere.origin.x, &s->sphere.origin.y, &s->sphere.origin.z,
 			&s->sphere.radius, &color[0], &color[1], &color[2]);

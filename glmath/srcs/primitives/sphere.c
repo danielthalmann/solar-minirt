@@ -67,6 +67,19 @@ float	sphere_color_mask(const t_ray *normale, const t_sphere *sphere)
 	return (1.0f);
 }
 
+t_color	sphere_color_normal(const t_ray *normale, const t_sphere *sphere, float intensity)
+{
+	t_color	c;
+	t_v3f	vect;
+
+	vect = v3f_minus(&sphere->origin, &normale->origin);
+	v3f_normalize(&vect);
+	v3f_invers(&vect);
+	cpy_vector_to_color(&c, &vect);
+	c = color_mult_c(c, intensity);
+	return (c);
+}
+
 void	sphere_print(const t_sphere *s)
 {
 	printf("\tSPHERE\n\torigin  = (%f, %f, %f)\n", s->origin.x,

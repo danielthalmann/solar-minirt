@@ -67,6 +67,17 @@ float	plane_color_mask(const t_ray *normale, const t_plane *plane)
 		return (1.0f);
 }
 
+t_color	plane_color_normal(const t_ray *normale, const t_plane *plane, float intensity)
+{
+	t_color	c;
+
+	(void) normale;
+	(void) plane;
+	(void) intensity;
+	c = color_create_int(0);	
+	return (c);
+}
+
 void	plane_print(const t_plane *p)
 {
 	printf("\tPLANE\n\torigin  = (%f, %f, %f)\n", p->origin.x,

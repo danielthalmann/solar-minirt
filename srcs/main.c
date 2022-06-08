@@ -78,6 +78,20 @@ t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape, const t_l
 	return (c);
 }
 
+t_color	compute_normal_color(t_ray *normal_ray, const t_shape *shape, float intensity)
+{
+	t_color	c;
+	
+	c.r = 0;
+	c.g = 0;
+	c.b = 0;
+	if (shape->type == SPHERE)
+	{
+		c = shape->color_normal(normal_ray, (t_sphere *)shape->shape, intensity);
+	}
+	return (c);
+}
+
 static t_v3f	compute_reflection_vector(t_v3f input_vec, t_v3f normale)
 {
 	t_v3f	tmp;
@@ -161,6 +175,7 @@ void	around(t_scene *scene, int x, int y, void *data)
 		c = color_mult_c(scene->ambient, scene->ambient_intensity);
 		c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights));
 		c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
+		c = color_add(c, compute_normal_color(&normal_ray, shape, .09f));
 	}
 	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }

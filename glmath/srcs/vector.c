@@ -339,3 +339,16 @@ float	v3f_vertical(const t_v3f *v)
 {
 	return (atan2f(v->y, v->z));
 }
+
+/**
+ * @brief applique la valeur 1 - x sur tous les axes du vecteur
+ * 
+ * @param vector 
+ */
+void	v3f_invers(t_v3f *vector)
+{
+	vector->x = 1 - vector->x;
+	vector->y = 1 - vector->y;
+	vector->z = 1 - vector->z;
+	vector->w = 0.0;
+}

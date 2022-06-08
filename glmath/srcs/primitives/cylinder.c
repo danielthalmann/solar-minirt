@@ -6,13 +6,17 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 10:48:53 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 16:50:09 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
 
+#include <math.h>
 #include <stdio.h>
+
+#define TS_PHI M_PI_4 / 2
+#define TS_RHO 0.5f
 
 t_ray	cylinder_world2cyl(const t_ray *world_ray, const t_cylinder *c)
 {
@@ -44,10 +48,7 @@ void	cylinder_normal_ray(t_ray *normal, t_cylinder *cyl)
 	if (r.origin.y >= cyl->height)
 		normal->direction = cyl->base[1];
 	else if (r.origin.y <= 0)
-	{
 		normal->direction = v3f_dot_scalar(&cyl->base[1], -1.0f);
-		// printf("-N = (%f, %f, %f)\n", r.direction.x, r.direction.y, r.direction.z);
-	}
 	else
 	{
 		r.direction = r.origin;
@@ -59,9 +60,29 @@ void	cylinder_normal_ray(t_ray *normal, t_cylinder *cyl)
 
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl)
 {
-	(void)normale;
-	(void)cyl;
-	return (1.0f);
+	t_ray	r;
+	float	phi;
+	float	rho;
+	float	mask;
+
+	r = cylinder_world2cyl(normale, cyl);
+	rho = sqrt(r.origin.x * r.origin.x + r.origin.z * r.origin.z);
+	phi = atan2f(r.origin.z, r.origin.x);
+	mask = 1.0f;
+	if (r.origin.y >= cyl->height || r.origin.y <= 0)
+	{
+		if ((fabsf(fmodf(phi + 1000, 2 * TS_PHI)) < TS_PHI
+		&& fabsf(fmodf(rho + 1000, 2 * TS_RHO)) > TS_RHO)
+		|| (fabsf(fmodf(phi + 1000, 2 * TS_PHI)) > TS_PHI
+		&& fmodf(rho, 2 * TS_RHO) < TS_RHO))
+			mask = 0.5f;
+	}
+	else if ((fabsf(fmodf(phi + 1000, 2 * TS_PHI)) < TS_PHI
+		&& fabsf(fmodf(r.origin.y + 1000, 2 * TS_RHO)) < TS_RHO)
+		|| (fabsf(fmodf(phi + 1000, 2 * TS_PHI)) > TS_PHI
+		&& fmodf(r.origin.y, 2 * TS_RHO) > TS_RHO))
+		mask = 0.5f;
+	return (mask);
 }
 
 t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl, float intensity)

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 09:14:20 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 11:17:11 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,29 +55,6 @@ static const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray
 	return (closest);
 }
 
-t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape, const t_light *light, const t_color color)
-{
-	t_v3f	il;
-	float	dot;
-	t_color	c;
-
-	c = color_create_int(0);
-	v3f_copy(&il, &light->origin);
-	v3f_minus_equal(&il, &normal_ray->origin);
-	v3f_normalize(&il);
-	dot = v3f_scalar_product(&normal_ray->direction, &il);
-	dot *= light->intensity;
-	if (dot < 0.0f)
-	{
-		if (shape->type == PLANE)
-			dot = -dot;
-		else
-			return (c);
-	}
-	c = color_mult_c(color, dot);
-	return (c);
-}
-
 t_color	compute_chess_color(t_ray *normal_ray, const t_shape *shape)
 {
 	t_color	c;
@@ -91,7 +68,7 @@ t_color	compute_chess_color(t_ray *normal_ray, const t_shape *shape)
 t_color	compute_normal_color(t_ray *normal_ray, const t_shape *shape, float intensity)
 {
 	t_color	c;
-	
+
 	c.r = 0;
 	c.g = 0;
 	c.b = 0;
@@ -103,7 +80,7 @@ t_color	compute_normal_color(t_ray *normal_ray, const t_shape *shape, float inte
 t_color	compute_normal_texture(t_ray *normal_ray, const t_shape *shape, t_image *textures)
 {
 	t_color	c;
-	
+
 	c.r = 0;
 	c.g = 0;
 	c.b = 0;
@@ -200,7 +177,7 @@ void	around(t_scene *scene, int x, int y, void *data)
 			c = color_mult(c, (compute_diffuse_color(&normal_ray, shape, scene->lights, color_create_int(0xFFFFFFFF))));
 			//c = color_mult(c, compute_chess_color(&normal_ray, shape));
 		}
-		else 
+		else
 		{
 			c = color_mult_c(scene->ambient, scene->ambient_intensity);
 			c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights, shape->color));

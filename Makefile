@@ -3,6 +3,7 @@ NAME=minirt
 SRCS=	main.c \
 		error.c \
 		input.c \
+		free.c \
 		export_ppm.c \
 		print_scene.c \
 		parsing/parse.c \

@@ -6,6 +6,7 @@ SRCS=	main.c \
 		free.c \
 		texture.c \
 		light_diffusion.c \
+		light_reflection.c \
 		export_ppm.c \
 		print_scene.c \
 		parsing/parse.c \

@@ -198,6 +198,8 @@ void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
 
 void	camera_update_orien(t_camera *c, t_v3f orien);
 t_v3f	cam2world(t_camera *c, t_v3f p);
+t_v3f	look_at(const t_camera *cam, const t_scene *scene, int x, int y);
+
 void	scene_around(t_scene *scene, void *data,
 			void (*fn)(t_scene *, int, int, void *));
 

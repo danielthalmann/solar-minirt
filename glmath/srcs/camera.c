@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 07:47:50 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/03 10:43:43 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 09:47:00 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,34 @@ void	camera_update_orien(t_camera *c, t_v3f orien)
 	v3f_normalize(&c->up);
 }
 
+t_v3f	look_at(const t_camera *cam, const t_scene *scene, int x, int y)
+{
+	t_v3f	left;
+	t_v3f	up;
+	t_v3f	cross;
+	float	fov_ratio;
+	float	half_fov;
+	t_qion	qr;
+	t_v3f	vector;
+
+	v3f_copy(&vector, &scene->cam.orien);
+
+	fov_ratio = cam->fov / (float)scene->w;
+	half_fov = cam->fov / 2;
+
+	v3f_set(&up, 0.0, 1.0, 0.0);
+	v3f_set(&left, 1.0, 0.0, 0.0);
+
+	qr = qion_rotation_angle(-half_fov + (x * fov_ratio), &up);
+	vector = qion_rotation(&vector, &qr);
+	v3f_normalize(&vector);
+
+	cross = v3f_cross_product(&up, &vector);
+	v3f_normalize(&cross);
+
+	qr = qion_rotation_angle(-half_fov + ((y + ((scene->w - scene->h) / 2)) * fov_ratio), &cross);
+	vector = qion_rotation(&vector, &qr);
+
+	v3f_normalize(&vector);
+	return (vector);
+}

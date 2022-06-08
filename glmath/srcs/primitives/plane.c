@@ -6,13 +6,13 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 21:35:39 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/03 11:46:13 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 10:41:48 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
 
-#define TILE_SIZE 0.25f
+#define TILE_SIZE 1.25f
 
 int	plane_intersect(const t_ray *ray, const t_plane *plane, t_point3f *intersec)
 {
@@ -74,7 +74,7 @@ t_color	plane_color_normal(const t_ray *normale, const t_plane *plane, float int
 	(void) normale;
 	(void) plane;
 	(void) intensity;
-	c = color_create_int(0);	
+	c = color_create_int(0);
 	return (c);
 }
 
@@ -85,7 +85,7 @@ t_color	plane_color_texture(const t_ray *normale, const t_plane *plane, t_image 
 	(void) normale;
 	(void) plane;
 	(void) texture;
-	c = color_create_int(0);	
+	c = color_create_int(0);
 	return (c);
 }
 

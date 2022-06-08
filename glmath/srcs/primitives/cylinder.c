@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/07 19:48:57 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 10:48:53 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ t_ray	cylinder_world2cyl(const t_ray *world_ray, const t_cylinder *c)
 {
 	t_ray	cyl_ray;
 
-	cyl_ray.origin = matrix_dot_v3f(c->base_inv, &world_ray->origin);
+	v3f_copy(&cyl_ray.origin, &world_ray->origin);
 	v3f_minus_equal(&cyl_ray.origin, &c->origin);
+	cyl_ray.origin = matrix_dot_v3f(c->base_inv, &cyl_ray.origin);
 	cyl_ray.direction = matrix_dot_v3f(c->base_inv, &world_ray->direction);
 	return (cyl_ray);
 }
@@ -28,7 +29,8 @@ t_ray	cylinder_cyl2world(const t_ray *cyl_ray, const t_cylinder *c)
 {
 	t_ray	world_ray;
 
-	world_ray.origin = matrix_dot_v3f(c->base, &cyl_ray->origin);
+	v3f_copy(&world_ray.origin, &cyl_ray->origin);
+	world_ray.origin = matrix_dot_v3f(c->base, &world_ray.origin);
 	v3f_plus_equal(&world_ray.origin, &c->origin);
 	world_ray.direction = matrix_dot_v3f(c->base, &cyl_ray->direction);
 	return (world_ray);
@@ -69,7 +71,7 @@ t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl, float
 	(void) normale;
 	(void) cyl;
 	(void) intensity;
-	c = color_create_int(0);	
+	c = color_create_int(0);
 	return (c);
 }
 
@@ -80,7 +82,7 @@ t_color	cylinder_color_texture(const t_ray *normale, const t_cylinder *cyl, t_im
 	(void) normale;
 	(void) cyl;
 	(void) texture;
-	c = color_create_int(0);	
+	c = color_create_int(0);
 	return (c);
 }
 

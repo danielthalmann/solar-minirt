@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/03 09:15:32 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 09:10:19 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ typedef struct s_camera
 {
 	t_v3f	pos;
 	t_v3f	orien;
+	t_v3f	up;
+	t_v3f	right;
 	float	fov;
 	float	degree_orien;
 }	t_camera;

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/01 19:01:15 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/08 09:14:20 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_ray	init_ray(t_scene *s, int x, int y)
 	v3f_copy(&r.origin, &s->cam.pos);
 
 	r.direction.x = (2.0f * ((float)x + 0.5f) / (float)s->w - 1.0f) * s->ratio * scale;
-	r.direction.y = (1.0f - 2.0f * ((float)y + 0.5f) / (float)s->h - 1.0f) * scale;
+	r.direction.y = -(2.0f * ((float)y + 0.5f) / (float)s->h - 1.0f) * scale;
 	r.direction.z = 1.0f;
 	r.direction.w = 0.0f;
 
@@ -147,8 +147,6 @@ void	around(t_scene *scene, int x, int y, void *data)
 
 	if(x == app->scene.w / 2 && y == app->scene.h / 2)
 	{
-		printf("\x1b[35m");
-		v3f_print(&qr);
 		printf("\x1b[36m");
 		v3f_print(&scene->cam.orien);
 		printf("\x1b[33m");
@@ -177,7 +175,7 @@ int	loop(void *param)
 		return (1);
 	if (app->rotate_camera)
 		angle += 0.1f;
-	v3f_set(&app->scene.cam.pos, 10.0f * cosf(angle), 0.0f, 10.0f * sinf(angle));
+	v3f_set(&app->scene.cam.pos, 10.0f * cosf(angle), 10.0f, 10.0f * sinf(angle));
 	camera_update_orien(&app->scene.cam, v3f_dot_scalar(&app->scene.cam.pos, -1));
 	v3f_normalize(&app->scene.cam.orien);
 	app->on_change = 1;

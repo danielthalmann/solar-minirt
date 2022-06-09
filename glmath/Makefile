@@ -21,6 +21,7 @@ SRCS=	scene.c \
 		primitives/cylinder_color.c \
 		primitives/cylinder_intersection.c \
 		primitives/cone.c \
+		primitives/cone_color.c \
 		primitives/cone_intersection.c \
 		primitives/plane_color.c \
 		primitives/plane.c

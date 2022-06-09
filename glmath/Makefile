@@ -11,6 +11,7 @@ SRCS=	scene.c \
 		color2.c \
 		ray.c \
 		quaternion.c \
+		quaternion2.c \
 		camera.c\
 		equations.c \
 		shape.c \

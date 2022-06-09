@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 19:09:27 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 17:58:32 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 22:54:57 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ int	export_ppm(char	*filename, t_app *app)
 	{
 		color = app->img.c_ptr[i];
 		ft_fprintf(fd, "%d %d %d\n", ptr[2], ptr[1], ptr[0]);
-		show_progress("\rExport to PPM: %d %%", i, n_pixels);
+		show_progress("\rExport to PPM...\t%3d %%", i, n_pixels - 1);
 	}
+	printf("\n");
 	close(fd);
 	return (0);
 }

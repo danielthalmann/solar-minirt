@@ -10,8 +10,11 @@ SRCS=	scene.c \
 		equations.c \
 		shape.c \
 		primitives/sphere.c \
+		primitives/sphere_color.c \
 		primitives/cylinder.c \
+		primitives/cylinder_color.c \
 		primitives/cylinder_intersection.c \
+		primitives/plane_color.c \
 		primitives/plane.c
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
@@ -42,4 +45,4 @@ clean:
 fclean: clean
 	rm -f $(addprefix $(LIB_PATH), $(NAME))
 
-re: fclean $(NAME)
+re: fclean $(addprefix $(LIB_PATH), $(NAME))

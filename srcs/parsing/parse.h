@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:06:25 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:03:50 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 14:07:22 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	parse_camera(t_scene *s, char *str);
 int	parse_sphere(t_scene *scene, char *str);
 int	parse_plane(t_scene *scene, char *str);
 int	parse_cylinder(t_scene *scene, char *str);
+int	parse_cone(t_scene *scene, char *str);
 
 // Checkers function
 int	parse_check_n_elem(int diff, const char *el);

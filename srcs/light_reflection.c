@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 11:20:09 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 09:25:56 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 09:46:02 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray,
 	v3f_minus_equal(&light_vec, &light->origin);
 	v3f_normalize(&light_vec);
 	reflec = compute_reflection_vector(light_vec, normal_ray->direction);
-	dot = - v3f_scalar_product(&reflec, &input_ray->direction);
+	dot = -v3f_scalar_product(&reflec, &input_ray->direction);
 	if (dot < 0)
 		return (c);
 	dot = shape->refl_coeff * powf(dot, shape->shininess);

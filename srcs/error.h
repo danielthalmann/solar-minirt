@@ -6,14 +6,13 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 11:27:26 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 09:19:40 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 09:53:24 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef ERROR_H
 # define ERROR_H
 
-int	not_enough_arguments();
+int	not_enough_arguments(void);
 
 #endif

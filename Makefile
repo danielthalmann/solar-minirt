@@ -19,7 +19,8 @@ SRCS=	main.c \
 		parsing/parse_plane.c \
 		parsing/parse_cylinder.c \
 		parsing/parse_cone.c \
-		parsing/parse_check.c
+		parsing/parse_check.c \
+		parsing/parse_check2.c \
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 
@@ -36,7 +37,7 @@ TESTS=	$(TEST_PATH)/main.c \
 		$(SRC_PATH)/parsing/parse_plane.c \
 		$(SRC_PATH)/parsing/parse_cylinder.c \
 		$(SRC_PATH)/parsing/parse_cone.c \
-		$(SRC_PATH)/parsing/parse_check.c
+		$(SRC_PATH)/parsing/parse_check2.c \
 
 TEST_OBJS=$(TESTS:.c=.o)
 

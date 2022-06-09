@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 13:50:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 14:09:21 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:36:41 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ static void	init_cone(t_shape *s, int color[3])
 {
 	int	color_int;
 
+	s->type = CONE;
+	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))
+		cone_intersect;
+	s->normal_ray = (void (*)(t_ray *, const void *))cone_normal_ray;
+	s->color_mask = (float (*)(const t_ray *, const void *))cone_color_mask;
+	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))
+		cone_color_normal;
+	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))
+		cone_color_texture;
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	s->color = color_create_int(color_int);
 	s->cone.radius /= 2.0f;
@@ -65,13 +74,6 @@ int	parse_cone(t_scene *scene, char *str)
 		return (1);
 	s->next = scene->shapes;
 	scene->shapes = s;
-	s->type = CONE;
-	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))
-		cone_intersect;
-	s->normal_ray = (void (*)(t_ray *, const void *))cone_normal_ray;
-	s->color_mask = (float (*)(const t_ray *, const void *))cone_color_mask;
-	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))cone_color_normal;
-	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))cone_color_texture;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",
 			&s->cone.origin.x, &s->cone.origin.y, &s->cone.origin.z,
 			&s->cone.base[1].x, &s->cone.base[1].y, &s->cone.base[1].z,

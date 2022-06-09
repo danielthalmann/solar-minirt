@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 11:56:23 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 12:25:02 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,15 @@ typedef struct s_scene
 	t_camera	cam;
 	t_image		*textures;
 }	t_scene;
+
+// Shapes functions
+void	init_shape(t_shape *s);
+t_color	compute_chess_color(
+			t_ray *normal_ray, const t_shape *shape);
+t_color	compute_normal_color(
+			t_ray *normal_ray, const t_shape *shape, float intensity);
+t_color	compute_normal_texture(
+			t_ray *normal_ray, const t_shape *shape, t_image *textures);
 
 // Sphere functions
 int		sphere_intersect(const t_ray *r, const t_sphere *s, t_point3f *inter);

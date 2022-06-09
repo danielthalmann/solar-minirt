@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 09:49:11 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 13:17:35 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@
 
 typedef struct s_app
 {
-	void			*mlx_ptr;
+	void			*mlx;
 	void			*win_ptr;
-	void			*img_ptr;
 	int				on_change;
 	int				on_rotate;
 	int				rotate_camera;
-	unsigned int	*pix_ptr;
+	t_image			img;
 	t_scene			scene;
 }	t_app;
 
@@ -44,9 +43,13 @@ int				parse(t_scene *scene, char *filename);
 
 void			print_scene(t_scene *s);
 
+int				new_image(void *mlx_ptr, t_image *image, int w, int h);
 t_color			get_image_color(struct s_image *i, int x, int y);
+void			set_image_color(t_image *i, int x, int y, t_color c);
 void			load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
 
+// loop.c
+int				loop(void *param);
 char			get_light_ray(t_point3f *p, t_light *l, t_shape *shapes);
 const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray,
 					t_ray *normal);

@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 11:46:03 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/08 09:05:29 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 13:18:27 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	free_app(t_app *app)
 {
 	free_shapes(app->scene.shapes);
 	free_lights(app->scene.lights);
-	if (app->img_ptr)
-		mlx_destroy_image(app->mlx_ptr, app->img_ptr);
+	if (app->img.img_ptr)
+		mlx_destroy_image(app->mlx, app->img.img_ptr);
 	if (app->win_ptr)
-		mlx_destroy_window(app->mlx_ptr, app->win_ptr);
+		mlx_destroy_window(app->mlx, app->win_ptr);
 }

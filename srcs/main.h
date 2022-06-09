@@ -48,6 +48,7 @@ t_color			get_image_color(struct s_image *i, int x, int y);
 void			set_image_color(t_image *i, int x, int y, t_color c);
 void			load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
 
+void			show_progress(const char *str, int i, int n_pixels);
 void			mean_blur(t_image *img, int rank);
 
 // loop.c

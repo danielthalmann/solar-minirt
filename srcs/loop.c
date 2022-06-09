@@ -6,12 +6,14 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:33:59 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 13:17:35 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 17:50:53 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include "libft.h"
+
+#define RENDER_TEXT "\rRendering... (%d %%)"
 
 const t_shape	*get_closest_shape(
 		const t_shape *s, const t_ray *input_ray, t_ray *normal)
@@ -89,6 +91,7 @@ void	around(t_scene *scene, int x, int y, void *data)
 		if (shape->type != SPHERE)
 			c = color_mult(c, compute_chess_color(&normal_ray, shape));
 	}
+	show_progress(RENDER_TEXT, y * scene->w + x, scene->w * scene->h);
 	set_image_color(&((t_app *)data)->img, x, y, c);
 }
 

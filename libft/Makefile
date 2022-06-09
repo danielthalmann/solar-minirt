@@ -6,7 +6,7 @@
 #    By: trossel <marvin@42lausanne.ch>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 09:07:29 by trossel           #+#    #+#              #
-#    Updated: 2022/05/25 12:06:53 by trossel          ###   ########.fr        #
+#    Updated: 2022/06/09 08:35:13 by trossel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,8 @@ _SRCS = ft_isalpha.c \
 	   ft_scanf/ft_scanf_conversion.c \
 	   ft_scanf/scan_char.c \
 	   ft_scanf/scan_int.c \
-	   ft_scanf/scan_float.c
+	   ft_scanf/scan_float.c \
+	   ft_scanf/scan_string.c \
 
 _SRCS_BONUS = ft_lstnew.c \
 	   ft_lstadd_front.c \

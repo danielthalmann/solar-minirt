@@ -6,11 +6,12 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:33:59 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 17:50:53 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:23:48 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include "antialiasing.h"
 #include "libft.h"
 
 #define RENDER_TEXT "\rRendering... (%d %%)"
@@ -112,7 +113,7 @@ int	loop(void *param)
 	if (!app->on_change)
 		return (0);
 	scene_around(&(app->scene), app, &around);
-	mean_blur(&app->img, 1);
+	image_filter(&app->img, MEAN, 1);
 	mlx_clear_window(app->mlx, app->win_ptr);
 	mlx_put_image_to_window(app->mlx, app->win_ptr, app->img.img_ptr, 0, 0);
 	app->on_change = 0;

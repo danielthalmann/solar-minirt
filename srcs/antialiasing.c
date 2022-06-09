@@ -6,78 +6,76 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:35:29 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 18:10:07 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:24:02 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "antialiasing.h"
 #include "ft_printf.h"
-#include "glmath.h"
 #include "main.h"
 #include "libft.h"
 #include <unistd.h>
+#include <stdio.h>
 
-static t_color	get_average(t_image *img, int x, int y, int rank)
+static t_color	apply_filter_pixel(
+		t_image *img, t_filter2d *f, int x, int y)
 {
-	t_color	color;
-	t_color	tmp;
-	int		delta[2];
+	t_color	in;
+	t_color	out;
+	int		idx[2];
+	float	mat_val;
+	int		count = 0;
 
-	delta[0] = -rank;
-	delta[1] = -rank;
-	color.r = 0.0f;
-	color.g = 0.0f;
-	color.b = 0.0f;
-	while (delta[1] <= rank)
+	out = color_create_int(0);
+	idx[0] = 0;
+	idx[1] = 0;
+	while (idx[1] < f->n)
 	{
-		tmp = get_image_color(img, x + delta[0], y + delta[1]);
-		color.r += tmp.r;
-		color.g += tmp.g;
-		color.b += tmp.b;
-		if (++(delta[0]) > rank)
-		{
-			delta[0] = -rank;
-			delta[1]++;
-		}
+		in = get_image_color(img, x + idx[0] - f->rank, y + idx[0] - f->rank);
+		mat_val = f->mat[idx[1] * f->n + idx[0]];
+		out.r += mat_val * in.r;
+		out.g += mat_val * in.g;
+		out.b += mat_val * in.b;
+		count++;
+		if (++idx[0] >= f->n && ++idx[1])
+			idx[0] = 0;
 	}
-	color.r /= pow(2 * rank + 1, 2);
-	color.g /= pow(2 * rank + 1, 2);
-	color.b /= pow(2 * rank + 1, 2);
-	return (color);
+	printf("count = %d\n", count);
+	return (out);
 }
 
-/* 
- * @brief Apply a Box-filter to the image.
- *
- * @param img The image to apply the filter to
- * @param rank the size N of the matrix (2N + 1)x(2N + 1)
- * 			
- * 			rank = 0 => matrix is 1x1
- * 			rank = 1 => matrix is 3x3
- * 			rank = 2 => matrix is 5x5
- * */
-void	mean_blur(t_image *img, int rank)
+void	apply_filter(t_image *input, t_image *output, t_filter2d *f)
 {
-	int		x;
-	int		y;
-	t_color	c2;
-	t_image	img2;
-
-	if (rank < 0)
-		rank = -rank;
-	if (new_image(img->mlx_ptr, &img2, img->w, img->h))
-		return ;
-	x = 0;
-	y = 0;
-	while (y < img->h)
+	int		idx[2];
+	t_color	c;
+	
+	idx[0] = 0;
+	idx[1] = 0;
+	while (idx[1] < input->h)
 	{
-		if (!x || x == img->w - 1 || !y || y == img->h -1)
-			c2 = get_image_color(img, x, y);
-		else
-			c2 = get_average(img, x, y, rank);
-		set_image_color(&img2, x, y, c2);
-		if (++x == img->w && ++y)
-			x = 0;
+		c = apply_filter_pixel(input, f, idx[0], idx[1]);
+		set_image_color(output, idx[0], idx[1], c);
+		if (++idx[0] >= input->w && ++idx[1])
+			idx[0] = 0;
 	}
+}
+
+int	image_filter(t_image *img, t_filter2d_type type, int rank)
+{
+	t_filter2d	filter;
+	t_image		img2;
+
+	if (init_filter(&filter, type, rank))
+	{
+		printf("cannot create filter\n");
+		return (1);
+	}
+	if (new_image(img->mlx_ptr, &img2, img->w, img->h))
+		return (1);
+	printf("Filter created: r = %d, n = %d\n", filter.rank, filter.n);
+	apply_filter(img, &img2, &filter);	
+	free(filter.mat);
 	ft_memcpy(img->c_ptr, img2.c_ptr, img->w * img->h * 4);
 	mlx_destroy_image(img2.mlx_ptr, img2.img_ptr);
+	return (0);
 }

@@ -1,7 +1,13 @@
 NAME=libglmath.a
 
-SRCS=	scene.c vector.c color.c ray.c quaternion.c camera.c\
+SRCS=	scene.c \
+		vector.c \
+		color.c \
+		ray.c \
+		quaternion.c \
+		camera.c\
 		equations.c \
+		shape.c \
 		primitives/sphere.c \
 		primitives/cylinder.c \
 		primitives/cylinder_intersection.c \

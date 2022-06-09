@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   shape.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
+/*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/22 11:27:26 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 09:19:59 by trossel          ###   ########.fr       */
+/*   Created: 2022/06/09 09:21:29 by trossel           #+#    #+#             */
+/*   Updated: 2022/06/09 09:26:29 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "ft_printf.h"
+#include "glmath.h"
 
-int	not_enough_arguments(void)
+void	init_shape(t_shape *s)
 {
-	ft_fprintf(STDERR_FILENO, "Error\n");
-	ft_fprintf(STDERR_FILENO, "not enough arguments\n");
-	return (1);
+	if (!s)
+		return ;
+	s->next = NULL;
+	s->intersect = NULL;
+	s->color_mask = NULL;
+	s->color_texture = NULL;
+	s->type = SPHERE;
+	s->color_normal = NULL;
+	s->shininess = 50.0f;
+	s->refl_coeff = 1.0f;
 }

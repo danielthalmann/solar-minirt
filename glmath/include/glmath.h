@@ -164,6 +164,8 @@ typedef struct s_shape
 	t_shapetype		type;
 	struct s_shape	*next;
 	t_color			color;
+	float			shininess;
+	float			refl_coeff;
 	int				(*intersect)(const t_ray *, const void *, t_v3f *);
 	void			(*normal_ray)(t_ray *, const void *);
 	float			(*color_mask)(const t_ray *, const void *);
@@ -233,6 +235,8 @@ void	camera_update_orien(t_camera *c, t_v3f orien);
 t_v3f	cam2world(t_camera *c, t_v3f p);
 t_v3f	look_at(const t_camera *cam, const t_scene *scene, int x, int y);
 
+// Scene functions
+void	init_scene(t_scene *s);
 void	scene_around(t_scene *scene, void *data,
 			void (*fn)(t_scene *, int, int, void *));
 

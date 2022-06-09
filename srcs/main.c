@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 14:58:44 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 09:19:40 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ int	main(int argc, char **argv)
 	app.scene.shapes = NULL;
 	app.scene.lights = NULL;
 	if (argc < 2)
-		return (notEnoughArguments());
+		return (not_enough_arguments());
 	if (parse(&app.scene, argv[1]))
 		return (1);
 	print_scene(&app.scene);

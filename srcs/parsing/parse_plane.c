@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/07 19:25:45 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 09:05:47 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,28 @@ static int	check_error(t_scene *s, int color[3], int n_parsed)
 	return (err);
 }
 
+static void	init_plane(t_shape *s, int color[3])
+{
+	int		color_int;
+
+	s->normal_ray = (void (*)(t_ray *, const void *))plane_normal_ray;
+	s->color_mask = (float (*)(const t_ray *, const void *))plane_color_mask;
+	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))
+		plane_color_normal;
+	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))
+		plane_color_texture;
+	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))
+		plane_intersect;
+	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
+	s->color = color_create_int(color_int);
+}
+
 int	parse_plane(t_scene *scene, char *str)
 {
-	int				n_parsed;
-	int				color[3];
-	int				color_int;
-	t_shape			*s;
+	int			n_parsed;
+	int			color[3];
+	t_shape		*s;
+	int			err;
 
 	s = malloc(sizeof(t_shape));
 	if (!s)
@@ -43,18 +59,13 @@ int	parse_plane(t_scene *scene, char *str)
 	s->next = scene->shapes;
 	scene->shapes = s;
 	s->type = PLANE;
-	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))
-		plane_intersect;
-	s->normal_ray = (void (*)(t_ray *, const void *))plane_normal_ray;
-	s->color_mask = (float (*)(const t_ray *, const void *))plane_color_mask;
-	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))plane_color_normal;
-	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))plane_color_texture;
 	n_parsed = ft_sscanf(str, ELEM " %f, %f, %f %f, %f, %f %d, %d, %d",
 			&s->plane.origin.x, &s->plane.origin.y, &s->plane.origin.z,
 			&s->plane.normal.x, &s->plane.normal.y, &s->plane.normal.z,
 			&color[0], &color[1], &color[2]);
 	v3f_normalize(&s->plane.normal);
-	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
-	s->color = color_create_int(color_int);
-	return (check_error(scene, color, n_parsed));
+	err = check_error(scene, color, n_parsed);
+	if (!err)
+		init_plane(s, color);
+	return (err);
 }

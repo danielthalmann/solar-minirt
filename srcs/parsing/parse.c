@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 08:52:49 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/20 17:01:05 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 18:39:01 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,25 @@ static int	parse_fd(t_scene *scene, int fd)
 	return (err);
 }
 
+static int	parse_check_scene(t_scene *s)
+{
+	if (!s->lights)
+		ft_fprintf(STDERR_FILENO, "Warning: no light found.\n");
+	if (!s->shapes)
+		ft_fprintf(STDERR_FILENO, "Warning: no shapes found.\n");
+	if (s->cam.fov < 0.0f)
+	{
+		ft_fprintf(STDERR_FILENO, "Error: missing camera line.\n");
+		return (1);
+	}
+	if (s->ambient_intensity < 0.0f)
+	{
+		ft_fprintf(STDERR_FILENO, "Error: missing ambient light line.\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	parse(t_scene *scene, char *filename)
 {
 	int	fd;
@@ -101,5 +120,6 @@ int	parse(t_scene *scene, char *filename)
 	}
 	err = parse_fd(scene, fd);
 	close(fd);
+	err += parse_check_scene(scene);
 	return (err);
 }

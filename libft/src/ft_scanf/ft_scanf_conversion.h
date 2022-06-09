@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:24:08 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/19 15:29:43 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 18:46:54 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int	ft_sscanf_conversion(const char **str, const char **format, va_list val);
 int	scan_char(const char **str, const t_conv_param *p, va_list val);
 int	scan_int(const char **str, const t_conv_param *p, va_list val);
 int	scan_float(const char **str, const t_conv_param *p, va_list val);
+int	scan_string(const char **str, const t_conv_param *p, va_list val);
 
 #endif // !PRINTF_CONVERSION_H

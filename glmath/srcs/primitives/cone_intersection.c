@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone_interection.c                                 :+:      :+:    :+:   */
+/*   cone_intersection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 14:20:44 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 14:36:30 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,16 @@ int	cone_intersect(const t_ray *ray, const t_cone *c,
 	float	t_sides[2];
 	float	real_t;
 	t_ray	r;
+	float	a;
 
+	a = c->radius * c->radius / (c->height * c->height);
 	r = cylinder_world2cyl(ray, (t_cylinder *)c);
 	eq[0] = r.direction.x * r.direction.x + r.direction.z * r.direction.z;
+	eq[0] -= a * r.direction.y * r.direction.y;
 	eq[1] = 2 * r.origin.x * r.direction.x + 2 * r.origin.z * r.direction.z;
-	eq[2] = r.origin.x * r.origin.x + r.origin.z * r.origin.z
-		- c->radius * c->radius;
+	eq[1] -= 2 * a * r.origin.y * r.direction.y;
+	eq[2] = r.origin.x * r.origin.x + r.origin.z * r.origin.z;
+	eq[2] -= a * r.origin.y * r.origin.y;
 	solve_quadratic(eq[0], eq[1], eq[2], t_sides);
 	real_t = check_height(&r, c, t_sides);
 	if (real_t < 0.0f)

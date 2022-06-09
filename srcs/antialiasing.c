@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:35:29 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 17:42:51 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 18:10:07 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,9 @@ void	mean_blur(t_image *img, int rank)
 		else
 			c2 = get_average(img, x, y, rank);
 		set_image_color(&img2, x, y, c2);
-		if (++x == img->w)
-		{
+		if (++x == img->w && ++y)
 			x = 0;
-			y++;
-		}
 	}
 	ft_memcpy(img->c_ptr, img2.c_ptr, img->w * img->h * 4);
+	mlx_destroy_image(img2.mlx_ptr, img2.img_ptr);
 }

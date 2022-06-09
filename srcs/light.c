@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 11:42:42 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/08 11:42:52 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 09:49:52 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 char	get_light_ray(t_point3f *p, t_light *l, t_shape *shapes)
 {
 	const t_shape	*closest;
-	t_ray	light_ray;
-	t_ray	inter;
+	t_ray			light_ray;
+	t_ray			inter;
 
 	light_ray.origin = *p;
 	light_ray.direction = l->origin;

@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 09:01:49 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 12:28:17 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	parse_cylinder(t_scene *scene, char *str)
 	s = malloc(sizeof(t_shape));
 	if (!s)
 		return (1);
+	init_shape(s);
 	s->next = scene->shapes;
 	scene->shapes = s;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",

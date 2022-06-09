@@ -1,6 +1,7 @@
 NAME=minirt
 
 SRCS=	main.c \
+		loop.c \
 		error.c \
 		input.c \
 		free.c \

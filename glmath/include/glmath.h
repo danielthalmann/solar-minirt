@@ -12,6 +12,7 @@
 
 #ifndef GLMATH_H
 # define GLMATH_H
+
 # include <stdlib.h>
 # include <math.h>
 # include <stdio.h>
@@ -19,8 +20,8 @@
 # define TO_RADIAN	0.01745329251f
 # define TO_DEGRE	57.2957795457f
 
-typedef unsigned int	t_ui;
-typedef float			t_c;
+typedef unsigned int		t_ui;
+typedef float				t_c;
 typedef struct s_vector4f
 {
 	float	x;
@@ -68,29 +69,39 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
+// vector.c
 t_v3f	*v3f_create(const t_v3f *copy);
 void	v3f_set(t_v3f *vector, float x, float y, float z);
-t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2);
-t_v3f	v3f_division_val(const t_v3f *v1, float value);
+void	v3f_clear(t_v3f *vector);
+void	v3f_copy(t_v3f *to, const t_v3f *copy);
+void	v3f_print(t_v3f *vector);
+
+// vector_add_sub.c
 void	v3f_plus_equal(t_v3f *to, const t_v3f *add);
 t_v3f	v3f_plus(const t_v3f *to, const t_v3f *add);
 void	v3f_minus_equal(t_v3f *to, const t_v3f *sub);
 t_v3f	v3f_minus(const t_v3f *to, const t_v3f *sub);
-void	v3f_normalize(t_v3f *vector);
 
-float	v3f_scalar_product(const t_v3f *v1, const t_v3f *v2);
-t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2);
+// vector_scalar_op.c
 t_v3f	v3f_dot_scalar(const t_v3f *vector, float value);
 void	v3f_dot_equal_scalar(t_v3f *vector, float value);
-void	v3f_clear(t_v3f *vector);
-void	v3f_copy(t_v3f *to, const t_v3f *copy);
+t_v3f	v3f_div_scalar(const t_v3f *v1, float value);
+void	v3f_div_equal_scalar(t_v3f *vector, float value);
+
+// vector_product.c
+float	v3f_scalar_product(const t_v3f *v1, const t_v3f *v2);
+t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2);
+
+// vector_norm.c
+void	v3f_normalize(t_v3f *vector);
 float	v3f_abs(t_v3f *v);
-void	v3f_print(t_v3f *vector);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
+void	v3f_invers(t_v3f *vector);
+
+// vector_angle.c
 t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
 float	v3f_horizontal(const t_v3f *v);
 float	v3f_vertical(const t_v3f *v);
-void	v3f_invers(t_v3f *vector);
 
 t_qion	qion_create(const t_qion *copy);
 void	qion_copy(t_qion *to, const t_qion *copy);
@@ -121,16 +132,16 @@ void	ray_clear(t_ray *r);
 /* texture image */
 typedef struct s_image
 {
-	void	*mlx_ptr;
-	void	*img_ptr;
-	t_ui	*c_ptr;
-	int		w;
-	int		h;
-	int		bpp;
-	int		size_line;
-	int		endian;
-	int		bytes;
-	t_color	(*get_image_color)(struct s_image *i, int x, int y);
+	void			*mlx_ptr;
+	void			*img_ptr;
+	t_ui			*c_ptr;
+	int				w;
+	int				h;
+	int				bpp;
+	int				size_line;
+	int				endian;
+	int				bytes;
+	struct s_color	(*get_image_color)(struct s_image *i, int x, int y);
 }	t_image;
 
 /* Shapes */
@@ -158,17 +169,19 @@ typedef enum e_shapetype
 	SPHERE,
 	CYLINDER,
 	PLANE
-} t_shapetype;
+}	t_shapetype;
 typedef struct s_shape
 {
 	t_shapetype		type;
 	struct s_shape	*next;
 	t_color			color;
+	float			shininess;
+	float			refl_coeff;
 	int				(*intersect)(const t_ray *, const void *, t_v3f *);
 	void			(*normal_ray)(t_ray *, const void *);
 	float			(*color_mask)(const t_ray *, const void *);
-	t_color			(*color_normal)(const t_ray *, const void *, float i);
-	t_color			(*color_texture)(const t_ray *, const void *, t_image *i);
+	struct s_color	(*color_normal)(const t_ray *r, const void *s, float i);
+	struct s_color	(*color_texture)(const t_ray *r, const void *s, t_image *i);
 	union {
 		void		*shape;
 		t_sphere	sphere;
@@ -195,23 +208,36 @@ typedef struct s_scene
 	t_shape		*shapes;
 	t_light		*lights;
 	t_camera	cam;
-	t_image 	*textures;
+	t_image		*textures;
 }	t_scene;
+
+// Shapes functions
+void	init_shape(t_shape *s);
+t_color	compute_chess_color(
+			t_ray *normal_ray, const t_shape *shape);
+t_color	compute_normal_color(
+			t_ray *normal_ray, const t_shape *shape, float intensity);
+t_color	compute_normal_texture(
+			t_ray *normal_ray, const t_shape *shape, t_image *textures);
 
 // Sphere functions
 int		sphere_intersect(const t_ray *r, const t_sphere *s, t_point3f *inter);
 float	sphere_color_mask(const t_ray *normale, const t_sphere *sphere);
 void	sphere_normal_ray(t_ray *normal, t_sphere *sphere);
-t_color	sphere_color_normal(const t_ray *normale, const t_sphere *sphere, float intensity);
-t_color	sphere_color_texture(const t_ray *normale, const t_sphere *sphere, t_image *texture);
+t_color	sphere_color_normal(const t_ray *normale, const t_sphere *sphere,
+			float intensity);
+t_color	sphere_color_texture(const t_ray *normale, const t_sphere *sphere,
+			t_image *texture);
 void	sphere_print(const t_sphere *s);
 
 // Plane functions
 int		plane_intersect(const t_ray *r, const t_plane *p, t_point3f *inter);
 float	plane_color_mask(const t_ray *normale, const t_plane *plane);
 void	plane_normal_ray(t_ray *normal, t_plane *plane);
-t_color	plane_color_normal(const t_ray *normale, const t_plane *plane, float intensity);
-t_color	plane_color_texture(const t_ray *normale, const t_plane *plane, t_image *texture);
+t_color	plane_color_normal(const t_ray *normale, const t_plane *plane,
+			float intensity);
+t_color	plane_color_texture(const t_ray *normale, const t_plane *plane,
+			t_image *texture);
 void	plane_print(const t_plane *p);
 
 // Cylinder functions
@@ -221,8 +247,10 @@ t_ray	cylinder_world2cyl(const t_ray *ray, const t_cylinder *cyl);
 t_ray	cylinder_cyl2world(const t_ray *ray, const t_cylinder *cyl);
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl);
 void	cylinder_normal_ray(t_ray *normale, t_cylinder *plane);
-t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl, float intensity);
-t_color	cylinder_color_texture(const t_ray *normale, const t_cylinder *cyl, t_image *texture);
+t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl,
+			float intensity);
+t_color	cylinder_color_texture(const t_ray *normale, const t_cylinder *cyl,
+			t_image *texture);
 void	cylinder_print(const t_cylinder *cyl);
 
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);

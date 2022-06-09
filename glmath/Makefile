@@ -1,10 +1,26 @@
 NAME=libglmath.a
 
-SRCS=	scene.c vector.c color.c ray.c quaternion.c camera.c\
+SRCS=	scene.c \
+		vector.c \
+		vector_norm.c \
+		vector_add_sub.c \
+		vector_angle_op.c \
+		vector_scalar_op.c \
+		vector_product.c \
+		color.c \
+		color2.c \
+		ray.c \
+		quaternion.c \
+		quaternion2.c \
+		camera.c\
 		equations.c \
+		shape.c \
 		primitives/sphere.c \
+		primitives/sphere_color.c \
 		primitives/cylinder.c \
+		primitives/cylinder_color.c \
 		primitives/cylinder_intersection.c \
+		primitives/plane_color.c \
 		primitives/plane.c
 
 OBJS=$(addprefix $(SRC_PATH), $(SRCS:.c=.o))
@@ -35,4 +51,4 @@ clean:
 fclean: clean
 	rm -f $(addprefix $(LIB_PATH), $(NAME))
 
-re: fclean $(NAME)
+re: fclean $(addprefix $(LIB_PATH), $(NAME))

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 11:43:00 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 13:17:35 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,37 @@
 
 typedef struct s_app
 {
-	void			*mlx_ptr;
+	void			*mlx;
 	void			*win_ptr;
-	void			*img_ptr;
 	int				on_change;
 	int				on_rotate;
 	int				rotate_camera;
-	unsigned int	*pix_ptr;
+	t_image			img;
 	t_scene			scene;
 }	t_app;
 
-void	free_app(t_app *app);
-int		on_close(void *app);
+void			free_app(t_app *app);
+int				on_close(void *app);
 
-void	around(t_scene *scene, int x, int y, void *data);
+void			around(t_scene *scene, int x, int y, void *data);
 
-int		parse(t_scene *scene, char *filename);
+int				parse(t_scene *scene, char *filename);
 
-void	print_scene(t_scene *s);
+void			print_scene(t_scene *s);
 
-t_color	get_image_color(struct s_image *i, int x, int y);
-void	load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
+int				new_image(void *mlx_ptr, t_image *image, int w, int h);
+t_color			get_image_color(struct s_image *i, int x, int y);
+void			set_image_color(t_image *i, int x, int y, t_color c);
+void			load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
 
-char	get_light_ray(t_point3f *p, t_light *l, t_shape *shapes);
+// loop.c
+int				loop(void *param);
+char			get_light_ray(t_point3f *p, t_light *l, t_shape *shapes);
 const t_shape	*get_closest_shape(const t_shape *s, const t_ray *input_ray,
-			t_ray *normal);
-t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape,
-			const t_light *light, const t_color color);
-t_color	compute_specular_color(const t_ray *input_ray, const t_ray *normal_ray,
-			const t_shape *shape, const t_light *light);
+					t_ray *normal);
+t_color			compute_diffuse_color(t_ray *normal_ray, const t_shape *shape,
+					const t_light *light, const t_color color);
+t_color			compute_specular_color(const t_ray *input_ray,
+					const t_ray *normal_ray, const t_shape *shape,
+					const t_light *light);
 #endif

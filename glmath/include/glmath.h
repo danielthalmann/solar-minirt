@@ -6,12 +6,13 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 12:05:24 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 11:56:23 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GLMATH_H
 # define GLMATH_H
+
 # include <stdlib.h>
 # include <math.h>
 # include <stdio.h>
@@ -68,29 +69,39 @@ typedef struct s_light
 	struct s_light	*next;
 }	t_light;
 
+// vector.c
 t_v3f	*v3f_create(const t_v3f *copy);
 void	v3f_set(t_v3f *vector, float x, float y, float z);
-t_v3f	v3f_division(const t_v3f *v1, const t_v3f *v2);
-t_v3f	v3f_division_val(const t_v3f *v1, float value);
+void	v3f_clear(t_v3f *vector);
+void	v3f_copy(t_v3f *to, const t_v3f *copy);
+void	v3f_print(t_v3f *vector);
+
+// vector_add_sub.c
 void	v3f_plus_equal(t_v3f *to, const t_v3f *add);
 t_v3f	v3f_plus(const t_v3f *to, const t_v3f *add);
 void	v3f_minus_equal(t_v3f *to, const t_v3f *sub);
 t_v3f	v3f_minus(const t_v3f *to, const t_v3f *sub);
-void	v3f_normalize(t_v3f *vector);
 
-float	v3f_scalar_product(const t_v3f *v1, const t_v3f *v2);
-t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2);
+// vector_scalar_op.c
 t_v3f	v3f_dot_scalar(const t_v3f *vector, float value);
 void	v3f_dot_equal_scalar(t_v3f *vector, float value);
-void	v3f_clear(t_v3f *vector);
-void	v3f_copy(t_v3f *to, const t_v3f *copy);
+t_v3f	v3f_div_scalar(const t_v3f *v1, float value);
+void	v3f_div_equal_scalar(t_v3f *vector, float value);
+
+// vector_product.c
+float	v3f_scalar_product(const t_v3f *v1, const t_v3f *v2);
+t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2);
+
+// vector_norm.c
+void	v3f_normalize(t_v3f *vector);
 float	v3f_abs(t_v3f *v);
-void	v3f_print(t_v3f *vector);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
+void	v3f_invers(t_v3f *vector);
+
+// vector_angle.c
 t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
 float	v3f_horizontal(const t_v3f *v);
 float	v3f_vertical(const t_v3f *v);
-void	v3f_invers(t_v3f *vector);
 
 t_qion	qion_create(const t_qion *copy);
 void	qion_copy(t_qion *to, const t_qion *copy);

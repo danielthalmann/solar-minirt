@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 09:10:19 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 12:05:24 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ void	cylinder_print(const t_cylinder *cyl);
 
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
 
+t_ray	camera_init_ray(t_scene *s, int x, int y);
 void	camera_update_orien(t_camera *c, t_v3f orien);
 t_v3f	cam2world(t_camera *c, t_v3f p);
 t_v3f	look_at(const t_camera *cam, const t_scene *scene, int x, int y);

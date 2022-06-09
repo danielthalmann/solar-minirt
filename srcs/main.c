@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/08 11:24:47 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 14:58:44 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,65 +89,56 @@ t_color	compute_normal_texture(t_ray *normal_ray, const t_shape *shape, t_image 
 	return (c);
 }
 
-t_ray	init_ray(t_scene *s, int x, int y)
+static t_color	color_object_from_lights(const t_shape *shape, t_ray *r,
+	t_scene *scene, t_ray *normale, t_light *l)
 {
-	t_ray	r;
-	float	scale;
+	t_color	c;
 
-	scale = tan(s->cam.fov / 2);
-	v3f_copy(&r.origin, &s->cam.pos);
-
-	r.direction.x = (2.0f * ((float)x + 0.5f) / (float)s->w - 1.0f) * s->ratio * scale;
-	r.direction.y = -(2.0f * ((float)y + 0.5f) / (float)s->h - 1.0f) * scale;
-	r.direction.z = 1.0f;
-	r.direction.w = 0.0f;
-
-	r.direction = cam2world(&s->cam, r.direction);
-	v3f_normalize(&r.direction);
-	return (r);
+	c = color_create_int(0);
+	if(get_light_ray(&normale->origin, l, scene->shapes))
+	{
+		if (shape->type == SPHERE)
+		{
+			c = color_add(c, compute_normal_texture(normale, shape, &scene->textures[0]));
+			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &scene->textures[1]), 0.8));
+			c = color_mult(c, (compute_diffuse_color(normale, shape, l, color_create_int(0xFFFFFFFF))));
+		}
+		else
+		{
+			c = color_add(c, compute_diffuse_color(normale, shape, l, shape->color));
+		}
+		c = color_add(c, compute_specular_color(r, normale, shape, l));
+	}
+	return (c);
 }
 
 void	around(t_scene *scene, int x, int y, void *data)
 {
-	t_app	*app;
-	app = (t_app *)data;
-	t_color	c;
-	t_ray	r;
+	t_color			c;
+	t_ray			r;
 	const t_shape	*shape;
-	t_ray	normal_ray;
+	t_ray			normal_ray;
+	t_light			*l;
 
-	r = init_ray(scene, x, y);
-
-	if(x == app->scene.w / 2 && y == app->scene.h / 2)
-	{
-		printf("\x1b[36m");
-		v3f_print(&scene->cam.orien);
-		printf("\x1b[33m");
-		v3f_print(&r.direction);
-		printf("\x1b[0m" "\n");
-	}
-
+	r = camera_init_ray(scene, x, y);
 	c = color_create_int(0);
 	shape = get_closest_shape(scene->shapes, &r, &normal_ray);
 	if (shape)
 	{
-		if (shape->type == SPHERE)
+		l = scene->lights;
+		c = color_mult_c(scene->ambient, scene->ambient_intensity);
+		c = color_mult(c, shape->color);
+		while (l)
 		{
-			c = color_mult_c(scene->ambient, scene->ambient_intensity);
-			c = color_add(c, compute_normal_texture(&normal_ray, shape, &scene->textures[0]));
-			c = color_add(c, color_mult_c(compute_normal_texture(&normal_ray, shape, &scene->textures[1]), 0.8));
-			c = color_mult(c, (compute_diffuse_color(&normal_ray, shape, scene->lights, color_create_int(0xFFFFFFFF))));
-			//c = color_mult(c, compute_chess_color(&normal_ray, shape));
+			c = color_add(c, color_object_from_lights(shape, &r, scene, &normal_ray, l));
+			l = l->next;
 		}
-		else
-		{
-			c = color_mult_c(scene->ambient, scene->ambient_intensity);
-			c = color_add(c, compute_diffuse_color(&normal_ray, shape, scene->lights, shape->color));
+		if (shape->type != SPHERE)
 			c = color_mult(c, compute_chess_color(&normal_ray, shape));
-			c = color_add(c, compute_specular_color(&r, &normal_ray, shape, scene->lights));
-		}
 	}
-	app->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
+	// ft_printf("\rRendering... (%d %%)",
+	// 		100 * (y * scene->w + x) / (scene->w * scene->h));
+	((t_app *)data)->pix_ptr[(int)(x + (y * scene->w))] = color_int(&c);
 }
 
 int	loop(void *param)

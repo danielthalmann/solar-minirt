@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   diffusion.c                                        :+:      :+:    :+:   */
+/*   light_diffusion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 11:15:29 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/08 11:17:24 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 14:13:00 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ t_color	compute_diffuse_color(t_ray *normal_ray, const t_shape *shape,
 			return (c);
 	}
 	c = color_mult_c(color, dot);
+	c = color_mult(c, light->color);
 	return (c);
 }

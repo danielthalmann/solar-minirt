@@ -108,8 +108,9 @@ int	loop(void *param)
 	app->on_change = 1;
 	if (!app->on_change)
 		return (0);
-	mlx_clear_window(app->mlx, app->win_ptr);
 	scene_around(&(app->scene), app, &around);
+	mean_blur(&app->img, 1);
+	mlx_clear_window(app->mlx, app->win_ptr);
 	mlx_put_image_to_window(app->mlx, app->win_ptr, app->img.img_ptr, 0, 0);
 	app->on_change = 0;
 	return (0);

@@ -11,6 +11,7 @@ SRCS=	main.c \
 		light_reflection.c \
 		export_ppm.c \
 		print_scene.c \
+		antialiasing.c \
 		parsing/parse.c \
 		parsing/parse_ambient.c \
 		parsing/parse_light.c \

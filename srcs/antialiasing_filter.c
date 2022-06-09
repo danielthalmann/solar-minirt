@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 20:04:10 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 21:16:08 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:59:33 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,45 +17,42 @@
 
 static void	init_mat_gaussian(t_filter2d *f, float sigma)
 {
-	int 	pos[2];
+	int		pos[2];
 	float	p;
 	float	q;
 	float	sum;
-	int		mat_idx;
 
-	pos[0] = -f->rank;
-	pos[1] = -f->rank;
+	pos[0] = 0;
+	pos[1] = 0;
 	q = 2.0 * sigma * sigma;
 	sum = 0;
-	while(pos[1] <= f->rank)
+	while (pos[1] < f->n)
 	{
-		mat_idx = (pos[1] + f->rank) * f->n + pos[0] + f->rank;
-		p = sqrtf(pos[0] * pos[0] + pos[1] * pos[1]);
-		f->mat[mat_idx] = (exp(-(p * p) / q)) / (M_PI * q);
-		sum += f->mat[mat_idx];
-		if (++pos[0] > f->rank && ++pos[1] > -f->n)
-			pos[0] = -f->rank;
+		p = sqrtf(powf(pos[0] - f->rank, 2) + powf(pos[1] - f->rank, 2));
+		f->mat[pos[1] * f->n + pos[0]] = (exp(-(p * p) / q)) / (M_PI * q);
+		sum += f->mat[pos[1] * f->n + pos[0]];
+		if (++pos[0] >= f->n && ++pos[1])
+			pos[0] = 0;
 	}
-	pos[0] = -f->rank;
-	pos[1] = -f->rank;
-	while(pos[1] <= f->rank)
+	pos[0] = 0;
+	pos[1] = 0;
+	while (pos[1] < f->n)
 	{
-		mat_idx = (pos[1] + f->rank) * f->n + pos[0] + f->rank;
-		f->mat[mat_idx] /= sum;
-		if (++pos[0] > f->rank && ++pos[1] > -f->n)
-			pos[0] = -f->rank;
+		f->mat[pos[1] * f->n + pos[0]] /= sum;
+		if (++pos[0] >= f->n && ++pos[1])
+			pos[0] = 0;
 	}
 }
 
 static void	init_mat_mean(t_filter2d *f)
 {
-	int pos[2];
+	int		pos[2];
 	float	val;
 
 	pos[0] = 0;
 	pos[1] = 0;
 	val = 1.0f / (float)(f->n * f->n);
-	while(pos[1] < f->n)
+	while (pos[1] < f->n)
 	{
 		f->mat[pos[1] * f->n + pos[0]] = val;
 		if (++pos[0] == f->n && ++pos[1])
@@ -80,4 +77,3 @@ int	init_filter(t_filter2d *f, t_filter2d_type type, int rank)
 		init_mat_mean(f);
 	return (0);
 }
-

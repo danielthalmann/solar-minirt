@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 11:29:36 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/19 16:01:04 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/08 19:21:05 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_conv_param	get_conversion_param(const char **format)
 	t_conv_param	p;
 
 	p.type = 0;
-	p.max_width = 0;
+	p.max_width = -1;
 	p.assign_suppression = 0;
 	p.thousand_sep = 0;
 	p.call_malloc = 0;
@@ -83,5 +83,7 @@ int	ft_sscanf_conversion(const char **str, const char **format, va_list val)
 		err = scan_int(str, &p, val);
 	else if (p.type == 'f')
 		err = scan_float(str, &p, val);
+	else if (p.type == 's')
+		err = scan_string(str, &p, val);
 	return (err);
 }

@@ -59,13 +59,12 @@ int	main(int argc, char **argv)
 {
 	t_app	app;
 
+	init_scene(&app.scene);
 	app.on_change = 1;
 	app.rotate_camera = 1;
 	app.scene.ratio = 16.0 / 9.0;
 	app.scene.h = 480;
 	app.scene.w = app.scene.h * app.scene.ratio;
-	app.scene.shapes = NULL;
-	app.scene.lights = NULL;
 	if (argc < 2)
 		return (not_enough_arguments());
 	if (parse(&app.scene, argv[1]))

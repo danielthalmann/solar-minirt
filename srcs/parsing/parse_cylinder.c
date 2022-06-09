@@ -41,6 +41,16 @@ static void	init_cylinder(t_shape *s, int color[3])
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	s->color = color_create_int(color_int);
 	s->cyl.radius /= 2.0f;
+	s->type = CYLINDER;
+	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))
+		cylinder_intersect;
+	s->normal_ray = (void (*)(t_ray *, const void *))cylinder_normal_ray;
+	s->color_mask = (float (*)(const t_ray *, const void *))
+		cylinder_color_mask;
+	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))
+		cylinder_color_normal;
+	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))
+		cylinder_color_texture;
 	v3f_normalize(&s->cyl.base[1]);
 	if (fabsf(s->cyl.base[1].z) < 1e-6 && fabsf(s->cyl.base[1].x) < 1e-6)
 		v3f_copy(&s->cyl.base[2], &(t_v3f){0.0f, 0, 1.0f, 0});
@@ -66,13 +76,6 @@ int	parse_cylinder(t_scene *scene, char *str)
 	init_shape(s);
 	s->next = scene->shapes;
 	scene->shapes = s;
-	s->type = CYLINDER;
-	s->intersect = (int (*)(const t_ray *, const void *, t_point3f *))
-		cylinder_intersect;
-	s->normal_ray = (void (*)(t_ray *, const void *))cylinder_normal_ray;
-	s->color_mask = (float (*)(const t_ray *, const void *))cylinder_color_mask;
-	s->color_normal = (t_color (*)(const t_ray *, const void *, float i))cylinder_color_normal;
-	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))cylinder_color_texture;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",
 			&s->cyl.origin.x, &s->cyl.origin.y, &s->cyl.origin.z,
 			&s->cyl.base[1].x, &s->cyl.base[1].y, &s->cyl.base[1].z,

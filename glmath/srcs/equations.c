@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 19:49:48 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/07 18:18:32 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 11:04:57 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,18 @@ void	inverse_matrix(const t_v3f	m[3], t_v3f inv[3])
 {
 	float	det;
 
-	det = m[0].x*m[1].y*m[2].z + m[0].y*m[1].z*m[2].x + m[0].z*m[1].x*m[2].y
-		- m[0].x*m[1].z*m[2].y - m[0].y*m[1].x*m[2].z - m[0].z*m[1].y*m[2].x;
-	inv[0].x = (m[1].y*m[2].z - m[1].z*m[2].y)/det;
-	inv[0].y = (m[0].z*m[2].y - m[0].y*m[2].z)/det;
-	inv[0].z = (m[0].y*m[1].z - m[0].z*m[1].y)/det;
-	inv[1].x = (m[1].z*m[2].x - m[1].x*m[2].z)/det;
-	inv[1].y = (m[0].x*m[2].z - m[0].z*m[2].x)/det;
-	inv[1].z = (m[0].z*m[1].x - m[0].x*m[1].z)/det;
-	inv[2].x = (m[1].x*m[2].y - m[1].y*m[2].x)/det;
-	inv[2].y = (m[0].y*m[2].x - m[0].x*m[2].y)/det;
-	inv[2].z = (m[0].x*m[1].y - m[0].y*m[1].x)/det;
+	det = m[0].x * m[1].y * m[2].z + m[0].y * m[1].z * m[2].x
+		+ m[0].z * m[1].x * m[2].y - m[0].x * m[1].z * m[2].y
+		- m[0].y * m[1].x * m[2].z - m[0].z * m[1].y * m[2].x;
+	inv[0].x = (m[1].y * m[2].z - m[1].z * m[2].y) / det;
+	inv[0].y = (m[0].z * m[2].y - m[0].y * m[2].z) / det;
+	inv[0].z = (m[0].y * m[1].z - m[0].z * m[1].y) / det;
+	inv[1].x = (m[1].z * m[2].x - m[1].x * m[2].z) / det;
+	inv[1].y = (m[0].x * m[2].z - m[0].z * m[2].x) / det;
+	inv[1].z = (m[0].z * m[1].x - m[0].x * m[1].z) / det;
+	inv[2].x = (m[1].x * m[2].y - m[1].y * m[2].x) / det;
+	inv[2].y = (m[0].y * m[2].x - m[0].x * m[2].y) / det;
+	inv[2].z = (m[0].x * m[1].y - m[0].y * m[1].x) / det;
 }
 
 t_v3f	matrix_dot_v3f(const t_v3f	m[3], const t_v3f *v)

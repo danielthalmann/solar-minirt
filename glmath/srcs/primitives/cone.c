@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:12:35 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 14:19:05 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 15:06:19 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 void	cone_normal_ray(t_ray *normal, t_cone *cone)
 {
 	t_ray	r;
+	t_v3f	tmp;
 
 	r = cylinder_world2cyl(normal, (t_cylinder *)cone);
 	if (r.origin.y >= cone->height)
@@ -29,8 +30,8 @@ void	cone_normal_ray(t_ray *normal, t_cone *cone)
 		normal->direction = v3f_dot_scalar(&cone->base[1], -1.0f);
 	else
 	{
-		r.direction = r.origin;
-		r.direction.y = 0;
+		tmp = v3f_cross_product(&(t_v3f){0.0f, 1.0f, 0.0f, 0.0f}, &r.origin);
+		r.direction = v3f_cross_product(&tmp, &r.origin);
 		v3f_normalize(&r.direction);
 		*normal = cylinder_cyl2world(&r, (t_cylinder *)cone);
 	}

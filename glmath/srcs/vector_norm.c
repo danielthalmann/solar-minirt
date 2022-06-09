@@ -63,7 +63,7 @@ float	v3f_dist(const t_point3f *p1, const t_point3f *p2)
  * 
  * @param vector 
  */
-void	v3f_invers(t_v3f *vector)
+void	v3f_reverse(t_v3f *vector)
 {
 	vector->x = 1 - vector->x;
 	vector->y = 1 - vector->y;

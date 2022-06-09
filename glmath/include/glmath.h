@@ -96,7 +96,7 @@ t_v3f	v3f_cross_product(const t_v3f *v1, const t_v3f *v2);
 void	v3f_normalize(t_v3f *vector);
 float	v3f_abs(t_v3f *v);
 float	v3f_dist(const t_point3f *p1, const t_point3f *p2);
-void	v3f_invers(t_v3f *vector);
+void	v3f_reverse(t_v3f *vector);
 
 // vector_angle.c
 t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);

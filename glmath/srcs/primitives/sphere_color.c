@@ -40,7 +40,7 @@ t_color	sphere_color_normal(
 
 	vect = v3f_minus(&sphere->origin, &normale->origin);
 	v3f_normalize(&vect);
-	v3f_invers(&vect);
+	v3f_reverse(&vect);
 	cpy_vector_to_color(&c, &vect);
 	c = color_mult_c(c, intensity);
 	return (c);

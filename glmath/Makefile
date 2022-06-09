@@ -3,6 +3,7 @@ NAME=libglmath.a
 SRCS=	scene.c \
 		vector.c \
 		color.c \
+		color2.c \
 		ray.c \
 		quaternion.c \
 		camera.c\

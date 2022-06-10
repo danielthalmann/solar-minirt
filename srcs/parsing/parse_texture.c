@@ -13,6 +13,7 @@
 #include "glmath.h"
 #include "parse.h"
 #include "ft_scanf.h"
+#include "libft.h"
 #include <unistd.h>
 
 #define N_ELEMENTS 4
@@ -42,8 +43,16 @@ int	parse_texture(t_scene *scene, char *str)
 	tex->next = scene->textures;
 	scene->textures = tex;
 	tex->loaded = 0;
+	tex->alpha = -1;
+	tex->image.img_ptr = NULL;
+	tex->image.mlx_ptr = NULL;
+	tex->filename = (char *)malloc(512);
+	if (!tex->filename)
+		return (1);
+	ft_bzero(tex->filename, 512);
 	n_parsed = ft_sscanf(str, ELEM" %s %f,%f %f",
-			&tex->filename, &tex->u, &tex->v, &tex->alpha);
+			tex->filename, &tex->u, &tex->v, &tex->alpha);
+	printf ("\ncontent of filename : %s\n",  tex->filename);
 	err = check_error(tex, n_parsed);
 	return (err);
 }

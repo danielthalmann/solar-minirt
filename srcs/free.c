@@ -45,8 +45,9 @@ static void	free_textures(t_texture *tex)
 	while (tex)
 	{
 		tmp = tex->next;
-		//printf("free %s \n",tex->filename);
-		//free(tex->filename);
+		// printf("free %s \n",tex->filename);
+		// todo : segfault 
+		// free(tex->filename);
 		if (tex->image.img_ptr)
 			mlx_destroy_image(tex->image.mlx_ptr, tex->image.img_ptr);
 		free(tex);

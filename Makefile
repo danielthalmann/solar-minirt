@@ -15,6 +15,7 @@ SRCS=	main.c \
 		antialiasing.c \
 		antialiasing_filter.c \
 		parsing/parse.c \
+		parsing/parse_texture.c \
 		parsing/parse_ambient.c \
 		parsing/parse_light.c \
 		parsing/parse_camera.c \

@@ -68,6 +68,8 @@ t_color	get_image_color(struct s_image *i, int x, int y)
 {
 	t_ui	color_int;
 
+	x = x % i->w;
+	y = y % i->h;
 	if (!i || !i->c_ptr || x < 0 || x >= i->w || y < 0 || y >= i->h)
 		return (color_create_int(0));
 	color_int = i->c_ptr[((y) * i->size_line / i->bytes) + (x)];

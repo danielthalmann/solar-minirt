@@ -5,6 +5,7 @@ SRCS=	main.c \
 		error.c \
 		input.c \
 		free.c \
+		image.c \
 		texture.c \
 		light.c \
 		light_diffusion.c \

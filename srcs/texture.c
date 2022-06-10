@@ -14,71 +14,33 @@
 #include "main.h"
 #include "mlx.h"
 
-int	new_image(void *mlx_ptr, t_image *image, int w, int h)
-{
-	image->mlx_ptr = mlx_ptr;
-	image->w = w;
-	image->h = h;
-	image->img_ptr = mlx_new_image(mlx_ptr, w, h);
-	if (!image->img_ptr)
-		return (1);
-	image->c_ptr = (unsigned int *)mlx_get_data_addr
-		(image->img_ptr, &(image->bpp), &(image->size_line), &image->endian);
-	if (!image->c_ptr)
-		return (1);
-	image->bytes = image->bpp / 8;
-	image->get_image_color = get_image_color;
-	return (0);
-}
-
 /**
- * @brief Charge le sprite pour le joueur
+ * @brief Charge en mémoire les textures
  * 
- * @param f 
+ * @param app 
  */
-void	load_texture_xpm(char *filename, void *mlx_ptr, t_image *image)
+void	init_texture(t_app *app)
 {
-	int		*pwh[2];
+	t_texture	*tex;
 
-	pwh[0] = (int *)&(image->w);
-	pwh[1] = (int *)&(image->h);
-	image->mlx_ptr = mlx_ptr;
-	image->img_ptr = mlx_xpm_file_to_image(mlx_ptr, filename, pwh[0], pwh[1]);
-	if (image->img_ptr)
+	tex = app->scene.textures;
+	while (tex)
 	{
-		image->c_ptr = (unsigned int *)mlx_get_data_addr
-			(image->img_ptr, &(image->bpp),
-				&(image->size_line), &(image->endian));
-		image->bytes = image->bpp / 8;
+		load_texture_xpm(tex->filename, app->mlx, &tex->image);
+		tex = tex->next;
 	}
-	else
-		image->c_ptr = 0;
-	image->get_image_color = get_image_color;
 }
 
-/**
- * @brief obtient la couleur de l'image au coordonnée x, y
- * 
- * @param i 
- * @param x 
- * @param y 
- * @return t_color 
- */
-t_color	get_image_color(struct s_image *i, int x, int y)
+t_texture	*get_texture_idx(t_texture *textures, int index)
 {
-	t_ui	color_int;
+	t_texture	*tex;
+	int			i;
 
-	x = x % i->w;
-	y = y % i->h;
-	if (!i || !i->c_ptr || x < 0 || x >= i->w || y < 0 || y >= i->h)
-		return (color_create_int(0));
-	color_int = i->c_ptr[((y) * i->size_line / i->bytes) + (x)];
-	return (color_create_int(color_int));
-}
-
-void	set_image_color(t_image *i, int x, int y, t_color c)
-{
-	if (!i || !i->c_ptr || x < 0 || x >= i->w || y < 0 || y >= i->h)
-		return ;
-	i->c_ptr[(int)(x + (y * i->w))] = color_int(&c);
+	if (index < 0)
+		return (NULL);
+	i = 0;
+	tex = textures;
+	while (tex && i < index)
+		tex = tex->next;
+	return (tex);
 }

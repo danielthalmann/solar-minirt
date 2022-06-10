@@ -81,6 +81,7 @@ void	v3f_plus_equal(t_v3f *to, const t_v3f *add);
 t_v3f	v3f_plus(const t_v3f *to, const t_v3f *add);
 void	v3f_minus_equal(t_v3f *to, const t_v3f *sub);
 t_v3f	v3f_minus(const t_v3f *to, const t_v3f *sub);
+t_v3f	v3f_minus_val(const t_v3f *vector, const float value);
 
 // vector_scalar_op.c
 t_v3f	v3f_dot_scalar(const t_v3f *vector, float value);

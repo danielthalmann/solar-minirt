@@ -19,10 +19,6 @@
 #include "parsing/parse.h"
 #include <unistd.h>
 
-#define TEX_CLOUD "textures/2k_earth_clouds.xpm"
-#define TEX_EARTH "textures/2k_earth_daymap.xpm"
-#define TEX_NORMAL "textures/2k_earth_normal_map.xpm"
-
 int	on_close(void *param)
 {
 	t_app	*app;
@@ -46,9 +42,6 @@ static int	init_mlx(t_app *app)
 	app->scene.textures = malloc(3 * sizeof(t_image));
 	if (!app->scene.textures)
 		return (4);
-	load_texture_xpm(TEX_EARTH, app->mlx, &app->scene.textures[0]);
-	load_texture_xpm(TEX_CLOUD, app->mlx, &app->scene.textures[1]);
-	load_texture_xpm(TEX_NORMAL, app->mlx, &app->scene.textures[2]);
 	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, app);
 	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, app);
 	mlx_loop_hook(app->mlx, &loop, app);

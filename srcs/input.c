@@ -29,7 +29,7 @@ int	key_up(int keycode, void *param)
 	app = (t_app *)param;
 	if (keycode == KEY_ESC)
 		on_close(app);
-	else if (keycode == KEY_1)
+	else if (keycode == KEY_SPACE)
 		app->rotate_camera = !app->rotate_camera;
 	app->on_change = 1;
 	return (0);

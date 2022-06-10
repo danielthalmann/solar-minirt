@@ -48,16 +48,21 @@ static int	init_mlx(t_app *app)
 	return (0);
 }
 
+void	init_app(t_app *app)
+{
+	init_scene(&app->scene);
+	app->on_change = 1;
+	app->rotate_camera = 1;
+	app->scene.ratio = 16.0 / 9.0;
+	app->scene.h = 480;
+	app->scene.w = app->scene.h * app->scene.ratio;
+}
+
 int	main(int argc, char **argv)
 {
 	t_app	app;
 
-	init_scene(&app.scene);
-	app.on_change = 1;
-	app.rotate_camera = 1;
-	app.scene.ratio = 16.0 / 9.0;
-	app.scene.h = 480;
-	app.scene.w = app.scene.h * app.scene.ratio;
+	init_app(&app);
 	if (argc < 2)
 		return (not_enough_arguments());
 	if (parse(&app.scene, argv[1]))
@@ -65,6 +70,7 @@ int	main(int argc, char **argv)
 	print_scene(&app.scene);
 	if (init_mlx(&app))
 		return (1);
+	init_texture(&app);
 	if (argc == 3 && !ft_strcmp(argv[2], "-e"))
 	{
 		loop(&app);

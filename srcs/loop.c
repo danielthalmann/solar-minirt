@@ -47,16 +47,23 @@ const t_shape	*get_closest_shape(
 static t_color	color_object_from_lights(const t_shape *shape, t_ray *r,
 	t_scene *scene, t_ray *normale, t_light *l)
 {
-	t_color	c;
+	t_color		c;
+	t_texture	*tex;
 
 	c = color_create_int(0);
 	if (get_light_ray(&normale->origin, l, scene->shapes))
 	{
-		if (shape->type == SPHERE)
+		if (shape->type == SPHERE && shape->texture[0] > 0)
 		{
-			c = color_add(c, compute_normal_texture(normale, shape, &scene->textures[0]));
-			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &scene->textures[1]), 0.8));
-			c = color_mult(c, (compute_normal_mapping(normale, shape, l, &scene->textures[2])));
+			tex = get_texture_idx(scene->textures, shape->texture[0]);
+			if (tex)
+				c = color_add(c, compute_normal_texture(normale, shape, &tex->image));
+			tex = get_texture_idx(scene->textures, shape->texture[1]);
+			if (tex)
+				c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &tex->image), tex->alpha));
+			tex = get_texture_idx(scene->textures, shape->normal_map);
+			if (tex)
+				c = color_mult(c, (compute_normal_mapping(normale, shape, l, &tex->image)));
 			//c = color_mult(c, (compute_diffuse_color(normale, shape, l, color_create_int(0xFFFFFFFF))));
 		}
 		else

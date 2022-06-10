@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 18:23:31 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:34:06 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,11 +165,20 @@ typedef struct s_plane
 	t_v3f		normal;
 	t_color		color;
 }	t_plane;
+typedef struct s_cone
+{
+	t_point3f	origin;
+	t_v3f		base[3];
+	t_v3f		base_inv[3];
+	float		radius;
+	float		height;
+}	t_cone;
 typedef enum e_shapetype
 {
 	SPHERE,
 	CYLINDER,
-	PLANE
+	PLANE,
+	CONE
 }	t_shapetype;
 typedef struct s_shape
 {
@@ -188,6 +197,7 @@ typedef struct s_shape
 		t_sphere	sphere;
 		t_cylinder	cyl;
 		t_plane		plane;
+		t_cone		cone;
 	};
 }	t_shape;
 
@@ -253,6 +263,17 @@ t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl,
 t_color	cylinder_color_texture(const t_ray *normale, const t_cylinder *cyl,
 			t_image *texture);
 void	cylinder_print(const t_cylinder *cyl);
+
+// Cone functions
+int		cone_intersect(const t_ray *r, const t_cone *cone,
+			t_point3f *inter);
+float	cone_color_mask(const t_ray *normale, const t_cone *cone);
+void	cone_normal_ray(t_ray *normale, t_cone *plane);
+t_color	cone_color_normal(const t_ray *normale, const t_cone *cone,
+			float intensity);
+t_color	cone_color_texture(const t_ray *normale, const t_cone *cone,
+			t_image *texture);
+void	cone_print(const t_cone *cone);
 
 void	computeColorNormal(t_ray *ray, float dist, t_color *c, t_v3f *normal);
 

@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 10:21:33 by trossel           #+#    #+#             */
-/*   Updated: 2022/05/30 14:31:46 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 14:13:45 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	print_shape(t_shape *s)
 		cylinder_print(&s->cyl);
 	else if (s->type == PLANE)
 		plane_print(&s->plane);
+	else if (s->type == CONE)
+		cone_print(&s->cone);
 	printf("\tcolor   = (%f, %f, %f)\n\n", s->color.r, s->color.g, s->color.b);
 }
 

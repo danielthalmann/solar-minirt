@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 08:52:49 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/08 18:39:01 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:41:18 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdio.h>
 
 #define UNKNOWN_LINE_ERR "Warning: %s: skipped unknown object\n"
 #define FILE_OPEN_ERR "Error: %s: "
@@ -35,6 +34,27 @@ static char	*get_first_word(const char *str)
 	return (ft_substr(str, 0, length));
 }
 
+static int	parse_first_word(const char *word, t_scene *scene, char *line)
+{
+	if (!ft_strcmp(word, "A"))
+		return (parse_ambient_light(scene, line));
+	else if (!ft_strcmp(word, "C"))
+		return (parse_camera(scene, line));
+	else if (!ft_strcmp(word, "L"))
+		return (parse_light(scene, line));
+	else if (!ft_strcmp(word, "pl"))
+		return (parse_plane(scene, line));
+	else if (!ft_strcmp(word, "sp"))
+		return (parse_sphere(scene, line));
+	else if (!ft_strcmp(word, "cy"))
+		return (parse_cylinder(scene, line));
+	else if (!ft_strcmp(word, "co"))
+		return (parse_cone(scene, line));
+	else
+		ft_fprintf(STDERR_FILENO, UNKNOWN_LINE_ERR, word);
+	return (0);
+}
+
 static int	parse_line(t_scene *scene, char *line)
 {
 	char	*word;
@@ -46,20 +66,7 @@ static int	parse_line(t_scene *scene, char *line)
 	word = get_first_word(line);
 	if (!word)
 		return (0);
-	if (!ft_strcmp(word, "A"))
-		err = parse_ambient_light(scene, line);
-	else if (!ft_strcmp(word, "C"))
-		err = parse_camera(scene, line);
-	else if (!ft_strcmp(word, "L"))
-		err = parse_light(scene, line);
-	else if (!ft_strcmp(word, "pl"))
-		err = parse_plane(scene, line);
-	else if (!ft_strcmp(word, "sp"))
-		err = parse_sphere(scene, line);
-	else if (!ft_strcmp(word, "cy"))
-		err = parse_cylinder(scene, line);
-	else
-		ft_fprintf(STDERR_FILENO, UNKNOWN_LINE_ERR, word);
+	err = parse_first_word(word, scene, line);
 	free(word);
 	return (err);
 }
@@ -85,25 +92,6 @@ static int	parse_fd(t_scene *scene, int fd)
 			free(tmp);
 	}
 	return (err);
-}
-
-static int	parse_check_scene(t_scene *s)
-{
-	if (!s->lights)
-		ft_fprintf(STDERR_FILENO, "Warning: no light found.\n");
-	if (!s->shapes)
-		ft_fprintf(STDERR_FILENO, "Warning: no shapes found.\n");
-	if (s->cam.fov < 0.0f)
-	{
-		ft_fprintf(STDERR_FILENO, "Error: missing camera line.\n");
-		return (1);
-	}
-	if (s->ambient_intensity < 0.0f)
-	{
-		ft_fprintf(STDERR_FILENO, "Error: missing ambient light line.\n");
-		return (1);
-	}
-	return (0);
 }
 
 int	parse(t_scene *scene, char *filename)

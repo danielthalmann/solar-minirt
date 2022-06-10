@@ -6,12 +6,15 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:33:59 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 13:17:35 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 23:06:32 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include "antialiasing.h"
 #include "libft.h"
+
+#define RENDER_TEXT "\rRendering...\t\t%3d %%"
 
 const t_shape	*get_closest_shape(
 		const t_shape *s, const t_ray *input_ray, t_ray *normal)
@@ -90,6 +93,7 @@ void	around(t_scene *scene, int x, int y, void *data)
 		if (shape->type != SPHERE)
 			c = color_mult(c, compute_chess_color(&normal_ray, shape));
 	}
+	show_progress(RENDER_TEXT, y, scene->h - 1);
 	set_image_color(&((t_app *)data)->img, x, y, c);
 }
 
@@ -109,8 +113,11 @@ int	loop(void *param)
 	app->on_change = 1;
 	if (!app->on_change)
 		return (0);
-	mlx_clear_window(app->mlx, app->win_ptr);
 	scene_around(&(app->scene), app, &around);
+	printf("\n");
+	mlx_put_image_to_window(app->mlx, app->win_ptr, app->img.img_ptr, 0, 0);
+	image_filter(&app->img, GAUSSIAN, 2);
+	mlx_clear_window(app->mlx, app->win_ptr);
 	mlx_put_image_to_window(app->mlx, app->win_ptr, app->img.img_ptr, 0, 0);
 	app->on_change = 0;
 	return (0);

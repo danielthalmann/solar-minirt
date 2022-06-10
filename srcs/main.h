@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 13:17:35 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 21:25:52 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int				new_image(void *mlx_ptr, t_image *image, int w, int h);
 t_color			get_image_color(struct s_image *i, int x, int y);
 void			set_image_color(t_image *i, int x, int y, t_color c);
 void			load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
+
+void			show_progress(const char *str, int i, int n_pixels);
 
 // loop.c
 int				loop(void *param);

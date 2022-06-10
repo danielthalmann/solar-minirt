@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 19:09:27 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 13:25:12 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/09 22:54:57 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,18 @@
 
 #include "main.h"
 #include "ft_printf.h"
+
+void	show_progress(const char *str, int i, int n_pixels)
+{
+	static int	perc = -1;
+	int			new_perc;
+
+	new_perc = i * 100 / n_pixels + 1;
+	if (new_perc == perc)
+		return ;
+	perc = new_perc;
+	ft_printf(str, i * 100 / n_pixels);
+}
 
 int	export_ppm(char	*filename, t_app *app)
 {
@@ -39,9 +51,9 @@ int	export_ppm(char	*filename, t_app *app)
 	{
 		color = app->img.c_ptr[i];
 		ft_fprintf(fd, "%d %d %d\n", ptr[2], ptr[1], ptr[0]);
-		ft_printf("\rExport to PPM: %d %%", i * 100 / n_pixels);
+		show_progress("\rExport to PPM...\t%3d %%", i, n_pixels - 1);
 	}
-	ft_printf("\rExport to PPM: 100%%\n");
+	printf("\n");
 	close(fd);
 	return (0);
 }

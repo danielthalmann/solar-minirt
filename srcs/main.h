@@ -58,4 +58,7 @@ t_color			compute_diffuse_color(t_ray *normal_ray, const t_shape *shape,
 t_color			compute_specular_color(const t_ray *input_ray,
 					const t_ray *normal_ray, const t_shape *shape,
 					const t_light *light);
+t_color			compute_normal_mapping(
+					t_ray *normal_ray, const t_shape *shape,
+					const t_light *light, t_image *textures);
 #endif

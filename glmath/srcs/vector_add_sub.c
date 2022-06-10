@@ -77,3 +77,21 @@ void	v3f_minus_equal(t_v3f *vector, const t_v3f *sub)
 	vector->y -= sub->y;
 	vector->z -= sub->z;
 }
+
+/**
+ * @brief Soustraction de la valeur de value sur le vecteur
+ *
+ * @param vector
+ * @param add
+ * @return t_v3f
+ */
+t_v3f	v3f_minus_val(const t_v3f *vector, const float value)
+{
+	t_v3f	res;
+
+	res.x = vector->x - value;
+	res.y = vector->y - value;
+	res.z = vector->z - value;
+	res.w = vector->w - value;
+	return (res);
+}

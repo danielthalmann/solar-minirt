@@ -52,7 +52,8 @@ static t_color	color_object_from_lights(const t_shape *shape, t_ray *r,
 		if (shape->type == SPHERE)
 		{
 			c = color_add(c, compute_normal_texture(normale, shape, &scene->textures[0]));
-			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &scene->textures[1]), 0.8));
+			// c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &scene->textures[1]), 0.8));
+			//c = color_mult(c, (compute_normal_mapping(normale, shape, l, &scene->textures[2])));
 			c = color_mult(c, (compute_diffuse_color(normale, shape, l, color_create_int(0xFFFFFFFF))));
 		}
 		else

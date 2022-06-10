@@ -52,9 +52,9 @@ t_color	compute_normal_mapping(
 	v3f_copy(&m[2], &normal_ray->direction);
 	v3f_normalize(&m[2]);
 	if (fabsf(m[2].z) < 1e-6 && fabsf(m[2].x) < 1e-6)
-		v3f_set(&up, 0.0, 1.0, 0.0);
-	else
 		v3f_set(&up, 1.0, 0.0, 0.0);
+	else
+		v3f_set(&up, 0.0, 1.0, 0.0);
 	m[0] = v3f_cross_product(&m[2], &up);
 	v3f_normalize(&m[0]);
 	m[1] = v3f_cross_product(&m[2], &m[0]);

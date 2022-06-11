@@ -46,13 +46,8 @@ int	parse_texture(t_scene *scene, char *str)
 	tex->alpha = -1;
 	tex->image.img_ptr = NULL;
 	tex->image.mlx_ptr = NULL;
-	tex->filename = (char *)malloc(512);
-	if (!tex->filename)
-		return (1);
-	ft_bzero(tex->filename, 512);
-	n_parsed = ft_sscanf(str, ELEM" %s %f,%f %f",
-			tex->filename, &tex->u, &tex->v, &tex->alpha);
-	printf ("\ncontent of filename : %s\n",  tex->filename);
+	n_parsed = ft_sscanf(str, ELEM" %f,%f %f %s\n",
+			&tex->u, &tex->v, &tex->alpha, tex->filename);
 	err = check_error(tex, n_parsed);
 	return (err);
 }

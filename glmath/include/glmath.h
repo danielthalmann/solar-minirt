@@ -179,7 +179,7 @@ typedef struct s_texture
 {
 	struct s_texture	*next;
 	t_image				image;
-	char				*filename;
+	char				filename[255];
 	float				u;
 	float				v;
 	float				alpha;
@@ -198,8 +198,10 @@ typedef struct s_shape
 	t_shapetype		type;
 	struct s_shape	*next;
 	t_color			color;
-	int				texture[2];
-	int				normal_map;
+	t_texture		*texture[2];
+	t_texture		*normal_map;
+	int				tex_id[2];
+	int				nm_id;
 	float			shininess;
 	float			refl_coeff;
 	int				(*intersect)(const t_ray *, const void *, t_v3f *);

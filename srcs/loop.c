@@ -48,28 +48,18 @@ static t_color	color_object_from_lights(const t_shape *shape, t_ray *r,
 	t_scene *scene, t_ray *normale, t_light *l)
 {
 	t_color		c;
-	t_texture	*tex;
 
 	c = color_create_int(0);
 	if (get_light_ray(&normale->origin, l, scene->shapes))
 	{
-		if (shape->type == SPHERE && shape->texture[0] > 0)
-		{
-			tex = get_texture_idx(scene->textures, shape->texture[0]);
-			if (tex)
-				c = color_add(c, compute_normal_texture(normale, shape, &tex->image));
-			tex = get_texture_idx(scene->textures, shape->texture[1]);
-			if (tex)
-				c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &tex->image), tex->alpha));
-			tex = get_texture_idx(scene->textures, shape->normal_map);
-			if (tex)
-				c = color_mult(c, (compute_normal_mapping(normale, shape, l, &tex->image)));
-			//c = color_mult(c, (compute_diffuse_color(normale, shape, l, color_create_int(0xFFFFFFFF))));
-		}
+		if (shape->texture[0])
+			c = color_add(c, compute_normal_texture(normale, shape, &shape->texture[0]->image));
 		else
-		{
 			c = color_add(c, compute_diffuse_color(normale, shape, l, shape->color));
-		}
+		if (shape->texture[1])
+			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &shape->texture[1]->image), shape->texture[1]->alpha));
+		if (shape->normal_map)
+			c = color_mult(c, (compute_normal_mapping(normale, shape, l, &shape->normal_map->image)));
 		c = color_add(c, compute_specular_color(r, normale, shape, l));
 	}
 	return (c);

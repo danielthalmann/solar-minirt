@@ -16,11 +16,17 @@
 
 static void	print_light(t_light *l)
 {
-	printf("\tLIGHT\n");
-	printf("\torigin    = (%f, %f, %f)\n", l->origin.x,
-		l->origin.y, l->origin.z);
-	printf("\tintensity = %f\n", l->intensity);
-	printf("\tcolor     = (%f, %f, %f)\n\n", l->color.r, l->color.g, l->color.b);
+	printf("Lights:\n\n");
+	while (l)
+	{
+		printf("\tLIGHT\n");
+		printf("\torigin    = (%f, %f, %f)\n", l->origin.x,
+			l->origin.y, l->origin.z);
+		printf("\tintensity = %f\n", l->intensity);
+		printf("\tcolor     = (%f, %f, %f)\n\n", l->color.r, l->color.g,
+			l->color.b);
+		l = l->next;
+	}
 }
 
 static void	print_shape(t_shape *s)
@@ -33,14 +39,33 @@ static void	print_shape(t_shape *s)
 		plane_print(&s->plane);
 	else if (s->type == CONE)
 		cone_print(&s->cone);
-	printf("\tcolor   = (%f, %f, %f)\n\n", s->color.r, s->color.g, s->color.b);
+	printf("\tcolor   = (%f, %f, %f)\n", s->color.r, s->color.g, s->color.b);
+	printf("\ttex id  = (%d, %d)\n", s->tex_id[0], s->tex_id[1]);
+	printf("\tnm id   = (%d)\n\n", s->nm_id);
+}
+
+void	print_textures(t_texture *tex)
+{
+	int	idx;
+
+	idx = 0;
+	printf("Textures:\n\n");
+	while (tex)
+	{
+		printf("\tTEXTURES\n");
+		printf("\tindex     = (%d) \n", idx);
+		printf("\tU V       = (%f, %f) \n", tex->u, tex->v);
+		printf("\talpha     = (%f) \n", tex->alpha);
+		printf("\tfilename  = (%s) \n\n", tex->filename);
+		idx++;
+		tex = tex->next;
+	}
 }
 
 /* TODO: Remove printf */
 void	print_scene(t_scene *s)
 {
 	t_shape	*shape;
-	t_light	*light;
 
 	printf(TITLE"(width, height)\t= (%d, %d)\n", s->w, s->h);
 	printf("ambient color\t= (%f, %f, %f)\nAmb. intensity\t= %f\n",
@@ -57,11 +82,6 @@ void	print_scene(t_scene *s)
 		print_shape(shape);
 		shape = shape->next;
 	}
-	printf("Lights:\n\n");
-	light = s->lights;
-	while (light)
-	{
-		print_light(light);
-		light = light->next;
-	}
+	print_light(s->lights);
+	print_textures(s->textures);
 }

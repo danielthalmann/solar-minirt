@@ -39,9 +39,6 @@ static int	init_mlx(t_app *app)
 		return (2);
 	if (new_image(app->mlx, &app->img, app->scene.w, app->scene.h))
 		return (3);
-	app->scene.textures = malloc(3 * sizeof(t_image));
-	if (!app->scene.textures)
-		return (4);
 	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, app);
 	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, app);
 	mlx_loop_hook(app->mlx, &loop, app);

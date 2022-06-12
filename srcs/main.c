@@ -19,10 +19,6 @@
 #include "parsing/parse.h"
 #include <unistd.h>
 
-#define TEX_CLOUD "textures/2k_earth_clouds.xpm"
-#define TEX_EARTH "textures/2k_earth_daymap.xpm"
-#define TEX_NORMAL "textures/2k_earth_normal_map.xpm"
-
 int	on_close(void *param)
 {
 	t_app	*app;
@@ -43,28 +39,27 @@ static int	init_mlx(t_app *app)
 		return (2);
 	if (new_image(app->mlx, &app->img, app->scene.w, app->scene.h))
 		return (3);
-	app->scene.textures = malloc(3 * sizeof(t_image));
-	if (!app->scene.textures)
-		return (4);
-	load_texture_xpm(TEX_EARTH, app->mlx, &app->scene.textures[0]);
-	load_texture_xpm(TEX_CLOUD, app->mlx, &app->scene.textures[1]);
-	load_texture_xpm(TEX_NORMAL, app->mlx, &app->scene.textures[2]);
 	mlx_hook(app->win_ptr, MLX_EVT_DESTROY, 0L, &on_close, app);
 	mlx_hook(app->win_ptr, MLX_EVT_KEYUP, 2L, &key_up, app);
 	mlx_loop_hook(app->mlx, &loop, app);
 	return (0);
 }
 
+void	init_app(t_app *app)
+{
+	init_scene(&app->scene);
+	app->on_change = 1;
+	app->rotate_camera = 1;
+	app->scene.ratio = 16.0 / 9.0;
+	app->scene.h = 480;
+	app->scene.w = app->scene.h * app->scene.ratio;
+}
+
 int	main(int argc, char **argv)
 {
 	t_app	app;
 
-	init_scene(&app.scene);
-	app.on_change = 1;
-	app.rotate_camera = 1;
-	app.scene.ratio = 16.0 / 9.0;
-	app.scene.h = 480;
-	app.scene.w = app.scene.h * app.scene.ratio;
+	init_app(&app);
 	if (argc < 2)
 		return (not_enough_arguments());
 	if (parse(&app.scene, argv[1]))
@@ -72,6 +67,7 @@ int	main(int argc, char **argv)
 	print_scene(&app.scene);
 	if (init_mlx(&app))
 		return (1);
+	init_texture(&app);
 	if (argc == 3 && !ft_strcmp(argv[2], "-e"))
 	{
 		loop(&app);

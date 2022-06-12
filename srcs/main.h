@@ -47,6 +47,8 @@ int				new_image(void *mlx_ptr, t_image *image, int w, int h);
 t_color			get_image_color(struct s_image *i, int x, int y);
 void			set_image_color(t_image *i, int x, int y, t_color c);
 void			load_texture_xpm(char *filename, void *mlx_ptr, t_image *image);
+void			init_texture(t_app *app);
+t_texture		*get_texture_idx(t_texture *textures, int index);
 
 void			show_progress(const char *str, int i, int n_pixels);
 

@@ -24,6 +24,7 @@ int	parse_sphere(t_scene *scene, char *str);
 int	parse_plane(t_scene *scene, char *str);
 int	parse_cylinder(t_scene *scene, char *str);
 int	parse_cone(t_scene *scene, char *str);
+int	parse_texture(t_scene *scene, char *str);
 
 // Checkers function
 int	parse_check_n_elem(int diff, const char *el);

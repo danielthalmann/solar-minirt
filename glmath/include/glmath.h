@@ -130,7 +130,7 @@ t_ray	*ray_create(const t_ray *copy);
 t_v3f	ray_at(float pos, const t_ray *ray);
 void	ray_clear(t_ray *r);
 
-/* texture image */
+/* image */
 typedef struct s_image
 {
 	void			*mlx_ptr;
@@ -173,6 +173,19 @@ typedef struct s_cone
 	float		radius;
 	float		height;
 }	t_cone;
+
+/* texture */
+typedef struct s_texture
+{
+	struct s_texture	*next;
+	t_image				image;
+	char				filename[255];
+	float				u;
+	float				v;
+	float				alpha;
+	int					loaded;
+}	t_texture;
+
 typedef enum e_shapetype
 {
 	SPHERE,
@@ -185,6 +198,10 @@ typedef struct s_shape
 	t_shapetype		type;
 	struct s_shape	*next;
 	t_color			color;
+	t_texture		*texture[2];
+	t_texture		*normal_map;
+	int				tex_id[2];
+	int				nm_id;
 	float			shininess;
 	float			refl_coeff;
 	int				(*intersect)(const t_ray *, const void *, t_v3f *);
@@ -209,6 +226,7 @@ typedef struct s_camera
 	t_v3f	right;
 	float	fov;
 }	t_camera;
+
 typedef struct s_scene
 {
 	int			w;
@@ -219,7 +237,7 @@ typedef struct s_scene
 	t_shape		*shapes;
 	t_light		*lights;
 	t_camera	cam;
-	t_image		*textures;
+	t_texture	*textures;
 }	t_scene;
 
 // Shapes functions

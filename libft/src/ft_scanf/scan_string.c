@@ -70,7 +70,7 @@ int	scan_string(const char **str, const t_conv_param *p, va_list val)
 		return (0);
 	while (i < len)
 		*(s++) = (*str)[i++];
-	s[i] = '\0';
+	*s = '\0';
 	(*str) += len;
 	return (1);
 }

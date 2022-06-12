@@ -20,6 +20,13 @@ void	init_shape(t_shape *s)
 	s->intersect = NULL;
 	s->color_mask = NULL;
 	s->color_texture = NULL;
+	s->color = color_create_int(0);
+	s->texture[0] = NULL;
+	s->texture[1] = NULL;
+	s->normal_map = NULL;
+	s->tex_id[0] = -1;
+	s->tex_id[1] = -1;
+	s->nm_id = -1;
 	s->type = SPHERE;
 	s->color_normal = NULL;
 	s->shininess = 50.0f;

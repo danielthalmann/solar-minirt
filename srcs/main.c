@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 23:17:13 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 13:24:09 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/13 18:59:19 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	main(int argc, char **argv)
 		return (not_enough_arguments());
 	if (parse(&app.scene, argv[1]))
 		return (1);
-	print_scene(&app.scene);
 	if (init_mlx(&app))
 		return (1);
 	init_texture(&app);

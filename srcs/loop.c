@@ -44,23 +44,29 @@ const t_shape	*get_closest_shape(
 	return (closest);
 }
 
-static t_color	color_object_from_lights(const t_shape *shape, t_ray *r,
-	t_scene *scene, t_ray *normale, t_light *l)
+static t_color	color_object_from_lights(const t_shape *sha, t_ray *r,
+	t_scene *scene, t_ray *normale)
 {
-	t_color		c;
+	t_color	c;
+	t_light	*l;
 
+	l = scene->current_light;
 	c = color_create_int(0);
 	if (get_light_ray(&normale->origin, l, scene->shapes))
 	{
-		if (shape->texture[0])
-			c = color_add(c, compute_normal_texture(normale, shape, &shape->texture[0]->image));
+		if (sha->texture[0])
+			c = color_add(c, compute_normal_texture(normale, sha,
+						&sha->texture[0]->image));
 		else
-			c = color_add(c, compute_diffuse_color(normale, shape, l, shape->color));
-		if (shape->texture[1])
-			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &shape->texture[1]->image), shape->texture[1]->alpha));
-		if (shape->normal_map)
-			c = color_mult(c, (compute_normal_mapping(normale, shape, l, &shape->normal_map->image)));
-		c = color_add(c, compute_specular_color(r, normale, shape, l));
+			c = color_add(c, compute_diffuse_color(normale, sha, l,
+						sha->color));
+		if (sha->texture[1])
+			c = color_add(c, color_mult_c(compute_normal_texture(normale, sha,
+							&sha->texture[1]->image), sha->texture[1]->alpha));
+		if (sha->normal_map)
+			c = color_mult(c, (compute_normal_mapping(normale, sha, l,
+							&sha->normal_map->image)));
+		c = color_add(c, compute_specular_color(r, normale, sha, l));
 	}
 	return (c);
 }
@@ -71,21 +77,20 @@ void	around(t_scene *scene, int x, int y, void *data)
 	t_ray			r;
 	const t_shape	*shape;
 	t_ray			normal_ray;
-	t_light			*l;
 
 	r = camera_init_ray(scene, x, y);
 	c = color_create_int(0);
 	shape = get_closest_shape(scene->shapes, &r, &normal_ray);
 	if (shape)
 	{
-		l = scene->lights;
+		scene->current_light = scene->lights;
 		c = color_mult_c(scene->ambient, scene->ambient_intensity);
 		c = color_mult(c, shape->color);
-		while (l)
+		while (scene->current_light)
 		{
 			c = color_add(c,
-					color_object_from_lights(shape, &r, scene, &normal_ray, l));
-			l = l->next;
+					color_object_from_lights(shape, &r, scene, &normal_ray));
+			scene->current_light = scene->current_light->next;
 		}
 		if (shape->draw_checker)
 			c = color_mult_c(c, compute_chess_color(&normal_ray, shape));

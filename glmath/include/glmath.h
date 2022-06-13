@@ -246,6 +246,7 @@ typedef struct s_scene
 	t_light		*lights;
 	t_camera	cam;
 	t_texture	*textures;
+	t_light		*current_light;
 }	t_scene;
 
 // Shapes functions

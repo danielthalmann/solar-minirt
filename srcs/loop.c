@@ -96,18 +96,11 @@ void	around(t_scene *scene, int x, int y, void *data)
 
 int	loop(void *param)
 {
-	t_app			*app;
-	static float	angle = 0;
+	t_app	*app;
 
 	app = (t_app *)param;
 	if (!app)
 		return (1);
-	if (app->rotate_camera)
-		angle += 0.1f;
-	v3f_set(&app->scene.cam.pos, 10.0f * cosf(angle), 10.0f, 10.0f * sinf(angle));
-	camera_update_orien(&app->scene.cam, v3f_dot_scalar(&app->scene.cam.pos, -1));
-	v3f_normalize(&app->scene.cam.orien);
-	app->on_change = 1;
 	if (!app->on_change)
 		return (0);
 	scene_around(&(app->scene), app, &around);

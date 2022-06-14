@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/10 15:23:00 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 09:29:30 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,7 @@ static void	init_cylinder(t_shape *s, int color[3])
 		cylinder_color_normal;
 	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))
 		cylinder_color_texture;
-	v3f_normalize(&s->cyl.ref.b[1]);
-	if (fabsf(s->cyl.ref.b[1].z) < 1e-6 && fabsf(s->cyl.ref.b[1].x) < 1e-6)
-		v3f_copy(&s->cyl.ref.b[2], &(t_v3f){0.0f, 0, 1.0f, 0});
-	else
-		s->cyl.ref.b[2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f},
-				&s->cyl.ref.b[1]);
-	s->cyl.ref.b[0] = v3f_cross_product(&s->cyl.ref.b[1], &s->cyl.ref.b[2]);
-	v3f_normalize(&s->cyl.ref.b[0]);
-	v3f_normalize(&s->cyl.ref.b[2]);
-	inverse_matrix(s->cyl.ref.b, s->cyl.ref.i);
+	referential_set_vec(&s->cyl.ref, s->cyl.ref.b[1], 1);
 }
 
 int	parse_cylinder(t_scene *scene, char *str)

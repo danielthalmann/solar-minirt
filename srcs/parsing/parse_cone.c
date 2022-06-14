@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 13:50:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/14 07:28:47 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 09:28:50 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,7 @@ static void	init_cone(t_shape *s, int color[3])
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	s->color = color_create_int(color_int);
 	s->cone.radius /= 2.0f;
-	v3f_normalize(&s->cone.ref.b[1]);
-	if (fabsf(s->cone.ref.b[1].z) < 1e-6 && fabsf(s->cone.ref.b[1].x) < 1e-6)
-		v3f_copy(&s->cone.ref.b[2], &(t_v3f){0.0f, 0, 1.0f, 0});
-	else
-		s->cone.ref.b[2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f},
-				&s->cone.ref.b[1]);
-	s->cone.ref.b[0] = v3f_cross_product(&s->cone.ref.b[1], &s->cone.ref.b[2]);
-	v3f_normalize(&s->cone.ref.b[0]);
-	v3f_normalize(&s->cone.ref.b[2]);
-	inverse_matrix(s->cone.ref.b, s->cone.ref.i);
+	referential_set_vec(&s->cyl.ref, s->cyl.ref.b[1], 1);
 }
 
 int	parse_cone(t_scene *scene, char *str)

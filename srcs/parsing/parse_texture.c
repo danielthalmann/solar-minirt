@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 22:08:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/10 23:28:08 by dthalman         ###   ########.fr       */
+/*   Updated: 2022/06/14 12:14:51 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	parse_texture(t_scene *scene, char *str)
 	tex->alpha = -1;
 	tex->image.img_ptr = NULL;
 	tex->image.mlx_ptr = NULL;
-	n_parsed = ft_sscanf(str, ELEM" %f,%f %f %s\n",
-			&tex->u, &tex->v, &tex->alpha, tex->filename);
+	n_parsed = ft_sscanf(str, ELEM" %f,%f %f %ms\n",
+			&tex->u, &tex->v, &tex->alpha, &tex->filename);
 	err = check_error(tex, n_parsed);
 	return (err);
 }

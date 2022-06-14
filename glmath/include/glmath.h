@@ -186,7 +186,7 @@ typedef struct s_texture
 {
 	struct s_texture	*next;
 	t_image				image;
-	char				filename[255];
+	char				*filename;
 	float				u;
 	float				v;
 	float				alpha;

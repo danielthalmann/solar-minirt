@@ -47,6 +47,8 @@ static void	free_textures(t_texture *tex)
 		tmp = tex->next;
 		if (tex->image.img_ptr)
 			mlx_destroy_image(tex->image.mlx_ptr, tex->image.img_ptr);
+		if (tex->filename)
+			free(tex->filename);
 		free(tex);
 		tex = tmp;
 	}

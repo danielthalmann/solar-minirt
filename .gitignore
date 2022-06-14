@@ -20,3 +20,7 @@ compile_commands.json
 a.out
 minirt
 test
+
+# Others
+tests/
+docs/

@@ -50,6 +50,8 @@ static int	parse_first_word(const char *word, t_scene *scene, char *line)
 		return (parse_cylinder(scene, line));
 	else if (!ft_strcmp(word, "co"))
 		return (parse_cone(scene, line));
+	else if (!ft_strcmp(word, "tex"))
+		return (parse_texture(scene, line));
 	else
 		ft_fprintf(STDERR_FILENO, UNKNOWN_LINE_ERR, word);
 	return (0);

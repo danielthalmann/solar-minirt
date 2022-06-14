@@ -18,8 +18,8 @@ L	10,0,10		0.8			255,255,255
 #	Sphere
 #	------
 #	center		diameter	color
-sp	0,0,0		5.5			255,255,255
-
+sp	0,0,0		5.5			255,255,255   0  1  2
+sp	0,1,1		4.5			255,0,255   -1 -1 -1
 
 #	Plan
 #	----\
@@ -27,4 +27,8 @@ sp	0,0,0		5.5			255,255,255
 
 #pl 	-20,0,0		-1,0,0		0,0,122
 #pl 	20,0,0		1,0,0		0,0,122
+
+tex	0.0,0.0		1.0		textures/2k_earth_normal_map.xpm
+tex	0.0,0.0		0.6		textures/2k_earth_clouds.xpm
+tex	0.0,0.0		1.0		textures/2k_earth_daymap.xpm
 

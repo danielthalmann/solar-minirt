@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:33:59 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 23:06:32 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 10:29:26 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,19 @@ const t_shape	*get_closest_shape(
 static t_color	color_object_from_lights(const t_shape *shape, t_ray *r,
 	t_scene *scene, t_ray *normale, t_light *l)
 {
-	t_color	c;
+	t_color		c;
 
 	c = color_create_int(0);
 	if (get_light_ray(&normale->origin, l, scene->shapes))
 	{
-		if (shape->type == SPHERE)
-		{
-			c = color_add(c, compute_normal_texture(normale, shape, &scene->textures[0]));
-			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &scene->textures[1]), 0.8));
-			c = color_mult(c, (compute_normal_mapping(normale, shape, l, &scene->textures[2])));
-			//c = color_mult(c, (compute_diffuse_color(normale, shape, l, color_create_int(0xFFFFFFFF))));
-		}
+		if (shape->texture[0])
+			c = color_add(c, compute_normal_texture(normale, shape, &shape->texture[0]->image));
 		else
-		{
 			c = color_add(c, compute_diffuse_color(normale, shape, l, shape->color));
-		}
+		if (shape->texture[1])
+			c = color_add(c, color_mult_c(compute_normal_texture(normale, shape, &shape->texture[1]->image), shape->texture[1]->alpha));
+		if (shape->normal_map)
+			c = color_mult(c, (compute_normal_mapping(normale, shape, l, &shape->normal_map->image)));
 		c = color_add(c, compute_specular_color(r, normale, shape, l));
 	}
 	return (c);
@@ -90,8 +87,8 @@ void	around(t_scene *scene, int x, int y, void *data)
 					color_object_from_lights(shape, &r, scene, &normal_ray, l));
 			l = l->next;
 		}
-		if (shape->type != SPHERE)
-			c = color_mult(c, compute_chess_color(&normal_ray, shape));
+		if (!shape->texture[0] && !shape->texture[1])
+			c = color_mult_c(c, compute_chess_color(&normal_ray, shape));
 	}
 	show_progress(RENDER_TEXT, y, scene->h - 1);
 	set_image_color(&((t_app *)data)->img, x, y, c);

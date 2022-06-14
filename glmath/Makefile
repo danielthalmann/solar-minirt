@@ -7,6 +7,7 @@ SRCS=	scene.c \
 		vector_angle_op.c \
 		vector_scalar_op.c \
 		vector_product.c \
+		referential.c \
 		color.c \
 		color2.c \
 		ray.c \

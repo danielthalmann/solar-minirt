@@ -15,7 +15,7 @@
 #include "ft_scanf.h"
 #include <unistd.h>
 
-#define N_ELEMENTS 7
+#define N_ELEMENTS 10
 
 #define ELEM "sp"
 #define RAD_ERR "diameter"
@@ -61,9 +61,10 @@ int	parse_sphere(t_scene *scene, char *str)
 	init_shape(s);
 	s->next = scene->shapes;
 	scene->shapes = s;
-	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f %d, %d, %d",
+	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f %d, %d, %d %d %d %d",
 			&s->sphere.origin.x, &s->sphere.origin.y, &s->sphere.origin.z,
-			&s->sphere.radius, &color[0], &color[1], &color[2]);
+			&s->sphere.radius, &color[0], &color[1], &color[2],
+			&s->tex_id[0], &s->tex_id[1], &s->nm_id);
 	err = check_error(scene, color, n_parsed);
 	if (!err)
 		init_sphere(s, color);

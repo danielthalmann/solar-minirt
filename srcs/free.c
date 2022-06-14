@@ -38,10 +38,25 @@ static void	free_shapes(t_shape *s)
 	}
 }
 
+static void	free_textures(t_texture *tex)
+{
+	t_texture	*tmp;
+
+	while (tex)
+	{
+		tmp = tex->next;
+		if (tex->image.img_ptr)
+			mlx_destroy_image(tex->image.mlx_ptr, tex->image.img_ptr);
+		free(tex);
+		tex = tmp;
+	}
+}
+
 void	free_app(t_app *app)
 {
 	free_shapes(app->scene.shapes);
 	free_lights(app->scene.lights);
+	free_textures(app->scene.textures);
 	if (app->img.img_ptr)
 		mlx_destroy_image(app->mlx, app->img.img_ptr);
 	if (app->win_ptr)

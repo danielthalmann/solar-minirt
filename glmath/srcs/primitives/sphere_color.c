@@ -55,6 +55,8 @@ t_color	sphere_color_texture(
 	float	theta;
 	float	phi;	
 
+	if (!texture)
+		return (color_create_int(0));
 	(void) sphere;
 	theta = acosf(normale->direction.y);
 	phi = atan2f(normale->direction.x, normale->direction.z);

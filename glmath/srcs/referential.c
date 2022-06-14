@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:30:44 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/14 07:20:44 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 10:17:59 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void	referential_set_vec(t_referential *ref, t_v3f v, int idx)
 	ref->b[idx] = v;
 	v3f_normalize(&ref->b[idx]);
 	idx2 = (idx + 1) % 3;
-	ref->b[idx2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f}, &ref->b[idx]);
+	ref->b[idx2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f},
+			&ref->b[idx]);
 	if (v3f_abs(&ref->b[idx2]) < 1e-6)
-		ref->b[idx2] = v3f_cross_product(&(t_v3f){0.0f, 1.0f, 0.0f, 0.0f}, &ref->b[idx]);
+		ref->b[idx2] = v3f_cross_product(&(t_v3f){0.0f, 1.0f, 0.0f, 0.0f},
+				&ref->b[idx]);
 	v3f_normalize(&ref->b[idx2]);
 	ref->b[(idx2 + 1) % 3] = v3f_cross_product(&ref->b[idx2], &ref->b[idx]);
 	v3f_normalize(&ref->b[(idx2 + 1) % 3]);

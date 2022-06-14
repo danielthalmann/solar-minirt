@@ -38,7 +38,7 @@ typedef struct s_vector2f
 	float	x;
 	float	y;
 }	t_v2f;
-typedef t_v3f			t_matrix[3];
+typedef t_v3f				t_matrix[3];
 
 typedef struct s_referential
 {

@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 12:28:17 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:23:00 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	check_error(t_scene *s, int color[3], int n_parsed)
 	int	err;
 
 	err = parse_check_n_elem(N_ELEMENTS - n_parsed, ELEM);
-	err += parse_check_non_null_vector(&s->shapes->cyl.base[1], ORI_ERR, ELEM);
+	err += parse_check_non_null_vector(&s->shapes->cyl.ref.b[1], ORI_ERR, ELEM);
 	err += parse_check_positive_float(s->shapes->cyl.radius, RADIUS_ERR, ELEM);
 	err += parse_check_positive_float(s->shapes->cyl.height, HEIGHT_ERR, ELEM);
 	err += parse_check_valid_color(color, ELEM);
@@ -51,16 +51,16 @@ static void	init_cylinder(t_shape *s, int color[3])
 		cylinder_color_normal;
 	s->color_texture = (t_color (*)(const t_ray *, const void *, t_image * i))
 		cylinder_color_texture;
-	v3f_normalize(&s->cyl.base[1]);
-	if (fabsf(s->cyl.base[1].z) < 1e-6 && fabsf(s->cyl.base[1].x) < 1e-6)
-		v3f_copy(&s->cyl.base[2], &(t_v3f){0.0f, 0, 1.0f, 0});
+	v3f_normalize(&s->cyl.ref.b[1]);
+	if (fabsf(s->cyl.ref.b[1].z) < 1e-6 && fabsf(s->cyl.ref.b[1].x) < 1e-6)
+		v3f_copy(&s->cyl.ref.b[2], &(t_v3f){0.0f, 0, 1.0f, 0});
 	else
-		s->cyl.base[2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f},
-				&s->cyl.base[1]);
-	s->cyl.base[0] = v3f_cross_product(&s->cyl.base[1], &s->cyl.base[2]);
-	v3f_normalize(&s->cyl.base[0]);
-	v3f_normalize(&s->cyl.base[2]);
-	inverse_matrix(s->cyl.base, s->cyl.base_inv);
+		s->cyl.ref.b[2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f},
+				&s->cyl.ref.b[1]);
+	s->cyl.ref.b[0] = v3f_cross_product(&s->cyl.ref.b[1], &s->cyl.ref.b[2]);
+	v3f_normalize(&s->cyl.ref.b[0]);
+	v3f_normalize(&s->cyl.ref.b[2]);
+	inverse_matrix(s->cyl.ref.b, s->cyl.ref.i);
 }
 
 int	parse_cylinder(t_scene *scene, char *str)
@@ -77,8 +77,8 @@ int	parse_cylinder(t_scene *scene, char *str)
 	s->next = scene->shapes;
 	scene->shapes = s;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",
-			&s->cyl.origin.x, &s->cyl.origin.y, &s->cyl.origin.z,
-			&s->cyl.base[1].x, &s->cyl.base[1].y, &s->cyl.base[1].z,
+			&s->cyl.ref.p.x, &s->cyl.ref.p.y, &s->cyl.ref.p.z,
+			&s->cyl.ref.b[1].x, &s->cyl.ref.b[1].y, &s->cyl.ref.b[1].z,
 			&s->cyl.radius, &s->cyl.height,
 			&color[0], &color[1], &color[2]);
 	err = check_error(scene, color, n_parsed);

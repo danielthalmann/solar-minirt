@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 13:50:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 21:36:41 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 07:28:47 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@
 #define N_ELEMENTS 11
 
 #define ELEM "co"
-#define ORI_ERR "orientation"
-#define RADIUS_ERR "diameter"
-#define HEIGHT_ERR "height"
+#define ORI_E "orientation"
+#define RADIUS_ER "diameter"
+#define HEIGHT_ER "height"
 
 static int	check_error(t_scene *s, int color[3], int n_parsed)
 {
 	int	err;
 
 	err = parse_check_n_elem(N_ELEMENTS - n_parsed, ELEM);
-	err += parse_check_non_null_vector(&s->shapes->cone.base[1], ORI_ERR, ELEM);
-	err += parse_check_positive_float(s->shapes->cone.radius, RADIUS_ERR, ELEM);
-	err += parse_check_positive_float(s->shapes->cone.height, HEIGHT_ERR, ELEM);
+	err += parse_check_non_null_vector(&s->shapes->cone.ref.b[1], ORI_E, ELEM);
+	err += parse_check_positive_float(s->shapes->cone.radius, RADIUS_ER, ELEM);
+	err += parse_check_positive_float(s->shapes->cone.height, HEIGHT_ER, ELEM);
 	err += parse_check_valid_color(color, ELEM);
 	return (err);
 }
@@ -50,16 +50,16 @@ static void	init_cone(t_shape *s, int color[3])
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	s->color = color_create_int(color_int);
 	s->cone.radius /= 2.0f;
-	v3f_normalize(&s->cone.base[1]);
-	if (fabsf(s->cone.base[1].z) < 1e-6 && fabsf(s->cone.base[1].x) < 1e-6)
-		v3f_copy(&s->cone.base[2], &(t_v3f){0.0f, 0, 1.0f, 0});
+	v3f_normalize(&s->cone.ref.b[1]);
+	if (fabsf(s->cone.ref.b[1].z) < 1e-6 && fabsf(s->cone.ref.b[1].x) < 1e-6)
+		v3f_copy(&s->cone.ref.b[2], &(t_v3f){0.0f, 0, 1.0f, 0});
 	else
-		s->cone.base[2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f},
-				&s->cone.base[1]);
-	s->cone.base[0] = v3f_cross_product(&s->cone.base[1], &s->cone.base[2]);
-	v3f_normalize(&s->cone.base[0]);
-	v3f_normalize(&s->cone.base[2]);
-	inverse_matrix(s->cone.base, s->cone.base_inv);
+		s->cone.ref.b[2] = v3f_cross_product(&(t_v3f){1.0f, 0.0f, 0.0f, 0.0f},
+				&s->cone.ref.b[1]);
+	s->cone.ref.b[0] = v3f_cross_product(&s->cone.ref.b[1], &s->cone.ref.b[2]);
+	v3f_normalize(&s->cone.ref.b[0]);
+	v3f_normalize(&s->cone.ref.b[2]);
+	inverse_matrix(s->cone.ref.b, s->cone.ref.i);
 }
 
 int	parse_cone(t_scene *scene, char *str)
@@ -75,8 +75,8 @@ int	parse_cone(t_scene *scene, char *str)
 	s->next = scene->shapes;
 	scene->shapes = s;
 	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",
-			&s->cone.origin.x, &s->cone.origin.y, &s->cone.origin.z,
-			&s->cone.base[1].x, &s->cone.base[1].y, &s->cone.base[1].z,
+			&s->cone.ref.p.x, &s->cone.ref.p.y, &s->cone.ref.p.z,
+			&s->cone.ref.b[1].x, &s->cone.ref.b[1].y, &s->cone.ref.b[1].z,
 			&s->cone.radius, &s->cone.height,
 			&color[0], &color[1], &color[2]);
 	err = check_error(scene, color, n_parsed);

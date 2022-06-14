@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 19:49:48 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 11:04:57 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:27:02 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	inverse_matrix(const t_v3f	m[3], t_v3f inv[3])
 	inv[2].z = (m[0].x * m[1].y - m[0].y * m[1].x) / det;
 }
 
-t_v3f	matrix_dot_v3f(const t_v3f	m[3], const t_v3f *v)
+t_v3f	matrix_dot_v3f(const t_matrix	m, const t_v3f *v)
 {
 	t_v3f	v2;
 

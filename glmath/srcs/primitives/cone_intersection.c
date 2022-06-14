@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/10 12:50:52 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 07:36:59 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	cone_intersect(const t_ray *ray, const t_cone *c,
 	float	a;
 
 	a = c->radius * c->radius / (c->height * c->height);
-	r = cylinder_world2cyl(ray, (t_cylinder *)c);
+	r = ray_to_referential(&c->ref, ray);
 	eq[0] = r.direction.x * r.direction.x + r.direction.z * r.direction.z;
 	eq[0] -= a * r.direction.y * r.direction.y;
 	eq[1] = 2 * r.origin.x * r.direction.x + 2 * r.origin.z * r.direction.z;
@@ -76,7 +76,7 @@ int	cone_intersect(const t_ray *ray, const t_cone *c,
 	if (real_t < 0.0f)
 		return (0);
 	r.origin = ray_at(0.99999f * real_t, &r);
-	r = cylinder_cyl2world(&r, (t_cylinder *)c);
+	r = ray_from_referential(&c->ref, &r);
 	*intersec = r.origin;
 	return (1);
 }

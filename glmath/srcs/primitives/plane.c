@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 21:35:39 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 11:11:51 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 07:46:52 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	plane_intersect(const t_ray *ray, const t_plane *plane, t_point3f *interse)
 	float	denom;
 	float	up;
 
-	denom = v3f_scalar_product(&plane->normal, &ray->direction);
-	p0l0 = v3f_minus(&plane->origin, &ray->origin);
-	up = v3f_scalar_product(&p0l0, &plane->normal);
+	denom = v3f_scalar_product(&plane->ref.b[1], &ray->direction);
+	p0l0 = v3f_minus(&plane->ref.p, &ray->origin);
+	up = v3f_scalar_product(&p0l0, &plane->ref.b[1]);
 	if (fabsf(denom) < 1e-6 && fabsf(up) < 1e-6)
 	{
 		v3f_copy(interse, &ray->origin);
@@ -40,13 +40,13 @@ int	plane_intersect(const t_ray *ray, const t_plane *plane, t_point3f *interse)
 
 void	plane_normal_ray(t_ray *normal_ray, t_plane *plane)
 {
-	v3f_copy(&normal_ray->direction, &plane->normal);
+	v3f_copy(&normal_ray->direction, &plane->ref.b[1]);
 }
 
 void	plane_print(const t_plane *p)
 {
-	printf("\tPLANE\n\torigin  = (%f, %f, %f)\n", p->origin.x,
-		p->origin.y, p->origin.z);
-	printf("\tnormale = (%f, %f, %f)\n", p->normal.x,
-		p->normal.y, p->normal.z);
+	printf("\tPLANE\n\torigin  = (%f, %f, %f)\n", p->ref.p.x,
+		p->ref.p.y, p->ref.p.z);
+	printf("\tref.b[1]e = (%f, %f, %f)\n", p->ref.b[1].x,
+		p->ref.b[1].y, p->ref.b[1].z);
 }

@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 18:23:31 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 10:17:37 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ float	v3f_vertical(const t_v3f *v);
 // Referentials
 t_ray	ray_to_referential(const t_referential *ref, const t_ray *world_ray);
 t_ray	ray_from_referential(const t_referential *ref, const t_ray *ref_ray);
+void	referential_set_vec(t_referential *ref, t_v3f v, int idx);
 
 t_qion	qion_create(const t_qion *copy);
 void	qion_copy(t_qion *to, const t_qion *copy);
@@ -171,8 +172,7 @@ typedef struct s_cylinder
 }	t_cylinder;
 typedef struct s_plane
 {
-	t_point3f	origin;
-	t_v3f		normal;
+	t_referential	ref;
 }	t_plane;
 typedef struct s_cone
 {

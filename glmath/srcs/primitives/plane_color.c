@@ -6,34 +6,26 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 11:11:15 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 11:15:52 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 10:17:15 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
 
-#define TILE_SIZE 1.25f
+#define TILE_SIZE 2.00f
 
 float	plane_color_mask(const t_ray *normale, const t_plane *plane)
 {
-	int		v[3];
-	t_v3f	io;
+	int		x;
+	int		z;
+	t_ray	r;
 
-	v3f_copy(&io, &plane->origin);
-	v3f_minus_equal(&io, &normale->origin);
-	if (fabsf(io.x) < 1e-6)
-		io.x = +0.0f;
-	if (fabsf(io.y) < 1e-6)
-		io.y = +0.0f;
-	if (fabsf(io.z) < 1e-6)
-		io.z = +0.0f;
-	v[0] = ((abs((int)floorf(io.x / TILE_SIZE)) % 2) * 2) - 1;
-	v[1] = ((abs((int)floorf(io.y / TILE_SIZE)) % 2) * 2) - 1;
-	v[2] = ((abs((int)floorf(io.z / TILE_SIZE)) % 2) * 2) - 1;
-	if (v[0] * v[1] * v[2] > 0)
+	r = ray_to_referential(&plane->ref, normale);
+	x = floorf(r.origin.x / TILE_SIZE);
+	z = floorf(r.origin.z / TILE_SIZE);
+	if ((x + z) % 2)
 		return (0.5f);
-	else
-		return (1.0f);
+	return (1.0f);
 }
 
 t_color	plane_color_normal(

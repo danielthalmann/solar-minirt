@@ -6,14 +6,14 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 15:08:04 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 15:10:19 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 10:14:38 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
 
 #define TS_PHI M_PI_4
-#define TS_RHO 0.5f
+#define TS_RHO 1.0f
 
 float	cone_color_mask(const t_ray *normale, const t_cone *cone)
 {
@@ -22,7 +22,7 @@ float	cone_color_mask(const t_ray *normale, const t_cone *cone)
 	float	rho;
 	float	mask;
 
-	r = cylinder_world2cyl(normale, (t_cylinder *)cone);
+	r = ray_to_referential(&cone->ref, normale);
 	rho = sqrt(r.origin.x * r.origin.x + r.origin.z * r.origin.z);
 	phi = atan2f(r.origin.z, r.origin.x);
 	mask = 1.0f;

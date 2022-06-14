@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 10:26:45 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/07 18:50:19 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/10 15:41:00 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	cylinder_intersect(const t_ray *ray, const t_cylinder *c,
 	float	real_t;
 	t_ray	r;
 
-	r = cylinder_world2cyl(ray, c);
+	r = ray_to_referential(&c->ref, ray);
 	eq[0] = r.direction.x * r.direction.x + r.direction.z * r.direction.z;
 	eq[1] = 2 * r.origin.x * r.direction.x + 2 * r.origin.z * r.direction.z;
 	eq[2] = r.origin.x * r.origin.x + r.origin.z * r.origin.z
@@ -90,7 +90,7 @@ int	cylinder_intersect(const t_ray *ray, const t_cylinder *c,
 	if (real_t < 0.0f)
 		return (0);
 	r.origin = ray_at(0.99999f * real_t, &r);
-	r = cylinder_cyl2world(&r, c);
+	r = ray_from_referential(&c->ref, &r);
 	*intersec = r.origin;
 	return (1);
 }

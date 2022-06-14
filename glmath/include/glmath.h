@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 21:34:06 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 10:17:37 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ typedef struct s_vector2f
 	float	x;
 	float	y;
 }	t_v2f;
+typedef t_v3f				t_matrix[3];
+
+typedef struct s_referential
+{
+	t_point3f	p;
+	t_matrix	b;
+	t_matrix	i;
+}	t_referential;
 
 typedef struct s_point2
 {
@@ -104,6 +112,11 @@ t_v3f	v3f_vtoangle(const t_v3f *v1, const t_v3f *v2);
 float	v3f_horizontal(const t_v3f *v);
 float	v3f_vertical(const t_v3f *v);
 
+// Referentials
+t_ray	ray_to_referential(const t_referential *ref, const t_ray *world_ray);
+t_ray	ray_from_referential(const t_referential *ref, const t_ray *ref_ray);
+void	referential_set_vec(t_referential *ref, t_v3f v, int idx);
+
 t_qion	qion_create(const t_qion *copy);
 void	qion_copy(t_qion *to, const t_qion *copy);
 void	qion_clear(t_qion *q);
@@ -153,25 +166,19 @@ typedef struct s_sphere
 }	t_sphere;
 typedef struct s_cylinder
 {
-	t_point3f	origin;
-	t_v3f		base[3];
-	t_v3f		base_inv[3];
-	float		radius;
-	float		height;
+	t_referential	ref;
+	float			radius;
+	float			height;
 }	t_cylinder;
 typedef struct s_plane
 {
-	t_point3f	origin;
-	t_v3f		normal;
-	t_color		color;
+	t_referential	ref;
 }	t_plane;
 typedef struct s_cone
 {
-	t_point3f	origin;
-	t_v3f		base[3];
-	t_v3f		base_inv[3];
-	float		radius;
-	float		height;
+	t_referential	ref;
+	float			radius;
+	float			height;
 }	t_cone;
 
 /* texture */
@@ -242,7 +249,7 @@ typedef struct s_scene
 
 // Shapes functions
 void	init_shape(t_shape *s);
-t_color	compute_chess_color(
+float	compute_chess_color(
 			t_ray *normal_ray, const t_shape *shape);
 t_color	compute_normal_color(
 			t_ray *normal_ray, const t_shape *shape, float intensity);
@@ -272,8 +279,6 @@ void	plane_print(const t_plane *p);
 // Cylinder functions
 int		cylinder_intersect(const t_ray *r, const t_cylinder *cyl,
 			t_point3f *inter);
-t_ray	cylinder_world2cyl(const t_ray *ray, const t_cylinder *cyl);
-t_ray	cylinder_cyl2world(const t_ray *ray, const t_cylinder *cyl);
 float	cylinder_color_mask(const t_ray *normale, const t_cylinder *cyl);
 void	cylinder_normal_ray(t_ray *normale, t_cylinder *plane);
 t_color	cylinder_color_normal(const t_ray *normale, const t_cylinder *cyl,
@@ -308,6 +313,6 @@ void	scene_around(t_scene *scene, void *data,
 // math
 int		solve_quadratic(float a, float b, float c, float sol[2]);
 void	inverse_matrix(const t_v3f	m[3], t_v3f inv[3]);
-t_v3f	matrix_dot_v3f(const t_v3f	m[3], const t_v3f *v);
+t_v3f	matrix_dot_v3f(const t_matrix m, const t_v3f *v);
 
 #endif

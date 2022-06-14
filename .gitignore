@@ -8,7 +8,7 @@
 # IDE
 .vscode
 .cache
-Session.vim
+Session.vim*
 compile_commands.json
 
 # MacOS

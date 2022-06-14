@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 09:21:29 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 12:31:38 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/14 10:18:32 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,9 @@ void	init_shape(t_shape *s)
 	s->refl_coeff = 1.0f;
 }
 
-t_color	compute_chess_color(t_ray *normal_ray, const t_shape *shape)
+float	compute_chess_color(t_ray *normal_ray, const t_shape *shape)
 {
-	t_color	c;
-	float	mask;
-
-	c = color_create_int(0xFFFFFFFF);
-	mask = shape->color_mask(normal_ray, &shape->shape);
-	return (color_mult_c(c, mask));
+	return (shape->color_mask(normal_ray, &shape->shape));
 }
 
 t_color	compute_normal_color(

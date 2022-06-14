@@ -111,7 +111,6 @@ int	loop(void *param)
 	scene_around(&(app->scene), app, &around);
 	printf("\n");
 	mlx_put_image_to_window(app->mlx, app->win_ptr, app->img.img_ptr, 0, 0);
-	image_filter(&app->img, GAUSSIAN, 2);
 	mlx_clear_window(app->mlx, app->win_ptr);
 	mlx_put_image_to_window(app->mlx, app->win_ptr, app->img.img_ptr, 0, 0);
 	app->on_change = 0;

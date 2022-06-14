@@ -249,7 +249,7 @@ typedef struct s_scene
 
 // Shapes functions
 void	init_shape(t_shape *s);
-t_color	compute_chess_color(
+float	compute_chess_color(
 			t_ray *normal_ray, const t_shape *shape);
 t_color	compute_normal_color(
 			t_ray *normal_ray, const t_shape *shape, float intensity);

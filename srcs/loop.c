@@ -87,7 +87,7 @@ void	around(t_scene *scene, int x, int y, void *data)
 					color_object_from_lights(shape, &r, scene, &normal_ray, l));
 			l = l->next;
 		}
-		if (shape->type != SPHERE)
+		if (!shape->texture[0] && !shape->texture[1])
 			c = color_mult_c(c, compute_chess_color(&normal_ray, shape));
 	}
 	show_progress(RENDER_TEXT, y, scene->h - 1);

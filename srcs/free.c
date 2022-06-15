@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 11:46:03 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 13:18:27 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 08:40:48 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,16 @@ static void	free_textures(t_texture *tex)
 	}
 }
 
+void	free_scene(t_scene *scene)
+{
+	free_shapes(scene->shapes);
+	free_lights(scene->lights);
+	free_textures(scene->textures);
+}
+
 void	free_app(t_app *app)
 {
-	free_shapes(app->scene.shapes);
-	free_lights(app->scene.lights);
-	free_textures(app->scene.textures);
+	free_scene(&app->scene);
 	if (app->img.img_ptr)
 		mlx_destroy_image(app->mlx, app->img.img_ptr);
 	if (app->win_ptr)

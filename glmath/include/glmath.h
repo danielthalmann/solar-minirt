@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 10:40:24 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/14 10:17:37 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 07:37:44 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ typedef struct s_shape
 	t_texture		*normal_map;
 	int				tex_id[2];
 	int				nm_id;
+	char			draw_checker;
 	float			shininess;
 	float			refl_coeff;
 	int				(*intersect)(const t_ray *, const void *, t_v3f *);

@@ -1,4 +1,4 @@
-NAME=minirt
+NAME=miniRT
 
 SRCS=	main.c \
 		loop.c \

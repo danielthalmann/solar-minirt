@@ -18,7 +18,7 @@ compile_commands.json
 # Lib and executables
 *.a
 a.out
-minirt
+miniRT
 test
 
 # Others

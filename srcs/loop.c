@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:33:59 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/14 10:29:26 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 08:48:29 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	around(t_scene *scene, int x, int y, void *data)
 					color_object_from_lights(shape, &r, scene, &normal_ray, l));
 			l = l->next;
 		}
-		if (!shape->texture[0] && !shape->texture[1])
+		if (shape->draw_checker)
 			c = color_mult_c(c, compute_chess_color(&normal_ray, shape));
 	}
 	show_progress(RENDER_TEXT, y, scene->h - 1);

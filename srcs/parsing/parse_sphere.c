@@ -6,16 +6,17 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:02:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 12:23:21 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 08:55:09 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
 #include "parse.h"
 #include "ft_scanf.h"
+#include "libft.h"
 #include <unistd.h>
 
-#define N_ELEMENTS 10
+#define N_ELEMENTS 11
 
 #define ELEM "sp"
 #define RAD_ERR "diameter"
@@ -30,7 +31,7 @@ static int	check_error(t_scene *s, int color[3], int n_parsed)
 	return (err);
 }
 
-static void	init_sphere(t_shape *s, int color[3])
+static void	init_sphere(t_shape *s, int color[3], char *draw_checker)
 {
 	int	color_int;
 
@@ -46,6 +47,8 @@ static void	init_sphere(t_shape *s, int color[3])
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	s->color = color_create_int(color_int);
 	s->sphere.radius /= 2.0f;
+	if (draw_checker && !ft_strcmp(draw_checker, "yes"))
+		s->draw_checker = 1;
 }
 
 int	parse_sphere(t_scene *scene, char *str)
@@ -54,6 +57,7 @@ int	parse_sphere(t_scene *scene, char *str)
 	int		color[3];
 	t_shape	*s;
 	int		err;
+	char	*draw_checker;
 
 	s = malloc(sizeof(t_shape));
 	if (!s)
@@ -61,12 +65,15 @@ int	parse_sphere(t_scene *scene, char *str)
 	init_shape(s);
 	s->next = scene->shapes;
 	scene->shapes = s;
-	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f %d, %d, %d %d %d %d",
+	draw_checker = NULL;
+	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f %d, %d, %d %d %d %d %ms",
 			&s->sphere.origin.x, &s->sphere.origin.y, &s->sphere.origin.z,
 			&s->sphere.radius, &color[0], &color[1], &color[2],
-			&s->tex_id[0], &s->tex_id[1], &s->nm_id);
+			&s->tex_id[0], &s->tex_id[1], &s->nm_id, &draw_checker);
 	err = check_error(scene, color, n_parsed);
 	if (!err)
-		init_sphere(s, color);
+		init_sphere(s, color, draw_checker);
+	if (draw_checker)
+		free(draw_checker);
 	return (err);
 }

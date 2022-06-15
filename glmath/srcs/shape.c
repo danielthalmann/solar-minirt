@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 09:21:29 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/14 10:18:32 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 07:53:48 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_shape(t_shape *s)
 	s->tex_id[0] = -1;
 	s->tex_id[1] = -1;
 	s->nm_id = -1;
+	s->draw_checker = 0;
 	s->type = SPHERE;
 	s->color_normal = NULL;
 	s->shininess = 50.0f;

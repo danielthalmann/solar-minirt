@@ -6,7 +6,7 @@
 /*   By: dthalman <daniel@thalmann.li>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 13:03:04 by dthalman          #+#    #+#             */
-/*   Updated: 2022/06/09 21:25:52 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 08:41:17 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_app
 }	t_app;
 
 void			free_app(t_app *app);
+void			free_scene(t_scene *scene);
 int				on_close(void *app);
 
 void			around(t_scene *scene, int x, int y, void *data);

@@ -6,12 +6,13 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 08:52:49 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 21:41:18 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 08:45:18 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 #include "libft.h"
+#include "../main.h"
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -111,5 +112,7 @@ int	parse(t_scene *scene, char *filename)
 	err = parse_fd(scene, fd);
 	close(fd);
 	err += parse_check_scene(scene);
+	if (err)
+		free_scene(scene);
 	return (err);
 }

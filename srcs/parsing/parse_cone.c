@@ -6,16 +6,18 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 13:50:11 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/14 09:28:50 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 08:54:32 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "glmath.h"
 #include "parse.h"
 #include "ft_scanf.h"
+#include "libft.h"
+
 #include <unistd.h>
 
-#define N_ELEMENTS 11
+#define N_ELEMENTS 12
 
 #define ELEM "co"
 #define ORI_E "orientation"
@@ -34,7 +36,7 @@ static int	check_error(t_scene *s, int color[3], int n_parsed)
 	return (err);
 }
 
-static void	init_cone(t_shape *s, int color[3])
+static void	init_cone(t_shape *s, int color[3], char *draw_checker)
 {
 	int	color_int;
 
@@ -51,6 +53,8 @@ static void	init_cone(t_shape *s, int color[3])
 	s->color = color_create_int(color_int);
 	s->cone.radius /= 2.0f;
 	referential_set_vec(&s->cyl.ref, s->cyl.ref.b[1], 1);
+	if (draw_checker && !ft_strcmp(draw_checker, "yes"))
+		s->draw_checker = 1;
 }
 
 int	parse_cone(t_scene *scene, char *str)
@@ -59,19 +63,24 @@ int	parse_cone(t_scene *scene, char *str)
 	int				color[3];
 	t_shape			*s;
 	int				err;
+	char			*draw_checker;
 
 	s = malloc(sizeof(t_shape));
 	if (!s)
 		return (1);
+	init_shape(s);
 	s->next = scene->shapes;
 	scene->shapes = s;
-	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d",
+	draw_checker = NULL;
+	n_parsed = ft_sscanf(str, ELEM" %f, %f, %f %f, %f, %f %f %f %d, %d, %d %ms",
 			&s->cone.ref.p.x, &s->cone.ref.p.y, &s->cone.ref.p.z,
 			&s->cone.ref.b[1].x, &s->cone.ref.b[1].y, &s->cone.ref.b[1].z,
 			&s->cone.radius, &s->cone.height,
-			&color[0], &color[1], &color[2]);
+			&color[0], &color[1], &color[2], &draw_checker);
 	err = check_error(scene, color, n_parsed);
 	if (!err)
-		init_cone(s, color);
+		init_cone(s, color, draw_checker);
+	if (draw_checker)
+		free(draw_checker);
 	return (err);
 }

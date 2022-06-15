@@ -47,9 +47,6 @@ static void	init_sphere(t_shape *s, int color[3], char *draw_checker)
 	color_int = (color[0] << 16) + (color[1] << 8) + color[2];
 	s->color = color_create_int(color_int);
 	s->sphere.radius /= 2.0f;
-	s->tex_id[0] -= 1;
-	s->tex_id[1] -= 1;
-	s->nm_id -= 1;
 	if (draw_checker && !ft_strcmp(draw_checker, "yes"))
 		s->draw_checker = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 10:06:25 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/09 21:41:16 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:28:54 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	parse_check_positive_float(float f, const char *var, const char *el);
 int	parse_check_valid_color(int color[3], const char *el);
 int	parse_check_in_range(float f, float r[2], const char *var, const char *el);
 int	parse_check_scene(t_scene *s);
+int	parse_check_file_extension(const char *filename, const char *ext);
 
 int	parse(t_scene *scene, char *filename);
 

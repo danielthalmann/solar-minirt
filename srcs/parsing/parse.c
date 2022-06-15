@@ -6,7 +6,7 @@
 /*   By: trossel <trossel@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 08:52:49 by trossel           #+#    #+#             */
-/*   Updated: 2022/06/15 08:45:18 by trossel          ###   ########.fr       */
+/*   Updated: 2022/06/15 11:34:06 by trossel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 
 #define UNKNOWN_LINE_ERR "Warning: %s: skipped unknown object\n"
+#define FILE_EXT_ERR "Error: %s has not the correct extension (.rt)\n"
 #define FILE_OPEN_ERR "Error: %s: "
 /*
  * set is the set of characters representing the end of the word.
@@ -102,6 +103,11 @@ int	parse(t_scene *scene, char *filename)
 	int	fd;
 	int	err;
 
+	if (parse_check_file_extension(filename, ".rt"))
+	{
+		ft_fprintf(STDERR_FILENO, FILE_EXT_ERR, filename);
+		return (1);
+	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
